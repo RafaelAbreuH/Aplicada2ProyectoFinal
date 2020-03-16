@@ -1,0 +1,188 @@
+﻿@page "/Usuarios"
+@page "/Usuarios/{Id:int}"
+<div class="form-register">
+    <h3>Usuarios</h3>
+    <EditForm Model="@usuarios" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <label class="text-muted form-text">@Mensaje</label>
+        <div class="form-group">
+            <label> UsuarioId</label>
+            <InputNumber class="form-control" @bind-Value="usuarios.UsuarioId"></InputNumber>
+            <ValidationMessage For="(() => usuarios.UsuarioId)" />
+            <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+        </div>
+
+        <div class="form-group">
+            <label>Nombre</label>
+            <InputText class="form-control" @bind-Value="usuarios.Nombre"></InputText>
+            <ValidationMessage For="(() => usuarios.Nombre)" />
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <InputText class="form-control" @bind-Value="usuarios.Usuario"></InputText>
+            <ValidationMessage For="(() => usuarios.Usuario)" />
+        </div>
+
+        <div class="form-group">
+            <label>Clave</label>
+            <InputText type="password" class="form-control" @bind-Value="usuarios.Contraseña"></InputText>
+            <ValidationMessage For="(() => usuarios.Contraseña)" />
+        </div>
+
+        <div class="form-group">
+            <label>Confirmar Clave</label>
+            <InputText class="form-control" @bind-Value="usuarios.RepeatContraseña"></InputText>
+            <ValidationMessage For="(() => usuarios.RepeatContraseña)" />
+        </div>
+
+        <div class="form-group">
+            <label>Nivel de Usuario</label>
+            <InputSelect class="form-control" @bind-Value="usuarios.TipodeUsuario">
+                <option value="Administrador">Administrador</option>
+                <option value="Cajero">Cajero</option>
+            </InputSelect>
+            <ValidationMessage For="(() => usuarios.TipodeUsuario)" />
+
+        </div>
+
+        <div class="form-group">
+            <label>Fecha de Ingreso</label>
+            <InputDate class="form-control" @bind-Value="usuarios.FechaIngreso"></InputDate>
+            <ValidationMessage For="(() => usuarios.FechaIngreso)" />
+        </div>
+
+        <div>
+            <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
+        </div>
+    </EditForm>
+</div>
+<br />
+<br />
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public string Mensaje { get; set; }
+
+    Usuarios usuarios = new Usuarios();
+
+    protected override void OnInitialized()
+    {
+        ControllersUsuario controller = new ControllersUsuario();
+        Limpiar();
+        Mensaje = string.Empty;
+        if (Id != 0)
+        {
+            usuarios = controller.Buscar(Id);
+        }
+    }
+
+
+    public bool ExisteEnLaBaseDeDatos(int id)
+    {
+        Contexto db = new Contexto();
+        var buscado = db.Usuarios.Find(id);
+        bool paso = true;
+
+        if (buscado == null)
+        {
+            paso = false;
+        }
+
+        return paso;
+    }
+
+    private void Limpiar()
+    {
+        usuarios = new Usuarios();
+    }
+
+    private void Guardar()
+    {
+        ControllersUsuario controller = new ControllersUsuario();
+
+        if (usuarios.UsuarioId > 0)
+        {
+            if (usuarios.Contraseña == usuarios.RepeatContraseña)
+            {
+
+                if (ExisteEnLaBaseDeDatos(usuarios.UsuarioId))
+                {
+                    if (controller.Guardar(usuarios))
+                    {
+                        Mensaje = "Se modifico correctamente";
+                        Limpiar();
+                    }
+                    else
+                    {
+                        Mensaje = "No se pudo modificar";
+                    }
+
+                }
+                else
+                {
+                    Mensaje = "No se puede modificar un Usuario que no exista";
+                }
+            }
+            else
+            {
+                Mensaje = "Las contraseña no coinciden";
+            }
+        }
+        else
+        {
+            if (controller.Guardar(usuarios))
+            {
+                Mensaje = "Se guardo correctamente";
+                Limpiar();
+            }
+            else
+            {
+                Mensaje = "No se pudo Guardar";
+            }
+        }
+    }
+
+    private void Eliminar()
+    {
+        ControllersUsuario controller = new ControllersUsuario();
+        int id = usuarios.UsuarioId;
+        if (id > 0)
+        {
+            if (ExisteEnLaBaseDeDatos(id))
+            {
+                controller.Eliminar(id);
+                Limpiar();
+                Mensaje = "Se elimino Correctamente";
+            }
+            else
+            {
+                Mensaje = "No se puede eliminar un Usuario que no Exista";
+            }
+        }
+        else
+        {
+            Mensaje = "No se puede eliminar asi";
+        }
+    }
+
+    private void Buscar()
+    {
+        ControllersUsuario controller = new ControllersUsuario();
+        var buscado = controller.Buscar(usuarios.UsuarioId);
+
+        if (buscado != null)
+        {
+            usuarios = buscado;
+            Mensaje = "Se encontro el Usuario";
+        }
+        else
+        {
+            Mensaje = "No existe este Usuario";
+        }
+    }
+}

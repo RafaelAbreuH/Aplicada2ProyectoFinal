@@ -1,0 +1,151 @@
+﻿@page "/Consulta/Articulo"
+
+<div class="form-row">
+
+    <div class="col">
+        <label for="desde_date">Desde:</label>
+        <input id="desde_date" class="form-control" type="datetime-local" @bind="desdeFecha" />
+    </div>
+
+    <div class="col">
+        <label for="hasta_date">Hasta:</label>
+        <input id="hasta_date" class="form-control" type="datetime-local" @bind="hastaFecha" />
+        <button class="btn btn-primary" @onclick="filtradoPorFecha">Filtar por Fecha</button>
+    </div>
+
+    <div class="col">
+        <input type="text" class="form-control" placeholder="Criterio" @onfocusin="Filtrar" @onfocusout="Filtrar" @onclick="Filtrar" @bind="@Criterio" />
+    </div>
+
+    <div class="col">
+        <select class="form-control" @onclick="Filtrar" @bind="filtro">
+            <option value="0">Todos</option>
+            <option value="1">Id</option>
+            <option value="2">Nombre</option>
+            <option value="3">Inventario</option>
+        </select>
+    </div>
+</div>
+
+<h3>Consulta de Articulos</h3>
+@if (Lista == null)
+{
+    <p>No hay datos que mostrar</p>
+    return;
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Inventario</th>
+                <th>Fecha de Ingreso</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Lista)
+            {
+                <tr>
+                    <td>@item.ArticuloId</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Inventario</td>
+                    <td>@item.FechaIngreso</td>
+                    <td><a class="btn btn-outline-info" href="Articulos/@item.ArticuloId">Ver</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Articulos> Lista = new List<Articulos>();
+    ControllersArticulos controller = new ControllersArticulos();
+
+
+    protected override void OnInitialized()
+    {
+        Lista = controller.GetList(A => true);
+    }
+
+
+    private string filtro;
+    private string Criterio;
+    // private bool fechaFiltro;
+
+    DateTime hastaFecha = DateTime.Now;
+    DateTime desdeFecha = DateTime.Now;
+
+    public List<Articulos> listado { get; set; }
+
+    private void filtradoPorFecha()
+    {
+        try
+        {
+            Lista = Lista.Where(p => p.FechaIngreso >= desdeFecha && p.FechaIngreso <= p.FechaIngreso).ToList();
+        }
+        catch (Exception)
+        {
+
+        }
+
+    }
+
+    private void Filtrar()
+    {
+
+        try
+        {
+            int filtroIndex = Int32.Parse(filtro);
+
+            if (Criterio.Trim().Length > 0)
+            {
+                switch (filtroIndex)
+                {
+                    //Todos
+                    case 0:
+                        listado = controller.GetList(p => true);
+                        Lista = listado;
+                        break;
+                    //Id
+                    case 1:
+                        int id = 0;
+                        if (int.TryParse(Criterio, out id))
+                        {
+                            id = Convert.ToInt32(Criterio);
+                            listado = controller.GetList(p => p.ArticuloId == id);
+                            Lista = listado;
+                        }
+                        break;
+                    //Nombre
+                    case 2:
+                        listado = controller.GetList(p => p.Nombre.Contains(Criterio));
+                        Lista = listado;
+                        break;
+                    //Inventario
+                    case 3:
+                        int cantidad = 0;
+                        if (int.TryParse(Criterio, out cantidad))
+                        {
+                            cantidad = Convert.ToInt32(Criterio);
+                            listado = controller.GetList(p => p.Inventario == cantidad);
+                            Lista = listado;
+                        }
+                        break;
+
+                }
+            }
+            else
+            {
+
+                listado = controller.GetList(p => true);
+                Lista = listado;
+            }
+        }
+        catch (Exception)
+        {
+        }
+    }
+}

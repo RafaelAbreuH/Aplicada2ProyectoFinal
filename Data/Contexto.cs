@@ -1,0 +1,22 @@
+﻿using Aplicada2ProyectoFinal.Modals;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Aplicada2ProyectoFinal.Data
+{
+    public class Contexto : DbContext
+    {
+        public DbSet<Articulos> Articulos { get; set; }
+        public DbSet<Usuarios> Usuarios { get; set; }
+        public DbSet<Clientes> Clientes { get; set; }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite(@"Data source = Database/Proyecto.db");
+        }
+    }
+}
