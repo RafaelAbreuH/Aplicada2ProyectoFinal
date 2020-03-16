@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Aplicada2ProyectoFinal.Modals
+namespace Aplicada2ProyectoFinal.Models
 {
     public class Usuarios
     {
@@ -33,6 +33,7 @@ namespace Aplicada2ProyectoFinal.Modals
             Nombre = string.Empty;
             Usuario = string.Empty;
             Contraseña = string.Empty;
+            FechaIngreso = DateTime.Now;
             TipodeUsuario = string.Empty;
         }
     }

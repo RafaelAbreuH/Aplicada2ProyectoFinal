@@ -1,4 +1,4 @@
-﻿using Aplicada2ProyectoFinal.Modals;
+﻿using Aplicada2ProyectoFinal.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,8 +12,6 @@ namespace Aplicada2ProyectoFinal.Data
         public DbSet<Articulos> Articulos { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Clientes> Clientes { get; set; }
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(@"Data source = Database/Proyecto.db");

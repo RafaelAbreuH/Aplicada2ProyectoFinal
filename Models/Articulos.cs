@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Aplicada2ProyectoFinal.Modals
+namespace Aplicada2ProyectoFinal.Models
 {
     public class Articulos
     {
@@ -24,6 +24,7 @@ namespace Aplicada2ProyectoFinal.Modals
             ArticuloId = 0;
             Nombre = string.Empty;
             Inventario = 0;
+            FechaIngreso = DateTime.Now;
         }
     }
 }

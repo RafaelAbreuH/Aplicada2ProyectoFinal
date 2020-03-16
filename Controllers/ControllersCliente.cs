@@ -1,5 +1,5 @@
 ﻿using Aplicada2ProyectoFinal.Data;
-using Aplicada2ProyectoFinal.Modals;
+using Aplicada2ProyectoFinal.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -65,7 +65,6 @@ namespace Aplicada2ProyectoFinal.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
             return paso;

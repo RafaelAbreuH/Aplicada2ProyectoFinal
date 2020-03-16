@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Aplicada2ProyectoFinal.Modals
+namespace Aplicada2ProyectoFinal.Models
 {
     public class Clientes
     {
@@ -29,6 +29,7 @@ namespace Aplicada2ProyectoFinal.Modals
             Cedula = string.Empty;
             Telefono = string.Empty;
             Direccion = string.Empty;
+            FechaIngreso = DateTime.Now;
         }
     }
 }

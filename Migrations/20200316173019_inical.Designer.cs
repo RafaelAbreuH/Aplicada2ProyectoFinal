@@ -18,7 +18,7 @@ namespace Aplicada2ProyectoFinal.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.2");
 
-            modelBuilder.Entity("Aplicada2ProyectoFinal.Modals.Articulos", b =>
+            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Articulos", b =>
                 {
                     b.Property<int>("ArticuloId")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.ToTable("Articulo");
                 });
 
-            modelBuilder.Entity("Aplicada2ProyectoFinal.Modals.Clientes", b =>
+            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Clientes", b =>
                 {
                     b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
@@ -69,7 +69,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("Aplicada2ProyectoFinal.Modals.Usuarios", b =>
+            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Usuarios", b =>
                 {
                     b.Property<int>("UsuarioId")
                         .ValueGeneratedOnAdd()
