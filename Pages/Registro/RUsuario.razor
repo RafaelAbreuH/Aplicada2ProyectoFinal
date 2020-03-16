@@ -69,7 +69,7 @@
 
     protected override void OnInitialized()
     {
-        ControllersUsuario controller = new ControllersUsuario();
+        UsuariosController controller = new UsuariosController();
         Limpiar();
         Mensaje = string.Empty;
         if (Id != 0)
@@ -100,7 +100,7 @@
 
     private void Guardar()
     {
-        ControllersUsuario controller = new ControllersUsuario();
+        UsuariosController controller = new UsuariosController();
 
         if (usuarios.UsuarioId != 0)
         {
@@ -146,7 +146,7 @@
 
     private void Eliminar()
     {
-        ControllersUsuario controller = new ControllersUsuario();
+        UsuariosController controller = new UsuariosController();
         int id = usuarios.UsuarioId;
         if (id != 0)
         {
@@ -169,7 +169,7 @@
 
     private void Buscar()
     {
-        ControllersUsuario controller = new ControllersUsuario();
+        UsuariosController controller = new UsuariosController();
         var buscado = controller.Buscar(usuarios.UsuarioId);
 
         if (buscado != null)

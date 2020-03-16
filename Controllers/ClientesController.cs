@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Aplicada2ProyectoFinal.Controllers
 {
-    public class ControllersCliente
+    public class ClientesController
     {
         public bool Guardar(Clientes clientes)
         {

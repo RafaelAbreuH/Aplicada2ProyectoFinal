@@ -65,7 +65,7 @@ else
 
 @code {
     List<Usuarios> Lista = new List<Usuarios>();
-    ControllersUsuario controller = new ControllersUsuario();
+    UsuariosController controller = new UsuariosController();
 
     protected override void OnInitialized()
     {
@@ -75,7 +75,7 @@ else
 
     private string filtro;
     private string Criterio;
-    private bool fechaFiltro;
+    //private bool fechaFiltro;
 
     DateTime hastaFecha = DateTime.Now;
     DateTime desdeFecha = DateTime.Now;

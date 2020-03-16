@@ -9,36 +9,16 @@ using System.Threading.Tasks;
 
 namespace Aplicada2ProyectoFinal.Controllers
 {
-    public class ControllersArticulos
+    public class UsuariosController
     {
 
-        public bool Guardar(Articulos articulos)
+        public bool Guardar(Usuarios usuarios)
         {
             bool paso = false;
             Contexto db = new Contexto();
             try
             {
-                db.Articulos.Add(articulos);
-                paso = db.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
-
-            return paso;
-        }
-
-        public bool Modificar(Articulos articulos)
-        {
-            bool paso = false;
-            Contexto db = new Contexto();
-            try
-            {
-                db.Entry(articulos).State = EntityState.Modified;
+                db.Usuarios.Add(usuarios);
                 paso = db.SaveChanges() > 0;
             }
             catch (Exception)
@@ -49,30 +29,45 @@ namespace Aplicada2ProyectoFinal.Controllers
             return paso;
         }
 
-        public Articulos Buscar(int id)
+        public bool Modificar(Usuarios usuarios)
         {
-            Articulos articulos = new Articulos();
+            bool paso = false;
             Contexto db = new Contexto();
             try
             {
-                articulos = db.Articulos.Find(id);
+                db.Entry(usuarios).State = EntityState.Modified;
+                paso = db.SaveChanges() > 0;
             }
             catch (Exception)
             {
+                throw;
+            }
+            return paso;
+        }
 
+        public Usuarios Buscar(int id)
+        {
+            Usuarios usuarios = new Usuarios();
+            Contexto db = new Contexto();
+            try
+            {
+                usuarios = db.Usuarios.Find(id);
+            }
+            catch (Exception)
+            {
                 throw;
             }
 
-            return articulos;
+            return usuarios;
         }
         public bool Eliminar(int id)
         {
-            Articulos articulos = new Articulos();
+            Usuarios usuarios = new Usuarios();
             bool paso = false;
             Contexto db = new Contexto();
             try
             {
-                var eliminar = db.Articulos.Find(id);
+                var eliminar = db.Usuarios.Find(id);
                 db.Entry(eliminar).State = EntityState.Deleted;
                 paso = db.SaveChanges() > 0;
             }
@@ -83,20 +78,22 @@ namespace Aplicada2ProyectoFinal.Controllers
             }
             return paso;
         }
-        public List<Articulos> GetList(Expression<Func<Articulos, bool>> expression)
+
+        public List<Usuarios> GetList(Expression<Func<Usuarios, bool>> expression)
         {
-            List<Articulos> lista = new List<Articulos>();
+            List<Usuarios> lista = new List<Usuarios>();
             Contexto db = new Contexto();
 
             try
             {
-                lista = db.Articulos.Where(expression).ToList();
+                lista = db.Usuarios.Where(expression).ToList();
             }
             catch (Exception)
             {
 
                 throw;
             }
+
             return lista;
         }
     }
