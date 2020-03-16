@@ -1,4 +1,4 @@
-﻿@page "/Registro/Articulo"
+﻿@page "/Registro/Articulos"
 @page "/Registro/Articulo/{Id:int}"
 <div class="form-register">
     <h3>Articulos</h3>
@@ -35,13 +35,14 @@
             <button type="submit" class="btn btn-success">Guardar</button>
             <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
         </div>
+        <h5 class="text-success">@Mensaje</h5>
     </EditForm>
 </div>
 
 @code {
     [Parameter]
     public int Id { get; set; }
-    public string Mensaje { get; set; }
+    public string Mensaje = "";
 
     Articulos articulo = new Articulos();
 
