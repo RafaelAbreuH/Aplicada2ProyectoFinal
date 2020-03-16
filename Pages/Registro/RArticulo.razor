@@ -1,5 +1,5 @@
 ﻿@page "/Registro/Articulo"
-@page "/Registro/Articulo{Id:int}"
+@page "/Registro/Articulo/{Id:int}"
 <div class="form-register">
     <h3>Articulos</h3>
     <EditForm Model="@articulo" OnValidSubmit="Guardar">
@@ -37,9 +37,6 @@
         </div>
     </EditForm>
 </div>
-<br />
-<br />
-
 
 @code {
     [Parameter]
@@ -83,7 +80,7 @@
     {
         ControllersArticulos controller = new ControllersArticulos();
 
-        if (articulo.ArticuloId > 0)
+        if (articulo.ArticuloId != 0)
         {
             if (ExisteEnLaBaseDeDatos(articulo.ArticuloId))
             {
@@ -122,7 +119,7 @@
     {
         ControllersArticulos controller = new ControllersArticulos();
         int id = articulo.ArticuloId;
-        if (id > 0)
+        if (id != 0)
         {
             if (ExisteEnLaBaseDeDatos(id))
             {

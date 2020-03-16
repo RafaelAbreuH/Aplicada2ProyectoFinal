@@ -59,9 +59,6 @@
         </div>
     </EditForm>
 </div>
-<br />
-<br />
-
 
 @code {
     [Parameter]
@@ -105,7 +102,7 @@
     {
         ControllersUsuario controller = new ControllersUsuario();
 
-        if (usuarios.UsuarioId > 0)
+        if (usuarios.UsuarioId != 0)
         {
             if (usuarios.Contraseña == usuarios.RepeatContraseña)
             {
@@ -151,7 +148,7 @@
     {
         ControllersUsuario controller = new ControllersUsuario();
         int id = usuarios.UsuarioId;
-        if (id > 0)
+        if (id != 0)
         {
             if (ExisteEnLaBaseDeDatos(id))
             {

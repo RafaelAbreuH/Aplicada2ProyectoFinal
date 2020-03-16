@@ -43,9 +43,6 @@
         </div>
     </EditForm>
 </div>
-<br />
-<br />
-
 
 @code {
     [Parameter]
@@ -64,8 +61,6 @@
             cliente = controller.Buscar(Id);
         }
     }
-
-
     public bool ExisteEnLaBaseDeDatos(int id)
     {
         Contexto db = new Contexto();
@@ -89,7 +84,7 @@
     {
         ControllersCliente controller = new ControllersCliente();
 
-        if (cliente.ClienteId > 0)
+        if (cliente.ClienteId != 0)
         {
 
             if (ExisteEnLaBaseDeDatos(cliente.ClienteId))
@@ -127,7 +122,7 @@
     {
         ControllersCliente controller = new ControllersCliente();
         int id = cliente.ClienteId;
-        if (id > 0)
+        if (id != 0)
         {
             if (ExisteEnLaBaseDeDatos(id))
             {
