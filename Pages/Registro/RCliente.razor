@@ -2,38 +2,43 @@
 @page "/Registro/Clientes/{Id:int}"
 <div class="form-register">
     <h3>Clientes</h3>
-    <EditForm Model="@clientes" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
+    <EditForm Model="@Cliente" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator/>
         <label class="text-muted form-text">@Mensaje</label>
         <div class="form-group">
             <label> ClienteId</label>
-            <InputNumber class="form-control" @bind-Value="clientes.ClienteId"></InputNumber>
-            <ValidationMessage For="(() => clientes.ClienteId)" />
+            <InputNumber class="form-control" @bind-Value="Cliente.ClienteId"></InputNumber>
+            <ValidationMessage For="(() => Cliente.ClienteId)" />
             <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
         </div>
 
         <div class="form-group">
             <label>Nombre</label>
-            <InputText class="form-control" @bind-Value="clientes.Nombre"></InputText>
-            <ValidationMessage For="(() => clientes.Nombre)" />
+            <InputText class="form-control" @bind-Value="Cliente.Nombre"></InputText>
+            <ValidationMessage For="(() => Cliente.Nombre)" />
         </div>
 
         <div class="form-group">
             <label>Cedula</label>
-            <InputText class="form-control" @bind-Value="clientes.Cedula"></InputText>
-            <ValidationMessage For="(() => clientes.Cedula)" />
+            <InputText class="form-control" @bind-Value="Cliente.Cedula"></InputText>
+            <ValidationMessage For="(() => Cliente.Cedula)" />
         </div>
 
         <div class="form-group">
             <label>Telefono</label>
-            <InputText class="form-control" @bind-Value="clientes.Telefono"></InputText>
-            <ValidationMessage For="(() => clientes.Telefono)" />
+            <InputText class="form-control" @bind-Value="Cliente.Telefono"></InputText>
+            <ValidationMessage For="(() => Cliente.Telefono)" />
+        </div>
+        <div class="form-group">
+            <label>Direccion</label>
+            <InputText class="form-control" @bind-Value="Cliente.Direccion"></InputText>
+            <ValidationMessage For="(() => Cliente.Direccion)" />
         </div>
 
         <div class="form-group">
             <label>Fecha de Ingreso</label>
-            <InputDate class="form-control" @bind-Value="clientes.FechaIngreso"></InputDate>
-            <ValidationMessage For="(() => clientes.FechaIngreso)" />
+            <InputDate class="form-control" @bind-Value="Cliente.FechaIngreso"></InputDate>`
+            <ValidationMessage For="(() => Cliente.FechaIngreso)" />
         </div>
 
         <div>
@@ -46,118 +51,73 @@
 </div>
 
 @code {
- [Parameter]
+    [Parameter]
     public int Id { get; set; }
     public string Mensaje = "";
 
-    Clientes clientes = new Clientes();
+    Clientes Cliente = new Clientes();
+    ClientesController controller = new ClientesController();
 
     protected override void OnInitialized()
     {
-        ClientesController controller = new ClientesController();
         Limpiar();
         Mensaje = string.Empty;
         if (Id != 0)
         {
-            clientes = controller.Buscar(Id);
+            Cliente = controller.Buscar(Id);
         }
     }
 
 
-    public bool ExisteEnLaBaseDeDatos(int id)
-    {
-        Contexto db = new Contexto();
-        var buscado = db.Clientes.Find(id);
-        bool paso = true;
-
-        if (buscado == null)
-        {
-            paso = false;
-        }
-
-        return paso;
-    }
 
     private void Limpiar()
     {
-        clientes = new Clientes();
+        Cliente = new Clientes();
     }
 
-    private void Guardar()
+    public void Guardar()
     {
-        ClientesController controller = new ClientesController();
-
-        if (clientes.ClienteId != 0)
+        if (controller.Guardar(Cliente))
         {
-            if (ExisteEnLaBaseDeDatos(clientes.ClienteId))
-            {
-                if (controller.Guardar(clientes))
-                {
-                    Mensaje = "Se modifico correctamente";
-                    Limpiar();
-                }
-                else
-                {
-                    Mensaje = "No se pudo modificar";
-                }
-
-            }
-            else
-            {
-                Mensaje = "No se puede modificar un cliente que no exista";
-            }
-
+            Limpiar();
+            Mensaje = "cliente Guardado con Exito!!!";
         }
         else
         {
-            if (controller.Guardar(clientes))
-            {
-                Mensaje = "Se guardo correctamente";
-                Limpiar();
-            }
-            else
-            {
-                Mensaje = "No se pudo Guardar";
-            }
+            Limpiar();
+            Mensaje = "Error al guardar cliente";
         }
     }
 
-    private void Eliminar()
+    public void Buscar()
     {
-        ClientesController controller = new ClientesController();
-        int id = clientes.ClienteId;
-        if (id != 0)
+        var client = controller.Buscar(Cliente.ClienteId);
+
+        if (client != null)
         {
-            if (ExisteEnLaBaseDeDatos(id))
-            {
-                controller.Eliminar(id);
-                Limpiar();
-                Mensaje = "Se elimino Correctamente";
-            }
-            else
-            {
-                Mensaje = "No se puede eliminar un Usuario que no Exista";
-            }
+            Cliente = client;
         }
         else
         {
-            Mensaje = "No se puede eliminar asi";
+            Limpiar();
+            Mensaje = "cliente no Existe";
         }
     }
 
-    private void Buscar()
+    public void Eliminar()
     {
-        ClientesController controller = new ClientesController();
-        var buscado = controller.Buscar(clientes.ClienteId);
+        var client = controller.Buscar(Cliente.ClienteId);
 
-        if (buscado != null)
+        if (client != null)
         {
-            clientes = buscado;
-            Mensaje = "Se encontro el Usuario";
+            controller.Eliminar(Cliente.ClienteId);
+            Limpiar();
+            Mensaje = "cliente Eliminado";
         }
         else
         {
-            Mensaje = "No existe este Usuario";
+            Limpiar();
+            Mensaje = "Error al eliminar";
         }
     }
 }

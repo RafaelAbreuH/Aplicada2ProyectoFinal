@@ -10,14 +10,18 @@ namespace Aplicada2ProyectoFinal.Models
     {
         [Key]
         public int ClienteId { get; set; }
-        [Required(ErrorMessage = " Nombre no puede estar vacío")]
+
+        [Required(ErrorMessage = "Nombre no puede estar vacío")]
         public string Nombre { get; set; }
-        [Required(ErrorMessage = " Cedula no puede estar vacia")]
+
+        [Required(ErrorMessage = "Cedula no puede estar vacia")]
         public string Cedula { get; set; }
+
         [Required(ErrorMessage = " El Telefono no puede estar vacio")]
         public string Telefono { get; set; }
         [Required(ErrorMessage = "Direccion no puede estar vacia")]
         public string Direccion { get; set; }
+
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd,mm, yyyy}")]
         [Required(ErrorMessage = "El campo fecha no puede estar vacío")]

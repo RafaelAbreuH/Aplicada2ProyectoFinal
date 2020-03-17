@@ -17,7 +17,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             bool paso = false;
             try
             {
-                if (clientes.ClienteId == 0)
+                if (clientes.ClienteId >= 0)
                 {
                     paso = Insertar(clientes);
                 }
