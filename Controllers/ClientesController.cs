@@ -13,80 +13,52 @@ namespace Aplicada2ProyectoFinal.Controllers
     {
         public bool Guardar(Clientes clientes)
         {
+            Contexto contexto = new Contexto();
             bool paso = false;
-            Contexto db = new Contexto();
             try
             {
-                if (db.Clientes.Any(A => A.ClienteId == clientes.ClienteId))
-                {
-                    paso = Modificar(clientes);
-                }
-                else
+                if (clientes.ClienteId == 0)
                 {
                     paso = Insertar(clientes);
                 }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return paso;
-        }
-
-
-        private bool Insertar(Clientes clientes)
-        {
-            Contexto db = new Contexto();
-            bool paso = false;
-
-            try
-            {
-                db.Clientes.Add(clientes);
-                paso = db.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-            return paso;
-        }
-
-        private bool Modificar(Clientes clientes)
-        {
-            bool paso = false;
-            Contexto db = new Contexto();
-            try
-            {
-                db.Entry(clientes).State = EntityState.Modified;
-                paso = db.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return paso;
-        }
-
-        public bool Eliminar(int id)
-        {
-            bool paso = false;
-            Contexto db = new Contexto();
-
-            try
-            {
-                Clientes clientes = db.Clientes.Find(id);
-                if (clientes != null)
+                else
                 {
-                    db.Entry(clientes).State = EntityState.Deleted;
-                    paso = db.SaveChanges() > 0;
+                    paso = Modificar(clientes);
                 }
             }
             catch (Exception)
             {
-
+                throw;
+            }
+            return paso;
+        }
+        private bool Insertar(Clientes clientes)
+        {
+            Contexto contexto = new Contexto();
+            bool paso = false;
+            try
+            {
+                contexto.Clientes.Add(clientes);
+                paso = contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return paso;
+        }
+        private bool Modificar(Clientes clientes)
+        {
+            Contexto contexto = new Contexto();
+            bool paso = false;
+            try
+            {
+                contexto.Clientes.Add(clientes);
+                contexto.Entry(clientes).State = EntityState.Modified;
+                paso = contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
                 throw;
             }
             return paso;
@@ -94,32 +66,46 @@ namespace Aplicada2ProyectoFinal.Controllers
 
         public Clientes Buscar(int id)
         {
-            Clientes clientes;
-            Contexto db = new Contexto();
+            Contexto contexto = new Contexto();
+            Clientes clientes = new Clientes();
             try
             {
-                clientes = db.Clientes.Find(id);
+                clientes = contexto.Clientes.Find(id);
             }
             catch (Exception)
             {
-
                 throw;
             }
             return clientes;
         }
-
-        public List<Clientes> GetList(Expression<Func<Clientes, bool>> expression)
+        public bool Eliminar(int id)
         {
-            Contexto db = new Contexto();
-            List<Clientes> lista = new List<Clientes>();
+            Contexto contexto = new Contexto();
+            bool paso = false;
+            Clientes clientes = new Clientes();
 
             try
             {
-                lista = db.Clientes.Where(expression).ToList();
+                clientes = contexto.Clientes.Find(id);
+                contexto.Entry(clientes).State = EntityState.Deleted;
+                paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
             {
-
+                throw;
+            }
+            return paso;
+        }
+        public List<Clientes> GetList(Expression<Func<Clientes, bool>> expression)
+        {
+            Contexto contexto = new Contexto();
+            List<Clientes> lista;
+            try
+            {
+                lista = contexto.Clientes.Where(expression).ToList();
+            }
+            catch (Exception)
+            {
                 throw;
             }
             return lista;

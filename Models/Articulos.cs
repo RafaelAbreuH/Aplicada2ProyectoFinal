@@ -10,11 +10,12 @@ namespace Aplicada2ProyectoFinal.Models
     {
         [Key]
         public int ArticuloId { get; set; }
+
         [Required(ErrorMessage = "Nombre no puede estar vacio")]
         public string Nombre { get; set; }
         [Required(ErrorMessage = "Inventario no puede estar vacio")]
-        [MinLength(4, ErrorMessage = "Inventario no puede ser 0")]
-        public int Inventario { get; set; }
+
+        public decimal Inventario { get; set; }
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd,mm, yyyy}")]
         [Required(ErrorMessage = "El campo fecha no puede estar vacío")]

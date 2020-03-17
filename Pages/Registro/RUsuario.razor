@@ -32,13 +32,13 @@
 
         <div class="form-group">
             <label>Confirmar Clave</label>
-            <InputText class="form-control" @bind-Value="usuarios.RepeatContraseña"></InputText>
+            <InputText class="form-control" @bind-Value="usuarios.RepeatContraseña" type="password"></InputText>
             <ValidationMessage For="(() => usuarios.RepeatContraseña)" />
         </div>
 
         <div class="form-group">
             <label>Nivel de Usuario</label>
-            <InputSelect class="form-control" @bind-Value="usuarios.TipodeUsuario">
+            <InputSelect class="form-control" @bind-Value="usuarios.TipodeUsuario">`
                 <option value="Administrador">Administrador</option>
                 <option value="Cajero">Cajero</option>
             </InputSelect>

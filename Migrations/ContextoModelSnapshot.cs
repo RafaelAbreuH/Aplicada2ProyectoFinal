@@ -25,8 +25,8 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.Property<DateTime>("FechaIngreso")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Inventario")
-                        .HasColumnType("INTEGER");
+                    b.Property<decimal>("Inventario")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -34,7 +34,7 @@ namespace Aplicada2ProyectoFinal.Migrations
 
                     b.HasKey("ArticuloId");
 
-                    b.ToTable("Articulo");
+                    b.ToTable("Articulos");
                 });
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Clientes", b =>
