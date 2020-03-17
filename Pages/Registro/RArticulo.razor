@@ -2,32 +2,32 @@
 @page "/Registro/Articulo/{Id:int}"
 <div class="form-register">
     <h3>Articulos</h3>
-    <EditForm Model="@articulo" OnValidSubmit="Guardar">
+    <EditForm Model="@Articulo" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
         <label class="text-muted form-text">@Mensaje</label>
         <div class="form-group">
             <label> ArticuloId</label>
-            <InputNumber class="form-control" @bind-Value="articulo.ArticuloId"></InputNumber>
-            <ValidationMessage For="(() => articulo.ArticuloId)" />
+            <InputNumber class="form-control" @bind-Value="Articulo.ArticuloId"></InputNumber>
+            <ValidationMessage For="(() => Articulo.ArticuloId)" />
             <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
         </div>
 
         <div class="form-group">
             <label>Nombre</label>
-            <InputText class="form-control" @bind-Value="articulo.Nombre"></InputText>
-            <ValidationMessage For="(() => articulo.Nombre)" />
+            <InputText class="form-control" @bind-Value="Articulo.Nombre"></InputText>
+            <ValidationMessage For="(() => Articulo.Nombre)" />
         </div>
 
         <div class="form-group">
             <label>Inventario</label>
-            <InputNumber class="form-control" @bind-Value="articulo.Inventario"></InputNumber>
-            <ValidationMessage For="(() => articulo.Inventario)" />
+            <InputNumber class="form-control" @bind-Value="Articulo.Inventario" ReadOnly="true"></InputNumber>
+            <ValidationMessage For="(() => Articulo.Inventario)" />
         </div>
 
         <div class="form-group">
             <label>Fecha de Ingreso</label>
-            <InputDate class="form-control" @bind-Value="articulo.FechaIngreso"></InputDate>
-            <ValidationMessage For="(() => articulo.FechaIngreso)" />
+            <InputDate class="form-control" @bind-Value="Articulo.FechaIngreso"></InputDate>
+            <ValidationMessage For="(() => Articulo.FechaIngreso)" />
         </div>
 
         <div>
@@ -40,118 +40,65 @@
 </div>
 
 @code {
-    [Parameter]
-    public int Id { get; set; }
-    public string Mensaje = "";
-
-    Articulos articulo = new Articulos();
-
     protected override void OnInitialized()
     {
-        ArticulosController controller = new ArticulosController();
-        Limpiar();
-        Mensaje = string.Empty;
-        if (Id != 0)
-        {
-            articulo = controller.Buscar(Id);
-        }
+        Articulo = new Articulos();
     }
 
+    public Articulos Articulo { get; set; }
+    public string Mensaje;
 
-    public bool ExisteEnLaBaseDeDatos(int id)
-    {
-        Contexto db = new Contexto();
-        var buscado = db.Articulos.Find(id);
-        bool paso = true;
 
-        if (buscado == null)
-        {
-            paso = false;
-        }
-
-        return paso;
-    }
+    ArticulosController controller = new ArticulosController();
 
     private void Limpiar()
     {
-        articulo = new Articulos();
+        Articulo = new Articulos();
     }
 
-    private void Guardar()
+    public void Guardar()
     {
-        ArticulosController controller = new ArticulosController();
-
-        if (articulo.ArticuloId != 0)
+        if (controller.Guardar(Articulo))
         {
-            if (ExisteEnLaBaseDeDatos(articulo.ArticuloId))
-            {
-                if (controller.Guardar(articulo))
-                {
-                    Mensaje = "Se modifico correctamente";
-                    Limpiar();
-                }
-                else
-                {
-                    Mensaje = "No se pudo modificar";
-                }
-
-            }
-            else
-            {
-                Mensaje = "No se puede modificar un Usuario que no exista";
-            }
-
+            Limpiar();
+            Mensaje = "Articulo Guardado con Exito!!!";
         }
         else
         {
-            if (controller.Guardar(articulo))
-            {
-                Mensaje = "Se guardo correctamente";
-                Limpiar();
-            }
-            else
-            {
-                Mensaje = "No se pudo Guardar";
-            }
+            Limpiar();
+            Mensaje = "Error al guardar Articulo";
         }
     }
 
-    private void Eliminar()
+    public void Buscar()
     {
-        ArticulosController controller = new ArticulosController();
-        int id = articulo.ArticuloId;
-        if (id != 0)
+        var articulo = controller.Buscar(Articulo.ArticuloId);
+
+        if (articulo != null)
         {
-            if (ExisteEnLaBaseDeDatos(id))
-            {
-                controller.Eliminar(id);
-                Limpiar();
-                Mensaje = "Se elimino Correctamente";
-            }
-            else
-            {
-                Mensaje = "No se puede eliminar un Articulo que no Exista";
-            }
+            Articulo = articulo;
         }
         else
         {
-            Mensaje = "No se puede eliminar";
+            Limpiar();
+            Mensaje = "Articulo no Existe";
         }
     }
 
-    private void Buscar()
-    {
-        ArticulosController controller = new ArticulosController();
-        var buscado = controller.Buscar(articulo.ArticuloId);
+    public void Eliminar()
+	{
+		var articulo = controller.Buscar(Articulo.ArticuloId);
 
-        if (buscado != null)
-        {
-            articulo = buscado;
-            Mensaje = "Se encontro el Usuario";
-        }
-        else
-        {
-            Mensaje = "No existe este Usuario";
-        }
-    }
+		if (articulo != null)
+		{
+			controller.Eliminar(Articulo.ArticuloId);
+			Limpiar();
+			Mensaje = "Articulo Eliminado";
+		}
+		else
+		{
+			Limpiar();
+			Mensaje = "Error al eliminar";
+		}
+	}
 }
