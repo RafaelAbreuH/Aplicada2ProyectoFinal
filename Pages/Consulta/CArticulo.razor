@@ -1,42 +1,39 @@
 ﻿@page "/Consulta/Articulos"
+<h3>Consulta de Articulos</h3>
 
-<div class="form-row">
+<div class="form-group row">
+    <input class="ml-2" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
+    <div class="input-group  col-sm-6">
 
-    <div class="col">
-        <label for="desde_date">Desde:</label>
-        <input id="desde_date" class="form-control" type="datetime-local" @bind="desdeFecha" />
-    </div>
+        <label for="DesdeFecha" class="col-auto">Desde</label>
+        <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
 
-    <div class="col">
-        <label for="hasta_date">Hasta:</label>
-        <input id="hasta_date" class="form-control" type="datetime-local" @bind="hastaFecha" />
-        <button class="btn btn-primary" @onclick="filtradoPorFecha">Filtar por Fecha</button>
-    </div>
-
-    <div class="col">
-        <input type="text" class="form-control" placeholder="Criterio" @onfocusin="Filtrar" @onfocusout="Filtrar" @onclick="Filtrar" @bind="@Criterio" />
-    </div>
-
-    <div class="col">
-        <select class="form-control" @onclick="Filtrar" @bind="filtro">
-            <option value="0">Todos</option>
-            <option value="1">Id</option>
-            <option value="2">Nombre</option>
-            <option value="3">Inventario</option>
-        </select>
+        <label for="HastaFechaInput" class="col-auto">&nbsp;&nbsp;Hasta</label>
+        <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
     </div>
 </div>
 
-<h3>Consulta de Articulos</h3>
-@if (Lista == null)
-{
-    <p>No hay datos que mostrar</p>
-    return;
-}
-else
-{
+<div class="form-group row">
+    <label for="filtro">Filtro</label>
+    <div class="input-group  col-sm-10">
+        <select class="form-control" @bind="Filtro">
+            <option value="" disabled selected>Seleccione un filtro</option>
+            <option value="Todo">Todo</option>
+            <option value="Id">Id</option>
+            <option value="Nombres">Nombres</option>
+            <option value="Usuario">Inventario</option>
+        </select>
+
+        <div align="right" class="input-group col-md-8">
+            <label for="criterio"> Criterio </label>
+            <input type="search" class="form-control" @bind-value="Criterio" />
+        </div>
+        <button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
+    </div>
+</div>
+
     <table class="table">
-        <thead>
+        <thead class="thead-light">
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
@@ -46,7 +43,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Lista)
+            @foreach (var item in lista)
             {
                 <tr>
                     <td>@item.ArticuloId</td>
@@ -58,94 +55,73 @@ else
             }
         </tbody>
     </table>
-}
+
 
 @code {
-    List<Articulos> Lista = new List<Articulos>();
-    ArticulosController controller = new ArticulosController();
+  
+    private List<Articulos> lista { get; set; }
+
+    private string Filtro { get; set; }
+    private string Criterio { get; set; }
+    public string mensaje;
+    public bool BuscarFecha { get; set; }
+    public DateTime DesdeFecha { get; set; }
+    public DateTime HastaFecha { get; set; }
 
 
     protected override void OnInitialized()
     {
-        Lista = controller.GetList(A => true);
+        lista = new List<Articulos>();
+        DesdeFecha = DateTime.Now;
+        HastaFecha = DateTime.Now;
     }
 
-
-    private string filtro;
-    private string Criterio;
-    // private bool fechaFiltro;
-
-    DateTime hastaFecha = DateTime.Now;
-    DateTime desdeFecha = DateTime.Now;
-
-    public List<Articulos> listado { get; set; }
-
-    private void filtradoPorFecha()
+    private void Buscar()
     {
-        try
-        {
-            Lista = Lista.Where(p => p.FechaIngreso >= desdeFecha && p.FechaIngreso <= p.FechaIngreso).ToList();
-        }
-        catch (Exception)
-        {
-
-        }
-
-    }
-
-    private void Filtrar()
-    {
+        ArticulosController controller = new ArticulosController();
 
         try
         {
-            int filtroIndex = Int32.Parse(filtro);
-
-            if (Criterio.Trim().Length > 0)
+            if (Filtro == null)
             {
-                switch (filtroIndex)
-                {
-                    //Todos
-                    case 0:
-                        listado = controller.GetList(p => true);
-                        Lista = listado;
-                        break;
-                    //Id
-                    case 1:
-                        int id = 0;
-                        if (int.TryParse(Criterio, out id))
-                        {
-                            id = Convert.ToInt32(Criterio);
-                            listado = controller.GetList(p => p.ArticuloId == id);
-                            Lista = listado;
-                        }
-                        break;
-                    //Nombre
-                    case 2:
-                        listado = controller.GetList(p => p.Nombre.Contains(Criterio));
-                        Lista = listado;
-                        break;
-                    //Inventario
-                    case 3:
-                        int cantidad = 0;
-                        if (int.TryParse(Criterio, out cantidad))
-                        {
-                            cantidad = Convert.ToInt32(Criterio);
-                            listado = controller.GetList(p => p.Inventario == cantidad);
-                            Lista = listado;
-                        }
-                        break;
-
-                }
+                mensaje = "Debe seleccionar un Filtro";
             }
             else
             {
+                lista = controller.GetList(a => true);
 
-                listado = controller.GetList(p => true);
-                Lista = listado;
+                if (lista.Count == 0)
+                {
+                    mensaje = "No hay Clientes Registrado";
+                }
+                else
+                {
+                    mensaje = "";
+                    switch (Filtro)
+                    {
+                        case "Todo":
+                            lista = controller.GetList(e => true);
+                            break;
+                        case "Id":
+                            lista = controller.GetList(e => e.ArticuloId == Convert.ToInt32(Criterio));
+                            break;
+                        case "Nombre":
+                            lista = controller.GetList(e => e.Nombre == Criterio);
+                            break;
+                        case "Cedula":
+                            lista = controller.GetList(e => e.Inventario.ToString() == Criterio);
+                            break;
+                    }
+                    if (BuscarFecha == true)
+                    {
+                        lista = controller.GetList(p => p.FechaIngreso >= DesdeFecha.Date && p.FechaIngreso <= HastaFecha.Date);
+                    }
+                }
             }
         }
         catch (Exception)
         {
+            throw;
         }
     }
 }
