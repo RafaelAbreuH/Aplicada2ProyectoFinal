@@ -9,6 +9,7 @@ namespace Aplicada2ProyectoFinal.Models
     public class Clientes
     {
         [Key]
+        [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int ClienteId { get; set; }
 
         [Required(ErrorMessage = "Nombre no puede estar vacío")]
@@ -18,6 +19,7 @@ namespace Aplicada2ProyectoFinal.Models
         public string Cedula { get; set; }
 
         [Required(ErrorMessage = " El Telefono no puede estar vacio")]
+        [DataType(DataType.PhoneNumber]
         public string Telefono { get; set; }
         [Required(ErrorMessage = "Direccion no puede estar vacia")]
         public string Direccion { get; set; }
