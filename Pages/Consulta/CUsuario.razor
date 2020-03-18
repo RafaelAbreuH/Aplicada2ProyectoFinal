@@ -54,7 +54,7 @@
                 <th>@item.Nombre</th>
                 <th>@item.TipodeUsuario</th>
                 <th>@item.Usuario</th>
-                <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
+                <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
                 <td><a class="btn btn-sm btn-outline-primary" href="rUsuario/@item.UsuarioId">Ver</a></td>
             </tr>
         }
@@ -122,7 +122,7 @@
                     }
                     if (BuscarFecha == true)
                     {
-                        lista = controller.GetList(p => p.FechaIngreso >= DesdeFecha.Date && p.FechaIngreso <= HastaFecha.Date);
+                        lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
                     }
                 }
             }

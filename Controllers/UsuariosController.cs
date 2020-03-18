@@ -11,7 +11,6 @@ namespace Aplicada2ProyectoFinal.Controllers
 {
     public class UsuariosController
     {
-
         public bool Guardar(Usuarios usuarios)
         {
             Contexto contexto = new Contexto();
@@ -68,27 +67,27 @@ namespace Aplicada2ProyectoFinal.Controllers
         public Usuarios Buscar(int id)
         {
             Contexto contexto = new Contexto();
-            Usuarios usuarios = new Usuarios();
+            Usuarios usuario = new Usuarios();
             try
             {
-                usuarios = contexto.Usuarios.Find(id);
+                usuario = contexto.Usuarios.Find(id);
             }
             catch (Exception)
             {
                 throw;
             }
-            return usuarios;
+            return usuario;
         }
         public bool Eliminar(int id)
         {
             Contexto contexto = new Contexto();
             bool paso = false;
-            Usuarios usuarios = new Usuarios();
+            Usuarios usuario = new Usuarios();
 
             try
             {
-                usuarios = contexto.Usuarios.Find(id);
-                contexto.Entry(usuarios).State = EntityState.Deleted;
+                usuario = contexto.Usuarios.Find(id);
+                contexto.Entry(usuario).State = EntityState.Deleted;
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)

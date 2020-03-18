@@ -15,7 +15,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(nullable: false),
                     Inventario = table.Column<decimal>(nullable: false),
-                    FechaIngreso = table.Column<DateTime>(nullable: false)
+                    Fecha = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,7 +32,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                     Cedula = table.Column<string>(nullable: false),
                     Telefono = table.Column<string>(nullable: false),
                     Direccion = table.Column<string>(nullable: false),
-                    FechaIngreso = table.Column<DateTime>(nullable: false)
+                    Fecha = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,7 +49,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                     Usuario = table.Column<string>(nullable: false),
                     Contraseña = table.Column<string>(nullable: false),
                     RepeatContraseña = table.Column<string>(nullable: false),
-                    FechaIngreso = table.Column<DateTime>(nullable: false),
+                    Fecha = table.Column<DateTime>(nullable: false),
                     TipodeUsuario = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
