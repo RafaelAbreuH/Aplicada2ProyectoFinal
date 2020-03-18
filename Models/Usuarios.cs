@@ -23,7 +23,7 @@ namespace Aplicada2ProyectoFinal.Models
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd,mm, yyyy}")]
         [Required(ErrorMessage = "El campo fecha no puede estar vacío")]
-        public DateTime FechaIngreso { get; set; }
+        public DateTime Fecha { get; set; }
 
         [Required(ErrorMessage = "El Tipo Usuario no puede estar vacío")]
         public string TipodeUsuario { get; set; }
@@ -33,7 +33,7 @@ namespace Aplicada2ProyectoFinal.Models
             Nombre = string.Empty;
             Usuario = string.Empty;
             Contraseña = string.Empty;
-            FechaIngreso = DateTime.Now;
+            Fecha = DateTime.Now;
             TipodeUsuario = string.Empty;
         }
     }

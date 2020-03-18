@@ -25,7 +25,7 @@ namespace Aplicada2ProyectoFinal.Models
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd,mm, yyyy}")]
         [Required(ErrorMessage = "El campo fecha no puede estar vacío")]
-        public DateTime FechaIngreso { get; set; }
+        public DateTime Fecha { get; set; }
         public Clientes()
         {
             ClienteId = 0;
@@ -33,7 +33,7 @@ namespace Aplicada2ProyectoFinal.Models
             Cedula = string.Empty;
             Telefono = string.Empty;
             Direccion = string.Empty;
-            FechaIngreso = DateTime.Now;
+            Fecha = DateTime.Now;
         }
     }
 }

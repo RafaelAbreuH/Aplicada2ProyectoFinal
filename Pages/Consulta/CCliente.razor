@@ -55,7 +55,7 @@
                     <td>@item.Cedula</td>
                     <td>@item.Telefono</td>
                     <td>@item.Direccion</td>
-                    <td>@item.FechaIngreso</td>
+                    <td>@item.Fecha</td>
                     <td><a class="btn btn-outline-info" href="Clientes/@item.ClienteId">Ver</a></td>
                 </tr>
             }
@@ -127,7 +127,7 @@
                     }
                     if (BuscarFecha == true)
                     {
-                        lista = controller.GetList(p => p.FechaIngreso >= DesdeFecha.Date && p.FechaIngreso <= HastaFecha.Date);
+                        lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
                     }
                 }
             }

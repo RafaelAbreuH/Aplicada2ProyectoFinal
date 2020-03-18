@@ -37,8 +37,8 @@
 
         <div class="form-group">
             <label>Fecha de Ingreso</label>
-            <InputDate class="form-control" @bind-Value="Cliente.FechaIngreso"></InputDate>`
-            <ValidationMessage For="(() => Cliente.FechaIngreso)" />
+            <InputDate class="form-control" @bind-Value="Cliente.Fecha"></InputDate>`
+            <ValidationMessage For="(() => Cliente.Fecha)" />
         </div>
 
         <div>
@@ -54,22 +54,17 @@
     [Parameter]
     public int Id { get; set; }
     public string Mensaje = "";
-
     Clientes Cliente = new Clientes();
     ClientesController controller = new ClientesController();
 
     protected override void OnInitialized()
     {
         Limpiar();
-        Mensaje = string.Empty;
         if (Id != 0)
         {
             Cliente = controller.Buscar(Id);
         }
     }
-
-
-
     private void Limpiar()
     {
         Cliente = new Clientes();
@@ -91,11 +86,11 @@
 
     public void Buscar()
     {
-        var client = controller.Buscar(Cliente.ClienteId);
+        var cliente = controller.Buscar(Cliente.ClienteId);
 
-        if (client != null)
+        if (cliente != null)
         {
-            Cliente = client;
+            Cliente = cliente;
         }
         else
         {
@@ -106,9 +101,9 @@
 
     public void Eliminar()
     {
-        var client = controller.Buscar(Cliente.ClienteId);
+        var cliente = controller.Buscar(Cliente.ClienteId);
 
-        if (client != null)
+        if (cliente != null)
         {
             controller.Eliminar(Cliente.ClienteId);
             Limpiar();

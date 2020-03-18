@@ -49,7 +49,7 @@
                     <td>@item.ArticuloId</td>
                     <td>@item.Nombre</td>
                     <td>@item.Inventario</td>
-                    <td>@item.FechaIngreso</td>
+                    <td>@item.Fecha</td>
                     <td><a class="btn btn-outline-info" href="Articulos/@item.ArticuloId">Ver</a></td>
                 </tr>
             }
@@ -114,7 +114,7 @@
                     }
                     if (BuscarFecha == true)
                     {
-                        lista = controller.GetList(p => p.FechaIngreso >= DesdeFecha.Date && p.FechaIngreso <= HastaFecha.Date);
+                        lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
                     }
                 }
             }

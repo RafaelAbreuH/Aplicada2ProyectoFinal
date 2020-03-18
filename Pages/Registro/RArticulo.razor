@@ -26,8 +26,8 @@
 
         <div class="form-group">
             <label>Fecha de Ingreso</label>
-            <InputDate class="form-control" @bind-Value="Articulo.FechaIngreso"></InputDate>
-            <ValidationMessage For="(() => Articulo.FechaIngreso)" />
+            <InputDate class="form-control" @bind-Value="Articulo.Fecha"></InputDate>
+            <ValidationMessage For="(() => Articulo.Fecha)" />
         </div>
 
         <div>
@@ -43,20 +43,19 @@
     protected override void OnInitialized()
     {
         Articulo = new Articulos();
+    }
+
+    public Articulos Articulo { get; set; }
+    public string Mensaje;
+    ArticulosController controller = new ArticulosController();
+    protected override void OnInitialized()
+    {
+        Limpiar();
         if (Id != 0)
         {
             Articulo = controller.Buscar(Id);
         }
     }
-
-    [Parameter]
-    public int Id { get; set; }
-
-    public Articulos Articulo { get; set; }
-    public string Mensaje;
-
-
-    ArticulosController controller = new ArticulosController();
 
     private void Limpiar()
     {
