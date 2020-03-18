@@ -40,16 +40,20 @@
 </div>
 
 @code {
-    protected override void OnInitialized()
-    {
-        Articulo = new Articulos();
-    }
-
+   
+    [Parameter]
+    public int Id { get; set; }
     public Articulos Articulo { get; set; }
     public string Mensaje;
-
-
     ArticulosController controller = new ArticulosController();
+    protected override void OnInitialized()
+    {
+        Limpiar();
+        if (Id != 0)
+        {
+            Articulo = controller.Buscar(Id);
+        }
+    }
 
     private void Limpiar()
     {
