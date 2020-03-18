@@ -43,7 +43,14 @@
     protected override void OnInitialized()
     {
         Articulo = new Articulos();
+        if (Id != 0)
+        {
+            Articulo = controller.Buscar(Id);
+        }
     }
+
+    [Parameter]
+    public int Id { get; set; }
 
     public Articulos Articulo { get; set; }
     public string Mensaje;
