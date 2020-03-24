@@ -11,24 +11,56 @@ namespace Aplicada2ProyectoFinal.Controllers
 {
     public class EmpeñosController
     {
-        public static bool Guardar(Empeños empeño)
+        public bool Guardar(Empeños Empeño)
         {
-            bool paso = false;
             Contexto contexto = new Contexto();
+            bool paso = false;
             try
             {
-                if (contexto.Empeños.Add(empeño) != null)
+                if (Empeño.EmpeñoId == 0)
                 {
-                    foreach (var item in empeño.Detalle)
-                    {
-                        contexto.Articulos.Find(item.ArticuloId).Inventario += item.Cantidad;
-                    }
-                    contexto.SaveChanges();
-                    paso = true;
+                    paso = Insertar(Empeño);
+
                 }
-                contexto.Dispose();
+                else
+                {
+                    paso = Modificar(Empeño);
+
+                }
             }
-            catch (Exception) { throw; }
+            catch (Exception)
+            {
+                throw;
+            }
+            return paso;
+        }
+        private bool Insertar(Empeños Empeño)
+        {
+            Contexto contexto = new Contexto();
+            bool paso = false;
+
+            try
+            {
+                if(contexto.Empeños.Add(Empeño) != null)
+                {
+                    foreach (var item in Empeño.Detalle)
+                    {
+                        contexto.Articulos.Find(item.ArticuloId).Inventario -= item.Cantidad;
+                    }
+                }
+                contexto.Clientes.Find(Empeño.ClienteId). += Empeño.Total;
+                paso = contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+
+            }
+            finally
+            {
+                contexto.Dispose();
+
+            }
             return paso;
         }
 
@@ -66,7 +98,7 @@ namespace Aplicada2ProyectoFinal.Controllers
                 Empeños recibos = contexto.Empeños.Find(id);
                 if (recibos != null)
                 {
-                    recibos.Detalle.Count();
+                    _ = recibos.Detalle.Count();
                     contexto.Empeños.Remove(recibos);
                 }
                 if (contexto.SaveChanges() > 0)
@@ -78,10 +110,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             catch (Exception) { throw; }
             return paso;
         }
-
-
-
-        public Empeños Buscar(int id)
+        public static Empeños Buscar(int id)
         {
             Empeños recibo = new Empeños();
             Contexto contexto = new Contexto();

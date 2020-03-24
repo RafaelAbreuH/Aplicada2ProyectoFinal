@@ -27,7 +27,7 @@ namespace Aplicada2ProyectoFinal.Models
         public decimal Abono { get; set; }
 
         public DateTime UltimaFechadeVigencia { get; set; }
-        public virtual ICollection<EmpeñosDetalle> Detalle { get; set; }
+        public List<EmpeñosDetalle> Detalle { get; set; }
 
         public Empeños()
         {
