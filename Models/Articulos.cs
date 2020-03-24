@@ -10,7 +10,7 @@ namespace Aplicada2ProyectoFinal.Models
     {
         [Key]
         public int ArticuloId { get; set; }
-        [Required(ErrorMessage = "Elegir una categoria para el articulo")]
+        [Required(ErrorMessage = " Debe elegir una categoria para el articulo")]
         public int CategoriaId { get; set; }
         [Required(ErrorMessage = "Nombre no puede estar vacio")]
         public string Nombre { get; set; }
