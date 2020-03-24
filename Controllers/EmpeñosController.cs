@@ -41,96 +41,25 @@ namespace Aplicada2ProyectoFinal.Controllers
 
             try
             {
-                if(contexto.Empeños.Add(Empeño) != null)
+                if (contexto.Empeños.Add(Empeño) != null)
                 {
                     foreach (var item in Empeño.Detalle)
                     {
-                        contexto.Articulos.Find(item.ArticuloId).Inventario -= item.Cantidad;
+                        contexto.Articulos.Find(item.ArticuloId).Inventario += item.Cantidad;
                     }
                 }
-                contexto.Clientes.Find(Empeño.ClienteId). += Empeño.Total;
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
             {
                 throw;
-
             }
             finally
             {
                 contexto.Dispose();
-
             }
             return paso;
         }
-
-        public static bool Eliminar(int id)
-        {
-            bool paso = false;
-            Contexto contexto = new Contexto();
-            try
-            {
-                Empeños recibo = contexto.Empeños.Find(id);
-                if (recibo != null)
-                {
-                    foreach (var item in recibo.Detalle)
-                    {
-                        contexto.Articulos.Find(item.ArticuloId).Inventario -= item.Cantidad;
-                    }
-                    recibo.Detalle.Count();
-                    contexto.Empeños.Remove(recibo);
-                }
-                if (contexto.SaveChanges() > 0)
-                {
-                    paso = true;
-                }
-                contexto.Dispose();
-            }
-            catch (Exception) { throw; }
-            return paso;
-        }
-        public static bool EliminarParaCobro(int id)
-        {
-            bool paso = false;
-            Contexto contexto = new Contexto();
-            try
-            {
-                Empeños recibos = contexto.Empeños.Find(id);
-                if (recibos != null)
-                {
-                    _ = recibos.Detalle.Count();
-                    contexto.Empeños.Remove(recibos);
-                }
-                if (contexto.SaveChanges() > 0)
-                {
-                    paso = true;
-                    contexto.Dispose();
-                }
-            }
-            catch (Exception) { throw; }
-            return paso;
-        }
-        public static Empeños Buscar(int id)
-        {
-            Empeños recibo = new Empeños();
-            Contexto contexto = new Contexto();
-            try
-            {
-                recibo = contexto.Empeños.Find(id);
-                if (recibo != null)
-                {
-                    recibo.Detalle.Count();
-                    foreach (var item in recibo.Detalle)
-                    {
-                        string s = item.Articulos.Nombre;
-                    }
-                }
-                contexto.Dispose();
-            }
-            catch (Exception) { throw; }
-            return recibo;
-        }
-
         public static bool Modificar(Empeños empeño)
         {
             bool paso = false;
@@ -170,6 +99,72 @@ namespace Aplicada2ProyectoFinal.Controllers
             return paso;
         }
 
+        public static bool Eliminar(int id)
+        {
+            bool paso = false;
+            Contexto contexto = new Contexto();
+            try
+            {
+                Empeños recibo = contexto.Empeños.Find(id);
+                if (recibo != null)
+                {
+                    foreach (var item in recibo.Detalle)
+                    {
+                        contexto.Articulos.Find(item.ArticuloId).Inventario -= item.Cantidad;
+                    }
+                    recibo.Detalle.Count();
+                    contexto.Empeños.Remove(recibo);
+                }
+                if (contexto.SaveChanges() > 0)
+                {
+                    paso = true;
+                }
+                contexto.Dispose();
+            }
+            catch (Exception) { throw; }
+            return paso;
+        }
+        public static bool EliminarParaCobro(int id)
+        {
+            bool paso = false;
+            Contexto contexto = new Contexto();
+            try
+            {
+                Empeños recibos = contexto.Empeños.Find(id);
+                if (recibos != null)
+                {
+                    recibos.Detalle.Count();
+                    contexto.Empeños.Remove(recibos);
+                }
+                if (contexto.SaveChanges() > 0)
+                {
+                    paso = true;
+                    contexto.Dispose();
+                }
+            }
+            catch (Exception) { throw; }
+            return paso;
+        }
+        public static Empeños Buscar(int id)
+        {
+            Empeños recibo = new Empeños();
+            Contexto contexto = new Contexto();
+            try
+            {
+                recibo = contexto.Empeños.Find(id);
+                if (recibo != null)
+                {
+                    recibo.Detalle.Count();
+                    foreach (var item in recibo.Detalle)
+                    {
+                        string s = item.Articulos.Nombre;
+                    }
+                }
+                contexto.Dispose();
+            }
+            catch (Exception) { throw; }
+            return recibo;
+        }
         public static List<Empeños> GetList(Expression<Func<Empeños, bool>> expression)
         {
             Contexto contexto = new Contexto();
