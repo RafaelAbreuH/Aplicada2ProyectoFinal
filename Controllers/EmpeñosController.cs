@@ -60,7 +60,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             }
             return paso;
         }
-        public static bool Modificar(Empeños empeño)
+        public bool Modificar(Empeños empeño)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -99,7 +99,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             return paso;
         }
 
-        public static bool Eliminar(int id)
+        public bool Eliminar(int id)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -124,7 +124,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             catch (Exception) { throw; }
             return paso;
         }
-        public static bool EliminarParaCobro(int id)
+        public bool EliminarParaCobro(int id)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -145,7 +145,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             catch (Exception) { throw; }
             return paso;
         }
-        public static Empeños Buscar(int id)
+        public Empeños Buscar(int id)
         {
             Empeños recibo = new Empeños();
             Contexto contexto = new Contexto();
@@ -165,7 +165,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             catch (Exception) { throw; }
             return recibo;
         }
-        public static List<Empeños> GetList(Expression<Func<Empeños, bool>> expression)
+        public List<Empeños> GetList(Expression<Func<Empeños, bool>> expression)
         {
             Contexto contexto = new Contexto();
             List<Empeños> recibo = new List<Empeños>();
@@ -186,12 +186,13 @@ namespace Aplicada2ProyectoFinal.Controllers
         {
             bool paso = false;
             Contexto contexto = new Contexto();
+            EmpeñosController controller = new EmpeñosController();
             try
             {
-                Empeños Anterior = Buscar(recibo.EmpeñoId);
+                Empeños Anterior = controller.Buscar(recibo.EmpeñoId);
                 decimal diferencia;
                 diferencia = Anterior.Abono - recibo.Abono;
-                Empeños recibos = Buscar(recibo.EmpeñoId);
+                Empeños recibos = controller.Buscar(recibo.EmpeñoId);
                 recibos.Abono = Math.Abs(recibos.Abono - diferencia);
                 contexto.Entry(recibo).State = EntityState.Modified;
                 if (contexto.SaveChanges() > 0)

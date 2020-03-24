@@ -92,22 +92,23 @@ namespace Aplicada2ProyectoFinal.Controllers
         {
             bool paso = false;
             Contexto contexto = new Contexto();
+            EmpeñosController controller = new EmpeñosController();
             try
             {
                 if (contexto.Cobros.Add(cobro) != null)
                 {
                     contexto.Empeños.Find(cobro.EmpeñoId).Abono += cobro.Abono;
-                    foreach (var item in EmpeñosController.GetList(x => x.EmpeñoId == cobro.EmpeñoId))
+                    foreach (var item in controller.GetList(x => x.EmpeñoId == cobro.EmpeñoId))
                     {
                         contexto.Empeños.Find(cobro.EmpeñoId).UltimaFechadeVigencia = item.UltimaFechadeVigencia.AddDays(AumentoDias(cobro.Abono, item.MontoTotal));
                     }
                     contexto.SaveChanges();
 
-                    foreach (var item in EmpeñosController.GetList(x => x.EmpeñoId == cobro.EmpeñoId))
+                    foreach (var item in controller.GetList(x => x.EmpeñoId == cobro.EmpeñoId))
                     {
                         if ((item.MontoTotal + Ganancia(item.Fecha, item.MontoTotal)) - item.Abono == 0)
                         {
-                            EmpeñosController.EliminarParaCobro(cobro.EmpeñoId);
+                            controller.EliminarParaCobro(cobro.EmpeñoId);
                         }
                     }
                     paso = true;
@@ -122,13 +123,14 @@ namespace Aplicada2ProyectoFinal.Controllers
         {
             bool paso = false;
             Contexto contexto = new Contexto();
+            EmpeñosController controller = new EmpeñosController();
             try
             {
                 Cobros cobro = contexto.Cobros.Find(id);
                 if (cobro != null)
                 {
                     contexto.Empeños.Find(cobro.EmpeñoId).Abono -= cobro.Abono;
-                    foreach (var item in EmpeñosController.GetList(x => x.EmpeñoId == cobro.EmpeñoId))
+                    foreach (var item in controller.GetList(x => x.EmpeñoId == cobro.EmpeñoId))
                     {
                         contexto.Empeños.Find(cobro.EmpeñoId).UltimaFechadeVigencia = item.UltimaFechadeVigencia.AddDays(-AumentoDias(cobro.Abono, item.MontoTotal));
                     }
@@ -147,22 +149,23 @@ namespace Aplicada2ProyectoFinal.Controllers
         {
             bool paso = false;
             Contexto contexto = new Contexto();
+            EmpeñosController controller = new EmpeñosController();
             try
             {
                 Cobros Anterior = Buscar(cobro.CobroId);
                 decimal diferencia;
                 diferencia = Anterior.Abono + cobro.Abono;
                 decimal otradif = Anterior.Abono - cobro.Abono;
-                Empeños recibos = EmpeñosController.Buscar(cobro.EmpeñoId);
+                Empeños recibos = controller.Buscar(cobro.EmpeñoId);
                 recibos.Abono = Math.Abs(recibos.Abono - diferencia);
                 recibos.UltimaFechadeVigencia = recibos.UltimaFechadeVigencia.AddDays(-AumentoDias(Anterior.Abono, recibos.MontoTotal));
                 recibos.UltimaFechadeVigencia = recibos.UltimaFechadeVigencia.AddDays(AumentoDias(cobro.Abono, recibos.MontoTotal));
                 EmpeñosController.ModificarEspecial(recibos);
-                foreach (var item in EmpeñosController.GetList(x => x.EmpeñoId == cobro.EmpeñoId))
+                foreach (var item in controller.GetList(x => x.EmpeñoId == cobro.EmpeñoId))
                 {
                     if ((item.MontoTotal + Ganancia(item.Fecha, item.MontoTotal)) - item.Abono == 0)
                     {
-                        EmpeñosController.EliminarParaCobro(cobro.EmpeñoId);
+                        controller.EliminarParaCobro(cobro.EmpeñoId);
 
                     }
                 }
