@@ -22,12 +22,13 @@ namespace Aplicada2ProyectoFinal.Models
         [Required(ErrorMessage = "Monto Total no puede estar vacío")]
         public decimal MontoTotal { get; set; }
 
+
         [Required(ErrorMessage = "Abono no puede estar vacío")]
         [MinLength(1, ErrorMessage = "Abono no puede ser menor que 0")]
         public decimal Abono { get; set; }
 
         public DateTime UltimaFechadeVigencia { get; set; }
-        public virtual ICollection<EmpeñosDetalle> Detalle { get; set; }
+        public List<EmpeñosDetalle> Detalle { get; set; }
 
         public Empeños()
         {
@@ -41,9 +42,6 @@ namespace Aplicada2ProyectoFinal.Models
             UltimaFechadeVigencia = DateTime.Now;
 
         }
-        public void AgregarDetalle(int Id, int reciboId, int articuloId, string articulo, string descripcion, int cantidad, decimal monto)
-        {
-            Detalle.Add(new EmpeñosDetalle(Id, reciboId, articuloId, articulo, descripcion, cantidad, monto));
-        }
+
     }
 }

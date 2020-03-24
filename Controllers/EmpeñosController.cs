@@ -81,7 +81,7 @@ namespace Aplicada2ProyectoFinal.Controllers
 
 
 
-        public static Empeños Buscar(int id)
+        public Empeños Buscar(int id)
         {
             Empeños recibo = new Empeños();
             Contexto contexto = new Contexto();
