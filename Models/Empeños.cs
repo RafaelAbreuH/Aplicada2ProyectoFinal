@@ -30,9 +30,5 @@ namespace Aplicada2ProyectoFinal.Models
             UltimaFechadeVigencia = DateTime.Now;
 
         }
-        public void AgregarDetalle(int Id, int reciboId, int articuloId, string articulo, string descripcion, int cantidad, decimal monto)
-        {
-            Detalle.Add(new EmpeñosDetalle(Id, reciboId, articuloId, articulo, descripcion, cantidad, monto));
-        }
     }
 }
