@@ -9,8 +9,9 @@ namespace Aplicada2ProyectoFinal.Models
     public class Articulos
     {
         [Key]
-        [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int ArticuloId { get; set; }
+        [Required(ErrorMessage = "Elegir una categoria para el articulo")]
+        public int CategoriaId { get; set; }
         [Required(ErrorMessage = "Nombre no puede estar vacio")]
         public string Nombre { get; set; }
         public decimal Inventario { get; set; }
@@ -21,6 +22,7 @@ namespace Aplicada2ProyectoFinal.Models
         public Articulos()
         {
             ArticuloId = 0;
+            CategoriaId = 0;
             Nombre = string.Empty;
             Inventario = 0;
             Fecha = DateTime.Now;
