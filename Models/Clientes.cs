@@ -9,15 +9,20 @@ namespace Aplicada2ProyectoFinal.Models
     public class Clientes
     {
         [Key]
+        [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int ClienteId { get; set; }
 
         [Required(ErrorMessage = "Nombre no puede estar vacío")]
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "Cedula no puede estar vacia")]
+        [RegularExpression(@"^[0-9]{11,13}$", ErrorMessage = "Digite un Numero de Cedula Valido")]
+
         public string Cedula { get; set; }
 
         [Required(ErrorMessage = " El Telefono no puede estar vacio")]
+        [RegularExpression(@"^[0-9]{10,10}$",ErrorMessage = "Digite un Numero de telefono Valido")]
+
         public string Telefono { get; set; }
         [Required(ErrorMessage = "Direccion no puede estar vacia")]
         public string Direccion { get; set; }

@@ -38,13 +38,14 @@
     </EditForm>
 </div>
 
+
 @code {
-   
     [Parameter]
     public int Id { get; set; }
     public Articulos Articulo { get; set; }
     public string Mensaje;
     ArticulosController controller = new ArticulosController();
+
     protected override void OnInitialized()
     {
         Limpiar();
@@ -89,19 +90,20 @@
     }
 
     public void Eliminar()
-	{
-		var articulo = controller.Buscar(Articulo.ArticuloId);
+    {
+        var articulo = controller.Buscar(Articulo.ArticuloId);
 
-		if (articulo != null)
-		{
-			controller.Eliminar(Articulo.ArticuloId);
-			Limpiar();
-			Mensaje = "Articulo Eliminado";
-		}
-		else
-		{
-			Limpiar();
-			Mensaje = "Error al eliminar";
-		}
-	}
+        if (articulo != null)
+        {
+            controller.Eliminar(Articulo.ArticuloId);
+            Limpiar();
+            Mensaje = "Articulo Eliminado";
+        }
+        else
+        {
+            Limpiar();
+            Mensaje = "Error al eliminar";
+        }
+    }
 }
+
