@@ -71,7 +71,7 @@ namespace Aplicada2ProyectoFinal.Controllers
                     foreach (var item in recibos.Detalle)
                     {
                         contexto.Articulos.Find(item.ArticuloId).Inventario -= item.Cantidad;
-                        if (!Empeño.Detalle.ToList().Exists(v => v.ID == item.ID))
+                        if (!Empeño.Detalle.ToList().Exists(v => v.Id == item.Id))
                         {
                             item.Articulos = null;
                             contexto.Entry(item).State = EntityState.Deleted;
@@ -80,7 +80,7 @@ namespace Aplicada2ProyectoFinal.Controllers
                     foreach (var item in Empeño.Detalle)
                     {
                         contexto.Articulos.Find(item.ArticuloId).Inventario += item.Cantidad;
-                        var estado = item.ID > 0 ? EntityState.Modified : EntityState.Added;
+                        var estado = item.Id > 0 ? EntityState.Modified : EntityState.Added;
                         contexto.Entry(item).State = estado;
                     }
                     Empeños EntradaAnterior = Buscar(Empeño.EmpeñoId);
@@ -146,23 +146,23 @@ namespace Aplicada2ProyectoFinal.Controllers
         }
         public Empeños Buscar(int id)
         {
-            Empeños recibo = new Empeños();
             Contexto contexto = new Contexto();
+            Empeños Entrada = new Empeños();
+
             try
             {
-                recibo = contexto.Empeños.Find(id);
-                if (recibo != null)
-                {
-                    recibo.Detalle.Count();
-                    foreach (var item in recibo.Detalle)
-                    {
-                        string s = item.Articulos.Nombre;
-                    }
-                }
+                Entrada = contexto.Empeños.Where(e => e.EmpeñoId == id).Include(d => d.Detalle).FirstOrDefault();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
                 contexto.Dispose();
             }
-            catch (Exception) { throw; }
-            return recibo;
+            return Entrada;
         }
         public List<Empeños> GetList(Expression<Func<Empeños, bool>> expression)
         {
