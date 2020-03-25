@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace Aplicada2ProyectoFinal.Controllers
 {
-    public class DetallesController
+    public class CobrosDetalleController
     {
-        public static List<EmpeñosDetalle> GetList(Expression<Func<EmpeñosDetalle, bool>> expression)
+        public static List<CobrosDetalle> GetList(Expression<Func<CobrosDetalle, bool>> expression)
         {
-            List<EmpeñosDetalle> recibos = new List<EmpeñosDetalle>();
+            List<CobrosDetalle> detalles = new List<CobrosDetalle>();
             Contexto contexto = new Contexto();
             try
             {
-                recibos = contexto.Detalles.Where(expression).ToList();
-                recibos.ToList().Count();
+                detalles = contexto.CobrosDetalles.Where(expression).ToList();
+                detalles.ToList().Count();
             }
             catch (Exception) { throw; }
-            return recibos;
+            return detalles;
         }
     }
 }
