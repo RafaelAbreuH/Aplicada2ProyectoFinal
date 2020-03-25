@@ -12,6 +12,17 @@
             <ValidationMessage For="(() => Articulo.ArticuloId)" />
             <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
         </div>
+        <div class="form-group">
+            <label for="Categoria">Categoria</label>
+            <InputSelect @bind-Value="@CategoriaSeleccionado" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
+                <option value="0" disabled selected>Seleccione un Proveedor</option>
+                @foreach (var item in ListadoCategorias)
+                {
+                    <option value="@item.CategoriaId">@item.Descripcion</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(()=>Articulo.CategoriaId)" />
+        </div>
 
         <div class="form-group">
             <label>Nombre</label>
@@ -46,7 +57,8 @@
     public Articulos Articulo { get; set; }
     string Mensaje = string.Empty;
     ArticulosController controller = new ArticulosController();
-
+    private List<Categorias> ListadoCategorias{ get; set; }
+    string CategoriaSeleccionado = "0";
     protected override void OnInitialized()
     {
         Limpiar();
@@ -113,6 +125,10 @@
             Limpiar();
             toastService.ShowError("Error al eliminar el articulo.", "Fallo");
         }
+    }
+    private void SeleccionarCategoria()
+    {
+        Articulo.CategoriaId = Convert.ToInt32(CategoriaSeleccionado);
     }
 }
 
