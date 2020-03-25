@@ -1,5 +1,5 @@
 ﻿@page "/Registro/Clientes"
-@page "/Registro/Clientes/{Id:int}"
+@page "/Registro/Clientes/{ClienteId:int}"
 <div class="form-register">
     <h3>Clientes</h3>
     <EditForm Model="@Cliente" OnValidSubmit="Guardar">
@@ -52,7 +52,7 @@
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int ClienteId { get; set; }
     public string Mensaje = "";
     Clientes Cliente = new Clientes();
     ClientesController controller = new ClientesController();
@@ -60,9 +60,9 @@
     protected override void OnInitialized()
     {
         Limpiar();
-        if (Id != 0)
+        if (ClienteId != 0)
         {
-            Cliente = controller.Buscar(Id);
+            Cliente = controller.Buscar(ClienteId);
         }
     }
     private void Limpiar()

@@ -1,69 +1,104 @@
-﻿@page "/rEmpeños"
-@page "/rEmpeños/{Id:int}"
+﻿@page "/Registro/Empeños"
+@page "/Registro/Empeños/{EmpeñoId:int}"
+@inject IToastService toastService
+
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int EmpeñoId { get; set; }
+
     public Empeños Empeño { get; set; }
-    public string Mensaje;
-    EmpeñosController controller = new EmpeñosController();
+
+    EmpeñosController empeñoscontroller = new EmpeñosController();
+
+    Articulos Articulo { get; set; }
+    ArticulosController articulosController = new ArticulosController();
+    List<Articulos> ListadoArticulos = new List<Articulos>();
+
+    int Cantidad = 0;
+    string Mensaje = string.Empty;
+    string ArticuloSeleccionado = "0";
 
     protected override void OnInitialized()
     {
-        Limpiar();
-        if (Id != 0)
+        ListadoArticulos = articulosController.GetList(e => true);
+        Empeño = new Empeños();
+        Articulo = new Articulos();
+
+        if (EmpeñoId != 0)
         {
-            Empeño = controller.Buscar(Id);
+            Empeño.EmpeñoId = EmpeñoId;
+            Buscar();
         }
     }
-
-    private void Limpiar()
-    {
-        Empeño = new Empeños();
-    }
-
     public void Guardar()
     {
-        if (controller.Guardar(Empeño))
+
+        if (Empeño.Detalle.Count <= 0)
         {
-            Limpiar();
-            Mensaje = "Empeño Guardado con Exito!!!";
+            Mensaje = "Debe ingresar algun articulo al empeño.";
         }
         else
         {
-            Limpiar();
-            Mensaje = "Error al guardar Empeño";
+            if (empeñoscontroller.Guardar(Empeño))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Empeño guardado correctamente", "Exito");
+
+            }
+            else
+            {
+                toastService.ShowError("Error al guardar el Empeño", "Fallo");
+            }
         }
     }
-
     public void Buscar()
     {
-        var articulo = controller.Buscar(Empeño.EmpeñoId);
+        Empeños EmpeñoTemporal = empeñoscontroller.Buscar(Empeño.EmpeñoId);
 
-        if (articulo != null)
+        if (EmpeñoTemporal != null)
         {
-            Empeño = articulo;
+            Limpiar();
+            Empeño = EmpeñoTemporal;
+            toastService.ShowSuccess("Empeño encontrado.", "Exito");
+
         }
         else
         {
             Limpiar();
-            Mensaje = "Empeño no Existe";
+            toastService.ShowError("El empeño no fue encontrada.", "Fallo");
+
         }
     }
-
     public void Eliminar()
     {
-        var articulo = controller.Buscar(Empeño.EmpeñoId);
+        Empeños EmpeñoTemporal = empeñoscontroller.Buscar(Empeño.EmpeñoId);
 
-        if (articulo != null)
+        if (EmpeñoTemporal != null)
         {
-            controller.Eliminar(Empeño.EmpeñoId);
-            Limpiar();
-            Mensaje = "Empeño Eliminado";
-        }
-        else
-        {
-            Limpiar();
-            Mensaje = "Error al eliminar";
+            if (empeñoscontroller.Eliminar(Empeño.EmpeñoId))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Empeño eliminado correctamente.", "Exito");
+            }
+            else
+            {
+                toastService.ShowError("Error al eliminar el empeño.", "Fallo");
+            }
         }
     }
+
+    public void Limpiar()
+    {
+        this.Empeño = new Empeños();
+        ArticuloSeleccionado = "0";
+        Cantidad = 0;
+        LimpiarMensajes();
+    }
+
+    public void LimpiarMensajes()
+    {
+        Mensaje = string.Empty;
+    }
+
+    
 }

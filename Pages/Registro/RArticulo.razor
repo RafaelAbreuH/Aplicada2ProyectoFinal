@@ -1,5 +1,5 @@
 ﻿@page "/Registro/Articulos"
-@page "/Registro/Articulo/{Id:int}"
+@page "/Registro/Articulo/{ArticuloId:int}"
 <div class="form-register">
     <h3>Articulos</h3>
     <EditForm Model="@Articulo" OnValidSubmit="Guardar">
@@ -41,7 +41,7 @@
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int ArticuloId { get; set; }
     public Articulos Articulo { get; set; }
     public string Mensaje;
     ArticulosController controller = new ArticulosController();
@@ -49,9 +49,9 @@
     protected override void OnInitialized()
     {
         Limpiar();
-        if (Id != 0)
+        if (ArticuloId != 0)
         {
-            Articulo = controller.Buscar(Id);
+            Articulo = controller.Buscar(ArticuloId);
         }
     }
 
