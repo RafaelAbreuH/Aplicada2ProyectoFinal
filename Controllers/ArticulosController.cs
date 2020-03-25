@@ -110,5 +110,15 @@ namespace Aplicada2ProyectoFinal.Controllers
                 }
                 return lista;
             }
+            public string RetornarNombre(string nombre)
+            {
+            string descripcion = string.Empty;
+            var lista = GetList(x => x.Nombre.Equals(nombre));
+            foreach (var item in lista)
+            {
+                descripcion = item.Nombre;
+            }
+            return descripcion;
+            }
     }
 }

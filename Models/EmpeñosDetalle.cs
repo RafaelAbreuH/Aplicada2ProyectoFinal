@@ -24,7 +24,6 @@ namespace Aplicada2ProyectoFinal.Models
         public string Articulo { get; set; }
         [Required(ErrorMessage = "Descripcion no puede estar vacío")]
         public string Descripcion { get; set; }
-
         [Required(ErrorMessage = "Cantidad no puede estar vacío")]
         [MinLength(1, ErrorMessage = "Cantidad no puede ser 0")]
         public int Cantidad { get; set; }
@@ -34,7 +33,7 @@ namespace Aplicada2ProyectoFinal.Models
         public decimal Monto { get; set; }
 
         [ForeignKey("ArticuloId")]
-        public virtual Articulos Articulos { get; set; }
+        public List <Articulos> Articulos { get; set; }
         public EmpeñosDetalle()
         {
             ID = 0;

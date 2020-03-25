@@ -21,6 +21,7 @@ namespace Aplicada2ProyectoFinal.Models
         [Required(ErrorMessage = "Abono no puede estar vacío")]
         [MinLength(0, ErrorMessage = "Abono no puede ser 0")]
         public decimal Abono { get; set; }
+        public List<CobrosDetalle> Detalle { get; set; }
 
         public Cobros()
         {

@@ -10,7 +10,7 @@ namespace Aplicada2ProyectoFinal.Controllers
 {
     public class CobrosContoller
     {
-        private static int AumentoDias(decimal abono, decimal monto)
+        private int AumentoDias(decimal abono, decimal monto)
         {
             decimal res = 0;
             res = monto * Convert.ToDecimal(0.05);
@@ -18,7 +18,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             return dias;
         }
 
-        public static decimal Quincenas(DateTime fecha, decimal monto)
+        public decimal Quincenas(DateTime fecha, decimal monto)
         {
             decimal res = 0;
             var resultado = Math.Abs((fecha.Date - DateTime.Now.Date).TotalDays);
@@ -55,7 +55,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             return monto;
         }
 
-        public static decimal Ganancia(DateTime fecha, decimal monto)
+        public decimal Ganancia(DateTime fecha, decimal monto)
         {
             decimal res = 0;
             var resultado = Math.Abs((fecha.Date - DateTime.Now.Date).TotalDays);
@@ -87,7 +87,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             }
             return res;
         }
-        public static bool Guardar(Cobros cobro)
+        public bool Guardar(Cobros cobro)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -118,7 +118,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             return paso;
         }
 
-        public static bool Eliminar(int id)
+        public bool Eliminar(int id)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -144,7 +144,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             catch (Exception) { throw; }
             return paso;
         }
-        public static bool Modificar(Cobros cobro)
+        public bool Modificar(Cobros cobro)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -178,7 +178,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             catch (Exception) { throw; }
             return paso;
         }
-        public static Cobros Buscar(int id)
+        public Cobros Buscar(int id)
         {
             Cobros cobro = new Cobros();
             Contexto contexto = new Contexto();
@@ -191,7 +191,7 @@ namespace Aplicada2ProyectoFinal.Controllers
             return cobro;
 
         }
-        public static List<Cobros> GetList(Expression<Func<Cobros, bool>> expression)
+        public List<Cobros> GetList(Expression<Func<Cobros, bool>> expression)
         {
             List<Cobros> cobro = new List<Cobros>();
             Contexto contexto = new Contexto();

@@ -1,8 +1,139 @@
 ﻿@page "/Registro/Cobros"
 @page "/Registro/Cobros/{CobroId:int}"
-
 @inject IToastService toastService
 @code {
+    [Parameter]
+    public int CobroId { get; set; }
 
+    public Cobros Cobro { get; set; }
+
+    CobrosContoller cobroscontroller = new CobrosContoller();
+
+    Empeños Empeño { get; set; }
+    EmpeñosController empeñosController = new EmpeñosController();
+    List<Empeños> ListadoEmpeños = new List<Empeños>();
+
+    Clientes Cliente { get; set; }
+    ClientesController clientesController = new ClientesController();
+    List<Clientes> ListadoClientes = new List<Clientes>();
+
+    string Mensaje = string.Empty;
+    string EmpeñoSeleccionado = "0";
+
+    protected override void OnInitialized()
+    {
+        ListadoEmpeños = empeñosController.GetList(e => true);
+        ListadoClientes = clientesController.GetList(e => true);
+        Cobro = new Cobros();
+        Empeño = new Empeños();
+        Cliente = new Clientes();
+
+        if (CobroId != 0)
+        {
+            Cobro.CobroId = CobroId;
+            Buscar();
+        }
+    }
+    public void Guardar()
+    {
+
+        if (Cobro.Detalle.Count <= 0)
+        {
+            Mensaje = "Debe ingresar algun articulo al Cobro.";
+        }
+        else
+        {
+            if (cobroscontroller.Guardar(Cobro))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Cobro guardado correctamente", "Exito");
+
+            }
+            else
+            {
+                toastService.ShowError("Error al guardar el Cobro", "Fallo");
+            }
+        }
+    }
+    public void Buscar()
+    {
+        Cobros CobroTemporal = cobroscontroller.Buscar(Cobro.CobroId);
+
+        if (CobroTemporal != null)
+        {
+            Limpiar();
+            Cobro = CobroTemporal;
+            toastService.ShowSuccess("Cobro encontrado.", "Exito");
+
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("El Cobro no fue encontrado.", "Fallo");
+        }
+    }
+    public void Eliminar()
+    {
+        Cobros CobroTemporal = cobroscontroller.Buscar(Cobro.CobroId);
+
+        if (CobroTemporal != null)
+        {
+            if (cobroscontroller.Eliminar(Cobro.CobroId))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Cobro eliminado correctamente.", "Exito");
+            }
+            else
+            {
+                toastService.ShowError("Error al eliminar el Cobro.", "Fallo");
+            }
+        }
+    }
+
+    public void Limpiar()
+    {
+        this.Cobro = new Cobros();
+        EmpeñoSeleccionado = "0";
+        LimpiarMensajes();
+    }
+
+    public void LimpiarMensajes()
+    {
+        Mensaje = string.Empty;
+    }
+
+    private void CargarEmpeños()
+    {
+        Empeño = empeñosController.Buscar(Convert.ToInt32(EmpeñoSeleccionado));
+    }
+    
+
+    private void AgregarDetalle()
+    {
+
+        if (EmpeñoSeleccionado == "0")
+        {
+            toastService.ShowInfo("Debe seleccionar un Empeño", "Info");
+        }
+        else
+        {
+            Mensaje = string.Empty;
+            Cobro.Detalle.Add(new CobrosDetalle()
+            {
+                EmpeñoId = Empeño.EmpeñoId,
+                ClienteId = Cliente.ClienteId,
+                NombreCliente = Cliente.Nombre,
+                FechaEmpeño = Empeño.Fecha,
+                MontoTotal = Empeño.MontoTotal,
+                UltimaFechadeVigencia = Empeño.UltimaFechadeVigencia,
+            });
+            EmpeñoSeleccionado = "0";
+            }
+        }
+    
+    private void EliminarArticulo(CobrosDetalle detalle)
+    {
+        Cobro.Detalle.Remove(detalle);
+    }
 
 }

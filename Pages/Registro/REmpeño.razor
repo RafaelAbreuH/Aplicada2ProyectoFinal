@@ -19,6 +19,8 @@
     List<Clientes> ListadoClientes = new List<Clientes>();
 
     int Cantidad = 0;
+    int Monto = 0;
+    string Descripcion = String.Empty;
     string Mensaje = string.Empty;
     string ArticuloSeleccionado = "0";
     string ClienteSeleccionado = "0";
@@ -111,13 +113,27 @@
     {
         Articulo = articulosController.Buscar(Convert.ToInt32(ArticuloSeleccionado));
     }
+    private void CargarClientes()
+    {
+        Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
+    }
 
-    private void AgregarArticulos()
+    private void AgregarDetalle()
     {
 
-        if (ArticuloSeleccionado == "0")
+        if (ArticuloSeleccionado == "0" && ClienteSeleccionado != "0")
         {
-            toastService.ShowInfo("Debe seleccionar un Articulo", "Info");
+            toastService.ShowInfo("Debe seleccionar un Articulo ", "Info");
+        }
+        else
+        if(ArticuloSeleccionado != "0" && ClienteSeleccionado == "0")
+        {
+            toastService.ShowInfo("Debe seleccionar un Cliente ", "Info");
+        }
+        else
+        if(ArticuloSeleccionado == "0" && ClienteSeleccionado == "0")
+        {
+            toastService.ShowInfo("Debe seleccionar un Cliente y un Articulo ", "Info");
         }
         else
         {
@@ -136,11 +152,16 @@
                 {
                     EmpeñoId = Empeño.EmpeñoId,
                     ArticuloId = Articulo.ArticuloId,
-                    Descripcion = Articulo.Nombre,
+                    Articulo = Articulo.Nombre,
+                    Descripcion = Descripcion,
                     Cantidad = Cantidad,
+                    Monto = Monto,
                 });
                 ArticuloSeleccionado = "0";
+                ClienteSeleccionado = "0";
                 Cantidad = 0;
+                Monto = 0;
+                Descripcion = string.Empty;
             }
         }
     }
@@ -148,5 +169,5 @@
     {
         Empeño.Detalle.Remove(detalle);
     }
-    
+
 }

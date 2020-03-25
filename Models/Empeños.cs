@@ -39,7 +39,6 @@ namespace Aplicada2ProyectoFinal.Models
             MontoTotal = 0;
             Abono = 0;
             UltimaFechadeVigencia = DateTime.Now;
-
         }
     }
 }
