@@ -12,15 +12,15 @@ namespace Aplicada2ProyectoFinal.Controllers
     {
         public static List<EmpeñosDetalle> GetList(Expression<Func<EmpeñosDetalle, bool>> expression)
         {
-            List<EmpeñosDetalle> recibos = new List<EmpeñosDetalle>();
+            List<EmpeñosDetalle> detalles = new List<EmpeñosDetalle>();
             Contexto contexto = new Contexto();
             try
             {
-                recibos = contexto.EmpeñosDetalles.Where(expression).ToList();
-                recibos.ToList().Count();
+                detalles = contexto.EmpeñosDetalles.Where(expression).ToList();
+                detalles.ToList().Count();
             }
             catch (Exception) { throw; }
-            return recibos;
+            return detalles;
         }
     }
 }
