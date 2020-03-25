@@ -15,7 +15,7 @@
         <div class="form-group">
             <label for="Categoria">Categoria</label>
             <InputSelect @bind-Value="@CategoriaSeleccionado" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
-                <option value="0" disabled selected>Seleccione un Proveedor</option>
+                <option value="0" disabled selected>Seleccione una Categoria</option>
                 @foreach (var item in ListadoCategorias)
                 {
                     <option value="@item.CategoriaId">@item.Descripcion</option>
