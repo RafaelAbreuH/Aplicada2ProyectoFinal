@@ -1,5 +1,6 @@
 ﻿@page "/Registro/Articulos"
 @page "/Registro/Articulo/{ArticuloId:int}"
+@inject IToastService toastService
 <div class="form-register">
     <h3>Articulos</h3>
     <EditForm Model="@Articulo" OnValidSubmit="Guardar">
@@ -43,7 +44,7 @@
     [Parameter]
     public int ArticuloId { get; set; }
     public Articulos Articulo { get; set; }
-    public string Mensaje;
+    string Mensaje = string.Empty;
     ArticulosController controller = new ArticulosController();
 
     protected override void OnInitialized()
@@ -58,6 +59,12 @@
     private void Limpiar()
     {
         Articulo = new Articulos();
+        LimpiarMensajes();
+    }
+
+    public void LimpiarMensajes()
+    {
+        Mensaje = string.Empty;
     }
 
     public void Guardar()
@@ -65,12 +72,12 @@
         if (controller.Guardar(Articulo))
         {
             Limpiar();
-            Mensaje = "Articulo Guardado con Exito!!!";
+            toastService.ShowSuccess("Articulo guardado correctamente", "Exito");
         }
         else
         {
             Limpiar();
-            Mensaje = "Error al guardar Articulo";
+            toastService.ShowError("Error al guardar el articulo", "Fallo");
         }
     }
 
@@ -80,12 +87,14 @@
 
         if (articulo != null)
         {
+            Limpiar();
             Articulo = articulo;
+            toastService.ShowSuccess("Articulo encontrado.", "Exito");
         }
         else
         {
             Limpiar();
-            Mensaje = "Articulo no Existe";
+            toastService.ShowError("El articulo no fue encontrad.o", "Fallo");
         }
     }
 
@@ -97,12 +106,12 @@
         {
             controller.Eliminar(Articulo.ArticuloId);
             Limpiar();
-            Mensaje = "Articulo Eliminado";
+            toastService.ShowSuccess("Articulo eliminado correctamente.", "Exito");
         }
         else
         {
             Limpiar();
-            Mensaje = "Error al eliminar";
+            toastService.ShowError("Error al eliminar el articulo.", "Fallo");
         }
     }
 }

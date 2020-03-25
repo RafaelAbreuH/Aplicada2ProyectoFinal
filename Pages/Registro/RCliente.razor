@@ -1,9 +1,10 @@
 ﻿@page "/Registro/Clientes"
 @page "/Registro/Clientes/{ClienteId:int}"
+@inject IToastService toastService
 <div class="form-register">
     <h3>Clientes</h3>
     <EditForm Model="@Cliente" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator/>
+        <DataAnnotationsValidator />
         <label class="text-muted form-text">@Mensaje</label>
         <div class="form-group">
             <label> ClienteId</label>
@@ -53,7 +54,7 @@
 @code {
     [Parameter]
     public int ClienteId { get; set; }
-    public string Mensaje = "";
+    string Mensaje = string.Empty;
     Clientes Cliente = new Clientes();
     ClientesController controller = new ClientesController();
 
@@ -75,7 +76,7 @@
         if (controller.Guardar(Cliente))
         {
             Limpiar();
-            Mensaje = "cliente Guardado con Exito!!!";
+            Mensaje = "liente Guardado con Exito!!!";
         }
         else
         {

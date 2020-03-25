@@ -38,7 +38,6 @@ namespace Aplicada2ProyectoFinal.Controllers
         {
             Contexto contexto = new Contexto();
             bool paso = false;
-
             try
             {
                 if (contexto.Empeños.Add(Empeño) != null)
@@ -60,34 +59,34 @@ namespace Aplicada2ProyectoFinal.Controllers
             }
             return paso;
         }
-        public bool Modificar(Empeños empeño)
+        public bool Modificar(Empeños Empeño)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
             try
             {
-                var recibos = Buscar(empeño.EmpeñoId);
+                var recibos = Buscar(Empeño.EmpeñoId);
                 if (recibos != null)
                 {
                     foreach (var item in recibos.Detalle)
                     {
                         contexto.Articulos.Find(item.ArticuloId).Inventario -= item.Cantidad;
-                        if (!empeño.Detalle.ToList().Exists(v => v.ID == item.ID))
+                        if (!Empeño.Detalle.ToList().Exists(v => v.ID == item.ID))
                         {
                             item.Articulos = null;
                             contexto.Entry(item).State = EntityState.Deleted;
                         }
                     }
-                    foreach (var item in empeño.Detalle)
+                    foreach (var item in Empeño.Detalle)
                     {
                         contexto.Articulos.Find(item.ArticuloId).Inventario += item.Cantidad;
                         var estado = item.ID > 0 ? EntityState.Modified : EntityState.Added;
                         contexto.Entry(item).State = estado;
                     }
-                    Empeños EntradaAnterior = Buscar(empeño.EmpeñoId);
+                    Empeños EntradaAnterior = Buscar(Empeño.EmpeñoId);
                     decimal diferencia;
-                    diferencia = EntradaAnterior.MontoTotal - empeño.MontoTotal;
-                    contexto.Entry(empeño).State = EntityState.Modified;
+                    diferencia = EntradaAnterior.MontoTotal - Empeño.MontoTotal;
+                    contexto.Entry(Empeño).State = EntityState.Modified;
                 }
                 if (contexto.SaveChanges() > 0)
                 {
@@ -182,19 +181,19 @@ namespace Aplicada2ProyectoFinal.Controllers
             catch (Exception) { throw; }
             return recibo;
         }
-        public static bool ModificarEspecial(Empeños recibo)
+        public static bool ModificarEspecial(Empeños Empeño)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
             EmpeñosController controller = new EmpeñosController();
             try
             {
-                Empeños Anterior = controller.Buscar(recibo.EmpeñoId);
+                Empeños Anterior = controller.Buscar(Empeño.EmpeñoId);
                 decimal diferencia;
-                diferencia = Anterior.Abono - recibo.Abono;
-                Empeños recibos = controller.Buscar(recibo.EmpeñoId);
+                diferencia = Anterior.Abono - Empeño.Abono;
+                Empeños recibos = controller.Buscar(Empeño.EmpeñoId);
                 recibos.Abono = Math.Abs(recibos.Abono - diferencia);
-                contexto.Entry(recibo).State = EntityState.Modified;
+                contexto.Entry(Empeño).State = EntityState.Modified;
                 if (contexto.SaveChanges() > 0)
                 {
                     paso = true;

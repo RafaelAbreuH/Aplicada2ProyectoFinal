@@ -14,15 +14,22 @@
     ArticulosController articulosController = new ArticulosController();
     List<Articulos> ListadoArticulos = new List<Articulos>();
 
+    Clientes Cliente { get; set; }
+    ClientesController clientesController = new ClientesController();
+    List<Clientes> ListadoClientes = new List<Clientes>();
+
     int Cantidad = 0;
     string Mensaje = string.Empty;
     string ArticuloSeleccionado = "0";
+    string ClienteSeleccionado = "0";
 
     protected override void OnInitialized()
     {
         ListadoArticulos = articulosController.GetList(e => true);
+        ListadoClientes = clientesController.GetList(e => true);
         Empeño = new Empeños();
         Articulo = new Articulos();
+        Cliente = new Clientes();
 
         if (EmpeñoId != 0)
         {
@@ -65,7 +72,7 @@
         else
         {
             Limpiar();
-            toastService.ShowError("El empeño no fue encontrada.", "Fallo");
+            toastService.ShowError("El empeño no fue encontrado.", "Fallo");
 
         }
     }
@@ -91,6 +98,7 @@
     {
         this.Empeño = new Empeños();
         ArticuloSeleccionado = "0";
+        ClienteSeleccionado = "0";
         Cantidad = 0;
         LimpiarMensajes();
     }
