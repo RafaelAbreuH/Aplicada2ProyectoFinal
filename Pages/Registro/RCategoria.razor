@@ -1,7 +1,38 @@
 ﻿@page "/Registro/Categoria"
 @page "/Registro/Categorias/{CategoriaId:int}"
 @inject IToastService toastService
+    <div class="form-register">
+        <h3>Articulos</h3>
+        <EditForm Model="@Categoria" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <label class="text-muted form-text">@Mensaje</label>
+            <div class="form-group">
+                <label> CategoriaId</label>
+                <InputNumber class="form-control" @bind-Value="Categoria.CategoriaId"></InputNumber>
+                <ValidationMessage For="(() => Categoria.CategoriaId)" />
+                <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+            </div>
 
+            <div class="form-group">
+                <label>Nombre</label>
+                <InputText class="form-control" @bind-Value="Categoria.Nombre"></InputText>
+                <ValidationMessage For="(() => Categoria.Nombre)" />
+            </div>
+
+            <div class="form-group">
+                <label>Fecha de Ingreso</label>
+                <InputDate class="form-control" @bind-Value="Categoria.Fecha"></InputDate>
+                <ValidationMessage For="(() => Categoria.Fecha)" />
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
+            </div>
+            <h5 class="text-success">@Mensaje</h5>
+        </EditForm>
+    </div>
 @code {
     [Parameter]
     public int CategoriaId { get; set; }

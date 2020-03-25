@@ -9,6 +9,7 @@ namespace Aplicada2ProyectoFinal.Models
     public class Articulos
     {
         [Key]
+        [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int ArticuloId { get; set; }
         [Required(ErrorMessage = " Debe elegir una categoria para el articulo")]
         public int CategoriaId { get; set; }

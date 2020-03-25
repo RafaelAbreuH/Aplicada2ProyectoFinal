@@ -10,7 +10,6 @@ namespace Aplicada2ProyectoFinal.Models
     public class EmpeñosDetalle
     {
         [Key]
-        [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int ID { get; set; }
 
         [Required(ErrorMessage = "EmpeñoId no puede estar vacío")]
