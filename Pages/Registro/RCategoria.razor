@@ -1,0 +1,79 @@
+﻿@page "/Registro/Categoria"
+@page "/Registro/Categorias/{CategoriaId:int}"
+@inject IToastService toastService
+
+@code {
+    [Parameter]
+    public int CategoriaId { get; set; }
+    public Categorias Categoria { get; set; }
+    string Mensaje = string.Empty;
+    CategoriasController controller = new CategoriasController();
+
+    protected override void OnInitialized()
+    {
+        Limpiar();
+        if (CategoriaId != 0)
+        {
+            Categoria = controller.Buscar(CategoriaId);
+        }
+    }
+
+    private void Limpiar()
+    {
+        Categoria = new Categorias();
+        LimpiarMensajes();
+    }
+
+    public void LimpiarMensajes()
+    {
+        Mensaje = string.Empty;
+    }
+
+    public void Guardar()
+    {
+        if (controller.Guardar(Categoria))
+        {
+            Limpiar();
+            toastService.ShowSuccess("Categoria guardada correctamente", "Exito");
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("Error al guardar la categoria", "Fallo");
+        }
+    }
+
+    public void Buscar()
+    {
+        var categoria = controller.Buscar(Categoria.CategoriaId);
+
+        if (categoria != null)
+        {
+            Limpiar();
+            Categoria = categoria;
+            toastService.ShowSuccess("Categoria encontrado.", "Exito");
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("La categoria no fue encontrada", "Fallo");
+        }
+    }
+
+    public void Eliminar()
+    {
+        var categoria = controller.Buscar(Categoria.CategoriaId);
+
+        if (categoria != null)
+        {
+            controller.Eliminar(Categoria.CategoriaId);
+            Limpiar();
+            toastService.ShowSuccess("Categoria eliminada correctamente.", "Exito");
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("Error al eliminar la Categoria.", "Fallo");
+        }
+    }
+}

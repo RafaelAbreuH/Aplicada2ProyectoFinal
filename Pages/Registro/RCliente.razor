@@ -76,12 +76,12 @@
         if (controller.Guardar(Cliente))
         {
             Limpiar();
-            Mensaje = "liente Guardado con Exito!!!";
+            toastService.ShowSuccess("Cliente guardado correctamente", "Exito");
         }
         else
         {
             Limpiar();
-            Mensaje = "Error al guardar cliente";
+            toastService.ShowError("Error al guardar el cliente", "Fallo");
         }
     }
 
@@ -92,11 +92,12 @@
         if (cliente != null)
         {
             Cliente = cliente;
+            toastService.ShowSuccess("Cliente encontrado.", "Exito");
         }
         else
         {
             Limpiar();
-            Mensaje = "cliente no Existe";
+            toastService.ShowError("El cliente no fue encontrado.", "Fallo");
         }
     }
 
@@ -108,12 +109,12 @@
         {
             controller.Eliminar(Cliente.ClienteId);
             Limpiar();
-            Mensaje = "cliente Eliminado";
+            toastService.ShowSuccess("Cliente eliminado correctamente.", "Exito");
         }
         else
         {
             Limpiar();
-            Mensaje = "Error al eliminar";
+            toastService.ShowError("Error al eliminar el cliente.", "Fallo");
         }
     }
 }
