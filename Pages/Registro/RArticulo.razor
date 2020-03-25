@@ -1,5 +1,5 @@
-﻿@page "/Registro/Articulos"
-@page "/Registro/Articulos/{ArticuloId:int}"
+﻿@page "/Registro/Articulo"
+@page "/Registro/Articulo/{ArticuloId:int}"
 @inject IToastService toastService
 <div class="form-register">
     <h3>Articulos</h3>
@@ -55,16 +55,21 @@
     [Parameter]
     public int ArticuloId { get; set; }
     public Articulos Articulo { get; set; }
+    public Categorias Categoria { get; set; }
     string Mensaje = string.Empty;
-    ArticulosController controller = new ArticulosController();
+    ArticulosController articulosController = new ArticulosController();
+    CategoriasController categoriasController = new CategoriasController();
     private List<Categorias> ListadoCategorias{ get; set; }
     string CategoriaSeleccionado = "0";
+
     protected override void OnInitialized()
     {
+        Articulo = new Articulos();
+        ListadoCategorias = categoriasController.GetList(e => true);
         Limpiar();
         if (ArticuloId != 0)
         {
-            Articulo = controller.Buscar(ArticuloId);
+            Articulo = articulosController.Buscar(ArticuloId);
         }
     }
 
@@ -81,7 +86,7 @@
 
     public void Guardar()
     {
-        if (controller.Guardar(Articulo))
+        if (articulosController.Guardar(Articulo))
         {
             Limpiar();
             toastService.ShowSuccess("Articulo guardado correctamente", "Exito");
@@ -95,7 +100,7 @@
 
     public void Buscar()
     {
-        var articulo = controller.Buscar(Articulo.ArticuloId);
+        var articulo = articulosController.Buscar(Articulo.ArticuloId);
 
         if (articulo != null)
         {
@@ -112,11 +117,11 @@
 
     public void Eliminar()
     {
-        var articulo = controller.Buscar(Articulo.ArticuloId);
+        var articulo = articulosController.Buscar(Articulo.ArticuloId);
 
         if (articulo != null)
         {
-            controller.Eliminar(Articulo.ArticuloId);
+            articulosController.Eliminar(Articulo.ArticuloId);
             Limpiar();
             toastService.ShowSuccess("Articulo eliminado correctamente.", "Exito");
         }

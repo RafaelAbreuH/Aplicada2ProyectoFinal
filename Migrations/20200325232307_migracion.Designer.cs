@@ -9,19 +9,21 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aplicada2ProyectoFinal.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200318014558_agregando detalle")]
-    partial class agregandodetalle
+    [Migration("20200325232307_migracion")]
+    partial class migracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2");
+                .HasAnnotation("ProductVersion", "3.1.3");
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Articulos", b =>
                 {
                     b.Property<int>("ArticuloId")
-                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Fecha")
@@ -37,6 +39,24 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.HasKey("ArticuloId");
 
                     b.ToTable("Articulos");
+                });
+
+            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Categorias", b =>
+                {
+                    b.Property<int>("CategoriaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoriaId");
+
+                    b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Clientes", b =>
@@ -89,10 +109,46 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.ToTable("Cobros");
                 });
 
+            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.CobrosDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Abono")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("CobrosCobroId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("EmpeñoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FechaEmpeño")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("MontoTotal")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NombreCliente")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UltimaFechadeVigencia")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CobrosCobroId");
+
+                    b.ToTable("CobrosDetalles");
+                });
+
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Empeños", b =>
                 {
                     b.Property<int>("EmpeñoId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Abono")
@@ -108,6 +164,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NombredeCliente")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UltimaFechadeVigencia")
@@ -120,11 +177,12 @@ namespace Aplicada2ProyectoFinal.Migrations
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.EmpeñosDetalle", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Articulo")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ArticuloId")
@@ -134,6 +192,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Descripcion")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EmpeñoId")
@@ -145,13 +204,11 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.Property<decimal>("Monto")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ID");
-
-                    b.HasIndex("ArticuloId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EmpeñosEmpeñoId");
 
-                    b.ToTable("Detalles");
+                    b.ToTable("EmpeñosDetalles");
                 });
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Usuarios", b =>
@@ -188,14 +245,33 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.EmpeñosDetalle", b =>
+            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Articulos", b =>
                 {
-                    b.HasOne("Aplicada2ProyectoFinal.Models.Articulos", "Articulos")
-                        .WithMany()
+                    b.HasOne("Aplicada2ProyectoFinal.Models.EmpeñosDetalle", null)
+                        .WithMany("Articulos")
                         .HasForeignKey("ArticuloId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
+            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.CobrosDetalle", b =>
+                {
+                    b.HasOne("Aplicada2ProyectoFinal.Models.Cobros", null)
+                        .WithMany("Detalle")
+                        .HasForeignKey("CobrosCobroId");
+                });
+
+            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Empeños", b =>
+                {
+                    b.HasOne("Aplicada2ProyectoFinal.Models.CobrosDetalle", null)
+                        .WithMany("Empeños")
+                        .HasForeignKey("EmpeñoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.EmpeñosDetalle", b =>
+                {
                     b.HasOne("Aplicada2ProyectoFinal.Models.Empeños", null)
                         .WithMany("Detalle")
                         .HasForeignKey("EmpeñosEmpeñoId");
