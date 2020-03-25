@@ -100,5 +100,46 @@
         Mensaje = string.Empty;
     }
 
+    private void CargarArticulos()
+    {
+        Articulo = articulosController.Buscar(Convert.ToInt32(ArticuloSeleccionado));
+    }
+
+    private void AgregarArticulos()
+    {
+
+        if (ArticuloSeleccionado == "0")
+        {
+            toastService.ShowInfo("Debe seleccionar un Articulo", "Info");
+        }
+        else
+        {
+            if (Empeño.Detalle.Any(i => i.ArticuloId == Articulo.ArticuloId))
+            {
+                toastService.ShowInfo("Este Producto ya esta agregado", "Info");
+            }
+            else if (Cantidad < 1)
+            {
+                toastService.ShowError("La catidad debe ser mayor a 0!", "Fallo");
+            }
+            else
+            {
+                Mensaje = string.Empty;
+                Empeño.Detalle.Add(new EmpeñosDetalle()
+                {
+                    EmpeñoId = Empeño.EmpeñoId,
+                    ArticuloId = Articulo.ArticuloId,
+                    Descripcion = Articulo.Nombre,
+                    Cantidad = Cantidad,
+                });
+                ArticuloSeleccionado = "0";
+                Cantidad = 0;
+            }
+        }
+    }
+    private void EliminarArticulo(EmpeñosDetalle detalle)
+    {
+        Empeño.Detalle.Remove(detalle);
+    }
     
 }
