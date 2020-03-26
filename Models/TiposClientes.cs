@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Aplicada2ProyectoFinal.Models
 {
-    public class TiposUsuarios
+    public class TiposClientes
     {
         [Key]
-        public int TipoUsuarioId { get; set; }
+        public int TipoClienteId { get; set; }
         [Required(ErrorMessage = "Descripcion no puede estar vacia")]
         public string Descripcion { get; set; }
-        public TiposUsuarios()
+        public TiposClientes()
         {
-            TipoUsuarioId = 0;
+            TipoClienteId = 0;
             Descripcion = string.Empty;
         }
     }

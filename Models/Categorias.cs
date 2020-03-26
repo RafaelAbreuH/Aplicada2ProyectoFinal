@@ -10,7 +10,6 @@ namespace Aplicada2ProyectoFinal.Models
     {
         [Key]
         public int CategoriaId { get; set; }
-
         [Required(ErrorMessage = "Descripcion no puede estar vacia")]
         public string Descripcion { get; set; }
         [DataType(DataType.DateTime)]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,9 @@ namespace Aplicada2ProyectoFinal.Models
         [DisplayFormat(DataFormatString = "{0:dd,mm, yyyy}")]
         [Required(ErrorMessage = "El campo fecha no puede estar vacío")]
         public DateTime Fecha { get; set; }
+        [ForeignKey("EmpeñoId")]
+        public List <Categorias> ListadoCategiras { get; set; }
+
         public Articulos()
         {
             ArticuloId = 0;
