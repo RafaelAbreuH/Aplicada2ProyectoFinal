@@ -1,0 +1,94 @@
+﻿@page "/Consulta/TipoCliente"
+<h3>Consulta de TipoCliente</h3>
+
+
+<div class="form-group row">
+    <label for="filtro">Filtro</label>
+    <div class="input-group  col-sm-10">
+        <select class="form-control" @bind="Filtro">
+            <option value="0">Todos</option>
+            <option value="1">Id</option>
+            <option value="2">Descripcion</option>
+        </select>
+        <div align="right" class="input-group col-md-8">
+            <label for="criterio"> Criterio </label>
+            <input type="search" class="form-control" @bind-value="Criterio" />
+        </div>
+        <button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th>Id</th>
+            <th>Descripcion</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in lista)
+        {
+            <tr>
+                <td>@item.TipoClienteId</td>
+                <td>@item.Descripcion</td>
+                <td><a class="btn btn-outline-info" href="Clientes/@item.TipoClienteId">Ver</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@code {
+
+    private List<TiposClientes> lista { get; set; }
+
+    private string Filtro { get; set; }
+    private string Criterio { get; set; }
+    public string mensaje;
+    public bool BuscarFecha { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        lista = new List<TiposClientes>();
+    }
+
+    private void Buscar()
+    {
+        TipoClientesController controller = new TipoClientesController();
+
+        try
+        {
+                lista = controller.GetList(a => true);
+
+                if (lista.Count == 0)
+                {
+                    mensaje = "No hay TipoClinete Registrado";
+                }
+                else
+                {
+                    mensaje = "";
+                    switch (Filtro)
+                    {
+                        case "Todo":
+                            lista = controller.GetList(e => true);
+                            break;
+                        case "Id":
+                            lista = controller.GetList(e => e.TipoClienteId == Convert.ToInt32(Criterio));
+                            break;
+                        case "Descripcion":
+                            lista = controller.GetList(e => e.Descripcion == Criterio);
+                            break;
+                    }
+                }
+            
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+}

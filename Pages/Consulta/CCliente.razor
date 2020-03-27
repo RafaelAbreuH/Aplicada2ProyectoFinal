@@ -17,7 +17,6 @@
         <label for="filtro">Filtro</label>
         <div class="input-group  col-sm-10">
             <select class="form-control" @bind="Filtro">
-                <option value="" disabled selected>Seleccione un filtro</option>
                 <option value="0">Todos</option>
                 <option value="1">Id</option>
                 <option value="2">Nombre</option>
@@ -89,12 +88,7 @@
 
         try
         {
-            if (Filtro == null)
-            {
-                mensaje = "Debe seleccionar un Filtro";
-            }
-            else
-            {
+
                 lista = controller.GetList(a => true);
 
                 if (lista.Count == 0)
@@ -130,7 +124,7 @@
                         lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
                     }
                 }
-            }
+            
         }
         catch (Exception)
         {

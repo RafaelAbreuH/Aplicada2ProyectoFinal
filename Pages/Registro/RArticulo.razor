@@ -18,7 +18,7 @@
                 <option value="0" disabled selected>Seleccione una Categoria</option>
                 @foreach (var item in ListadoCategorias)
                 {
-                    <option value="@item.CategoriaId">@item.Descripcion</option>
+                    <option value="@item.CategoriaId">@item.Nombre</option>
                 }
             </InputSelect>
             <ValidationMessage For="@(()=>Articulo.CategoriaId)" />

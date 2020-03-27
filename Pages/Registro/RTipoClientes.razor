@@ -1,0 +1,104 @@
+﻿@page "/Registro/TipoCliente"
+@page "/Registro/TipoCliente/{TipoClienteId:int}"
+@inject IToastService toastService
+<div class="form-register">
+    <h3>Articulos</h3>
+    <EditForm Model="@TipoCliente" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <label class="text-muted form-text">@Mensaje</label>
+        <div class="form-group">
+            <label> TipoClienteId </label>
+            <InputNumber class="form-control" @bind-Value="TipoCliente.TipoClienteId"></InputNumber>
+            <ValidationMessage For="(() => TipoCliente.TipoClienteId)" />
+            <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+        </div>
+
+        <div class="form-group">
+            <label>Descripcion</label>
+            <InputText class="form-control" @bind-Value="TipoCliente.Descripcion"></InputText>
+            <ValidationMessage For="(() => TipoCliente.Descripcion)" />
+        </div>
+
+        <div>
+            <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
+        </div>
+        <h5 class="text-success">@Mensaje</h5>
+    </EditForm>
+</div>
+@code {
+    [Parameter]
+    public int TipoClienteId { get; set; }
+    public TiposClientes TipoCliente { get; set; }
+    string Mensaje = string.Empty;
+    TipoClientesController controller = new TipoClientesController();
+
+    protected override void OnInitialized()
+    {
+        Limpiar();
+        if (TipoClienteId != 0)
+        {
+            TipoCliente = controller.Buscar(TipoClienteId);
+        }
+    }
+
+    private void Limpiar()
+    {
+        TipoCliente = new TiposClientes();
+        LimpiarMensajes();
+    }
+
+    public void LimpiarMensajes()
+    {
+        Mensaje = string.Empty;
+    }
+
+    public void Guardar()
+    {
+        if (controller.Guardar(TipoCliente))
+        {
+            Limpiar();
+            toastService.ShowSuccess("Tipocliente guardado correctamente", "Exito");
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("Error al guardar el TipoCliente", "Fallo");
+        }
+    }
+
+    public void Buscar()
+    {
+        var tipocliente = controller.Buscar(TipoCliente.TipoClienteId);
+
+        if (tipocliente != null)
+        {
+            Limpiar();
+            TipoCliente = tipocliente;
+            toastService.ShowSuccess("TipoCliente encontrado.", "Exito");
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("el TipoCliente no fue encontrada", "Fallo");
+        }
+    }
+
+    public void Eliminar()
+    {
+        var categoria = controller.Buscar(TipoCliente.TipoClienteId);
+
+        if (categoria != null)
+        {
+            controller.Eliminar(TipoCliente.TipoClienteId);
+            Limpiar();
+            toastService.ShowSuccess("TipoCliente eliminado correctamente.", "Exito");
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("Error al eliminar el TipoCliente.", "Fallo");
+        }
+    }
+}
