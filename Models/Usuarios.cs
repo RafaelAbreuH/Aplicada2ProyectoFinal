@@ -16,16 +16,12 @@ namespace Aplicada2ProyectoFinal.Models
         public string Nombre { get; set; }
         [Required(ErrorMessage = "El Usuario no puede estar vacío")]
         public string Usuario { get; set; }
-
         [Required(ErrorMessage = "La Contraseña no puede estar vacío")]
         [DataType(DataType.Password)]
         public string Contraseña { get; set; }
-
         [Required(ErrorMessage = "Vuelva a escribir la contraseña")]
         [Compare("Contraseña", ErrorMessage = "La Contraseña y la confirmacion no coinciden.")]
         public string RepeatContraseña { get; set; }
-
-
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd,mm, yyyy}")]
         [Required(ErrorMessage = "El campo fecha no puede estar vacío")]
