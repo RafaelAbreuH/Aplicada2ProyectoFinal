@@ -25,6 +25,7 @@ namespace Aplicada2ProyectoFinal.Models
 
         public Cobros()
         {
+            this.Detalle = new List<CobrosDetalle>();
             CobroId = 0;
             EmpeñoId = 0;
             Fecha = DateTime.Now;

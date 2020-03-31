@@ -12,11 +12,9 @@ namespace Aplicada2ProyectoFinal.Models
         [Key]
         [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int Id { get; set; }
-
         [Required(ErrorMessage = "EmpeñoId no puede estar vacío")]
         [MinLength(1, ErrorMessage = "Empeño Id no existe")]
         public int EmpeñoId { get; set; }
-        
         [Required(ErrorMessage = "ArticuloId no puede estar vacío")]
         [MinLength(1, ErrorMessage = "Articulo Id no Existe")]
         public int ArticuloId { get; set; }
@@ -36,13 +34,14 @@ namespace Aplicada2ProyectoFinal.Models
         public List <Articulos> Articulos { get; set; }
         public EmpeñosDetalle()
         {
+            this.Articulos = new List<Articulos>();
             Id = 0;
             EmpeñoId = 0;
         }
-        public EmpeñosDetalle(int id, int reciboId, int articuloId, string articulo, string descripcion, int cantidad, decimal monto)
+        public EmpeñosDetalle(int id, int empeñoId, int articuloId, string articulo, string descripcion, int cantidad, decimal monto)
         {
-            id = id;
-            EmpeñoId = reciboId;
+            id = Id;
+            EmpeñoId = empeñoId;
             ArticuloId = articuloId;
             Articulo = articulo;
             Descripcion = descripcion;

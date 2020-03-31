@@ -23,6 +23,7 @@ namespace Aplicada2ProyectoFinal.Models
         public List<Empeños> Empeños { get; set; }
         public CobrosDetalle()
         {
+            this.Empeños = new List<Empeños>();
             Id = 0;
             EmpeñoId = 0;
         }
