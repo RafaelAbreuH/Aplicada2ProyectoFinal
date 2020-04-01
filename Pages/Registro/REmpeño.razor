@@ -16,6 +16,11 @@
             <label for="Cliente">Cliente</label>
             <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarClientes" @onclick="CargarClientes">
                 <option value="0" disabled selected>Seleccione un Cliente</option>
+                @if (ListadoClientes.Count <= 0)
+                {
+                    <option value="" disabled>No Hay Cliente Registrado</option>
+                }
+                else
                 @foreach (var item in ListadoClientes)
                 {
                     <option value="@item.ClienteId">@item.Nombre</option>
@@ -27,6 +32,11 @@
             <label for="Articulo">Articulo</label>
             <InputSelect @bind-Value="@ArticuloSeleccionado" class="form-control " @onchange="CargarArticulos" @onclick="CargarArticulos">
                 <option value="0" disabled selected>Seleccione un Articulo</option>
+                @if (ListadoArticulos.Count <= 0)
+                {
+                    <option value="" disabled>No Hay Articulo Registrado</option>
+                }
+                else
                 @foreach (var item in ListadoArticulos)
                 {
                     <option value="@item.ArticuloId">@item.Nombre</option>

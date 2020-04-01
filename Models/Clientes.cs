@@ -28,7 +28,6 @@ namespace Aplicada2ProyectoFinal.Models
         public DateTime Fecha { get; set; }
         [MinLength(1, ErrorMessage = "Debe seleccionar un tipo de cliente")]
         public int TipoClienteId { get; set; }
-        [ForeignKey("TipoClienteId")]
         public List<TiposClientes> TiposClientes { get; set; }
 
         public Clientes()

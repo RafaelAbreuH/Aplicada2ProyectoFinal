@@ -15,16 +15,16 @@
         <div class="form-group">
             <label for="TipoCliente">TipoCliente</label>
             <InputSelect @bind-Value="@TipoClienteSeleccionado" class="form-control " @onchange="SeleccionarTipoCliente" @onclick="SeleccionarTipoCliente">
-                <option value="0" disabled selected>Seleccione una Categoria</option>
+                <option value="0" disabled selected>Seleccione un Tipo de Cliente</option>
                 @if (ListadoTipoClientes.Count <= 0)
                 {
-                    <option value="" disabled>No Hay Categoria Registrada</option>
+                    <option value="" disabled>No Hay TipoCliente Registrado</option>
                 }
                 else
-                    @foreach (var item in ListadoTipoClientes)
-                    {
-                        <option value="@item.TipoClienteId">@item.Descripcion</option>
-                    }
+                @foreach (var item in ListadoTipoClientes)
+                {
+                    <option value="@item.TipoClienteId">@item.Descripcion</option>
+                }
 
             </InputSelect>
             <ValidationMessage For="@(()=>Cliente.TipoClienteId)" />
