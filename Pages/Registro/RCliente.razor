@@ -74,10 +74,13 @@
     string TipoClienteSeleccionado = "0";
     Clientes Cliente = new Clientes();
     ClientesController controller = new ClientesController();
+    TipoClientesController tipoClientesController = new TipoClientesController();
     private List<TiposClientes> ListadoTipoClientes{ get; set; }
 
     protected override void OnInitialized()
     {
+        
+        ListadoTipoClientes = tipoClientesController.GetList(e => true);
         Limpiar();
         if (ClienteId != 0)
         {
