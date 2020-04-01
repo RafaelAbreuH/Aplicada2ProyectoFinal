@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aplicada2ProyectoFinal.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200401010739_migracion")]
+    [Migration("20200401020402_migracion")]
     partial class migracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,10 @@ namespace Aplicada2ProyectoFinal.Migrations
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Categorias", b =>
                 {
                     b.Property<int>("CategoriaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ArticulosArticuloId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Fecha")
@@ -54,6 +58,8 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("CategoriaId");
+
+                    b.HasIndex("ArticulosArticuloId");
 
                     b.ToTable("Categorias");
                 });
@@ -216,6 +222,10 @@ namespace Aplicada2ProyectoFinal.Migrations
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.TiposClientes", b =>
                 {
                     b.Property<int>("TipoClienteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ClientesClienteId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Descripcion")
@@ -224,19 +234,27 @@ namespace Aplicada2ProyectoFinal.Migrations
 
                     b.HasKey("TipoClienteId");
 
+                    b.HasIndex("ClientesClienteId");
+
                     b.ToTable("TiposClientes");
                 });
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.TiposUsuarios", b =>
                 {
                     b.Property<int>("TipoUsuarioId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("UsuariosUsuarioId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("TipoUsuarioId");
+
+                    b.HasIndex("UsuariosUsuarioId");
 
                     b.ToTable("TiposUsuarios");
                 });
@@ -287,9 +305,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                 {
                     b.HasOne("Aplicada2ProyectoFinal.Models.Articulos", null)
                         .WithMany("ListadoCategorias")
-                        .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ArticulosArticuloId");
                 });
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.CobrosDetalle", b =>
@@ -319,18 +335,14 @@ namespace Aplicada2ProyectoFinal.Migrations
                 {
                     b.HasOne("Aplicada2ProyectoFinal.Models.Clientes", null)
                         .WithMany("TiposClientes")
-                        .HasForeignKey("TipoClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientesClienteId");
                 });
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.TiposUsuarios", b =>
                 {
                     b.HasOne("Aplicada2ProyectoFinal.Models.Usuarios", null)
                         .WithMany("TiposUsuario")
-                        .HasForeignKey("TipoUsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UsuariosUsuarioId");
                 });
 #pragma warning restore 612, 618
         }

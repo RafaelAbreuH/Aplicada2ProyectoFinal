@@ -62,18 +62,20 @@ namespace Aplicada2ProyectoFinal.Migrations
                 name: "TiposClientes",
                 columns: table => new
                 {
-                    TipoClienteId = table.Column<int>(nullable: false),
-                    Descripcion = table.Column<string>(nullable: false)
+                    TipoClienteId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Descripcion = table.Column<string>(nullable: false),
+                    ClientesClienteId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TiposClientes", x => x.TipoClienteId);
                     table.ForeignKey(
-                        name: "FK_TiposClientes_Clientes_TipoClienteId",
-                        column: x => x.TipoClienteId,
+                        name: "FK_TiposClientes_Clientes_ClientesClienteId",
+                        column: x => x.ClientesClienteId,
                         principalTable: "Clientes",
                         principalColumn: "ClienteId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,18 +108,20 @@ namespace Aplicada2ProyectoFinal.Migrations
                 name: "TiposUsuarios",
                 columns: table => new
                 {
-                    TipoUsuarioId = table.Column<int>(nullable: false),
-                    Descripcion = table.Column<string>(nullable: false)
+                    TipoUsuarioId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Descripcion = table.Column<string>(nullable: false),
+                    UsuariosUsuarioId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TiposUsuarios", x => x.TipoUsuarioId);
                     table.ForeignKey(
-                        name: "FK_TiposUsuarios_Usuarios_TipoUsuarioId",
-                        column: x => x.TipoUsuarioId,
+                        name: "FK_TiposUsuarios_Usuarios_UsuariosUsuarioId",
+                        column: x => x.UsuariosUsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "UsuarioId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,20 +197,27 @@ namespace Aplicada2ProyectoFinal.Migrations
                 name: "Categorias",
                 columns: table => new
                 {
-                    CategoriaId = table.Column<int>(nullable: false),
+                    CategoriaId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(nullable: false),
-                    Fecha = table.Column<DateTime>(nullable: false)
+                    Fecha = table.Column<DateTime>(nullable: false),
+                    ArticulosArticuloId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categorias", x => x.CategoriaId);
                     table.ForeignKey(
-                        name: "FK_Categorias_Articulos_CategoriaId",
-                        column: x => x.CategoriaId,
+                        name: "FK_Categorias_Articulos_ArticulosArticuloId",
+                        column: x => x.ArticulosArticuloId,
                         principalTable: "Articulos",
                         principalColumn: "ArticuloId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categorias_ArticulosArticuloId",
+                table: "Categorias",
+                column: "ArticulosArticuloId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CobrosDetalles_CobrosCobroId",
@@ -217,6 +228,16 @@ namespace Aplicada2ProyectoFinal.Migrations
                 name: "IX_EmpeñosDetalles_EmpeñosEmpeñoId",
                 table: "EmpeñosDetalles",
                 column: "EmpeñosEmpeñoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TiposClientes_ClientesClienteId",
+                table: "TiposClientes",
+                column: "ClientesClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TiposUsuarios_UsuariosUsuarioId",
+                table: "TiposUsuarios",
+                column: "UsuariosUsuarioId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
