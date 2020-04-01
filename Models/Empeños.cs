@@ -21,7 +21,6 @@ namespace Aplicada2ProyectoFinal.Models
         public DateTime Fecha { get; set; }
         [Required(ErrorMessage = "Monto Total no puede estar vacío")]
         public decimal MontoTotal { get; set; }
-
         [Required(ErrorMessage = "Abono no puede estar vacío")]
         [MinLength(1, ErrorMessage = "Abono no puede ser menor que 0")]
         public decimal Abono { get; set; }

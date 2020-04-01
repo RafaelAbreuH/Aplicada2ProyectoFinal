@@ -2,7 +2,7 @@
 @page "/Registro/TipoUsuario/{TipoUsuarioId:int}"
 @inject IToastService toastService
 <div class="form-register">
-    <h3>Articulos</h3>
+    <h3>Tipos Usuario</h3>
     <EditForm Model="@TipoUsuario" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
         <label class="text-muted form-text">@Mensaje</label>

@@ -12,7 +12,23 @@
             <ValidationMessage For="(() => Cliente.ClienteId)" />
             <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
         </div>
+        <div class="form-group">
+            <label for="TipoCliente">TipoCliente</label>
+            <InputSelect @bind-Value="@TipoClienteSeleccionado" class="form-control " @onchange="SeleccionarTipoCliente" @onclick="SeleccionarTipoCliente">
+                <option value="0" disabled selected>Seleccione una Categoria</option>
+                @if (ListadoTipoClientes.Count <= 0)
+                {
+                    <option value="" disabled>No Hay Categoria Registrada</option>
+                }
+                else
+                    @foreach (var item in ListadoTipoClientes)
+                    {
+                        <option value="@item.TipoClienteId">@item.Descripcion</option>
+                    }
 
+            </InputSelect>
+            <ValidationMessage For="@(()=>Cliente.TipoClienteId)" />
+        </div>
         <div class="form-group">
             <label>Nombre</label>
             <InputText class="form-control" @bind-Value="Cliente.Nombre"></InputText>
@@ -55,8 +71,10 @@
     [Parameter]
     public int ClienteId { get; set; }
     string Mensaje = string.Empty;
+    string TipoClienteSeleccionado = "0";
     Clientes Cliente = new Clientes();
     ClientesController controller = new ClientesController();
+    private List<TiposClientes> ListadoTipoClientes{ get; set; }
 
     protected override void OnInitialized()
     {
@@ -116,5 +134,9 @@
             Limpiar();
             toastService.ShowError("Error al eliminar el cliente.", "Fallo");
         }
+    }
+    private void SeleccionarTipoCliente()
+    {
+        Cliente.TipoClienteId = Convert.ToInt32(TipoClienteSeleccionado);
     }
 }

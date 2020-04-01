@@ -16,10 +16,16 @@
             <label for="Categoria">Categoria</label>
             <InputSelect @bind-Value="@CategoriaSeleccionado" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
                 <option value="0" disabled selected>Seleccione una Categoria</option>
+                @if (ListadoCategorias.Count <= 0)
+                {
+                    <option value="" disabled>No Hay Categoria Registrada</option>
+                }
+                else
                 @foreach (var item in ListadoCategorias)
                 {
                     <option value="@item.CategoriaId">@item.Nombre</option>
                 }
+                
             </InputSelect>
             <ValidationMessage For="@(()=>Articulo.CategoriaId)" />
         </div>

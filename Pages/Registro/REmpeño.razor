@@ -52,7 +52,53 @@
             <label>Estado</label>
             <InputText class="form-control" @bind-Value="Estado" ReadOnly="true"></InputText>
         </div>
+        <div class="form-group">
+            <label>Descripcion</label>
+            <InputTextArea class="form-control" @bind-Value="Detalle.Descripcion"></InputTextArea>
+            <ValidationMessage For="(() => Detalle.Descripcion)" />
+        </div>
+        <div class="form-group">
+            <label>Monto</label>
+            <InputNumber class="form-control" @bind-Value="Detalle.Monto"></InputNumber>
+            <ValidationMessage For="(() => Detalle.Monto)" />
+            <button type="button" class="btn btn-success" @onclick="AgregarDetalle">Agregar</button>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>EmpeñoId</th>
+                            <th>ArticuloId</th>
+                            <th>Descripcion</th>
+                            <th>Cantidad</th>
+                            <th>Monto</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Empeño.Detalle)
+                        {
+                            <tr>
+                                <th>@item.EmpeñoId</th>
+                                <th>@item.ArticuloId</th>
+                                <th>@item.Articulo</th>
+                                <th>@item.Descripcion</th>
+                                <th>@item.Cantidad</th>
+                                <th>@item.Monto</th>
+                                <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarArticulo(item))">Eliminar</button></th>
 
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="col-md-2 no-padding">
+                    <label>Monto Total</label>
+                    <InputNumber @bind-Value="@MontoTotal" class="form-control" ReadOnly="true"></InputNumber>
+                </div>
+            </div>
+        </div>
         <div>
             <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
             <button type="submit" class="btn btn-success">Guardar</button>
@@ -78,13 +124,15 @@
     Clientes Cliente { get; set; }
     ClientesController clientesController = new ClientesController();
     List<Clientes> ListadoClientes = new List<Clientes>();
+    List<EmpeñosDetalle> ListaDetalle = new List<EmpeñosDetalle>();
 
     int Cantidad = 0;
-    int Monto = 0;
+    decimal Monto = 0;
     string Descripcion = String.Empty;
     string Mensaje = string.Empty;
     string ArticuloSeleccionado = "0";
     string ClienteSeleccionado = "0";
+    decimal MontoTotal = 0;
 
     protected override void OnInitialized()
     {
@@ -211,7 +259,7 @@
             else
             {
                 Mensaje = string.Empty;
-                Empeño.Detalle.Add(new EmpeñosDetalle()
+                ListaDetalle.Add(new EmpeñosDetalle()
                 {
                     EmpeñoId = Empeño.EmpeñoId,
                     ArticuloId = Articulo.ArticuloId,
@@ -225,6 +273,11 @@
                 Cantidad = 0;
                 Monto = 0;
                 Descripcion = string.Empty;
+                MontoTotal = 0;
+                    foreach (var item in ListaDetalle)
+                    {
+                        MontoTotal += item.Monto;
+                    }
             }
         }
     }
