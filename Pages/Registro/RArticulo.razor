@@ -1,59 +1,80 @@
 ﻿@page "/Registro/Articulo"
 @page "/Registro/Articulo/{ArticuloId:int}"
 @inject IToastService toastService
-<div class="form-register">
-    <h3>Articulos</h3>
-    <EditForm Model="@Articulo" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
-        <label class="text-muted form-text">@Mensaje</label>
-        <div class="form-group">
-            <label> ArticuloId</label>
-            <InputNumber class="form-control" @bind-Value="Articulo.ArticuloId"></InputNumber>
-            <ValidationMessage For="(() => Articulo.ArticuloId)" />
-            <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
-        </div>
-        <div class="form-group">
-            <label for="Categoria">Categoria</label>
-            <InputSelect @bind-Value="@CategoriaSeleccionado" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
+
+<style>
+    .demo-mat-card {
+        max-width: 900px;
+        margin-top: 2rem;
+        margin-left: auto;
+        margin-right: auto
+    }
+
+
+</style>
+
+<MatCard Class="demo-mat-card">
+    <MatHeadline6 Class="demo-mat-card-clean-margin">
+        Articulos
+    </MatHeadline6>
+    <div class="form-register">
+
+        <EditForm Model="@Articulo" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <label class="text-muted form-text">@Mensaje</label>
+
+            <div class="form-row">
+                <div class="input-group-append">
+
+                        <MatTextField Label="ArticuloId" @bind-Value="Articulo.ArticuloId" InputStyle="number" Style="height: 37px;"></MatTextField>
+                        <ValidationMessage For="(() => Articulo.ArticuloId)" />
+                        <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                </div>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <MatDatePicker @bind-Value="Articulo.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
+                    <ValidationMessage For="(() => Articulo.Fecha)" />
+            </div>
+            <br />
+
+            <div class="form-group col-sm-6"
+            <InputSelect @bind-Value="@CategoriaSeleccionado" label="Categoria" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
                 <option value="0" disabled selected>Seleccione una Categoria</option>
                 @if (ListadoCategorias.Count <= 0)
                 {
                     <option value="" disabled>No Hay Categoria Registrada</option>
                 }
                 else
-                @foreach (var item in ListadoCategorias)
-                {
-                    <option value="@item.CategoriaId">@item.Nombre</option>
-                }
+                    @foreach (var item in ListadoCategorias)
+                    {
+                        <option value="@item.CategoriaId">@item.Nombre</option>
+                    }
             </InputSelect>
             <ValidationMessage For="@(()=>Articulo.CategoriaId)" />
         </div>
 
-        <div class="form-group">
-            <label>Nombre</label>
-            <InputText class="form-control" @bind-Value="Articulo.Nombre"></InputText>
-            <ValidationMessage For="(() => Articulo.Nombre)" />
-        </div>
+            <div class="form-group">
+                <MatTextField Label="Nombre" @bind-Value="Articulo.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
+                <ValidationMessage For="(() => Articulo.Nombre)" />
+            </div>
 
-        <div class="form-group">
-            <label>Inventario</label>
-            <InputNumber class="form-control" @bind-Value="Articulo.Inventario" ReadOnly="true"></InputNumber>
-        </div>
+            <div class="form-group">
+                <MatTextField Label="Inventario" ReadOnly="true" @bind-Value="Articulo.Inventario" Style="height:37px; width: 30rem;"></MatTextField>
+            </div>
 
-        <div class="form-group">
-            <label>Fecha de Ingreso</label>
-            <InputDate class="form-control" @bind-Value="Articulo.Fecha"></InputDate>
-            <ValidationMessage For="(() => Articulo.Fecha)" />
-        </div>
 
-        <div>
-            <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
-            <button type="submit" class="btn btn-success">Guardar</button>
-            <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
-        </div>
-        <h5 class="text-success">@Mensaje</h5>
-    </EditForm>
-</div>
+
+            <div>
+
+                <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+
+            </div>
+            <h5 class="text-success">@Mensaje</h5>
+        </EditForm>
+    </div>
+</MatCard>
 
 
 @code {
@@ -64,7 +85,7 @@
     string Mensaje = string.Empty;
     ArticulosController articulosController = new ArticulosController();
     CategoriasController categoriasController = new CategoriasController();
-    private List<Categorias> ListadoCategorias{ get; set; }
+    private List<Categorias> ListadoCategorias { get; set; }
     string CategoriaSeleccionado = "0";
 
     protected override void OnInitialized()
@@ -140,5 +161,21 @@
     {
         Articulo.CategoriaId = Convert.ToInt32(CategoriaSeleccionado);
     }
+
+                MatTheme guarda = new MatTheme()
+            {
+                Primary = "green",
+            };
+ 
+                MatTheme eliminar = new MatTheme()
+            {
+                Primary = "red",
+            };
+ 
+                MatTheme buscar = new MatTheme()
+            {
+                Primary = "grey",
+            };
+ 
 }
 

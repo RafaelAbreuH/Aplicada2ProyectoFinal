@@ -1,110 +1,147 @@
 @page "/Registro/Categoria"
 @page "/Registro/Categoria/{CategoriaId:int}"
 @inject IToastService toastService
+
+    <style>
+        .demo-mat-card {
+            max-width: 900px;
+            margin-top: 2rem;
+            margin-left: auto;
+            margin-right: auto
+        }
+    </style>
+
+
+<MatCard Class="demo-mat-card">
+    <MatHeadline6 Class="demo-mat-card-clean-margin">
+        Categoria
+    </MatHeadline6>
     <div class="form-register">
-        <h3>Categorias</h3>
         <EditForm Model="@Categoria" OnValidSubmit="Guardar">
             <DataAnnotationsValidator />
             <label class="text-muted form-text">@Mensaje</label>
-            <div class="form-group">
-                <label> CategoriaId</label>
-                <InputNumber class="form-control" @bind-Value="Categoria.CategoriaId"></InputNumber>
-                <ValidationMessage For="(() => Categoria.CategoriaId)" />
-                <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+
+            <div class="form-row">
+                <div class="input-group-append">
+
+                    <MatTextField Label="CategoriaId" @bind-Value="Categoria.CategoriaId" Style="height: 37px;"></MatTextField>
+                    <ValidationMessage For="(() => Categoria.CategoriaId)" />
+                    <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+                </div>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <MatDatePicker @bind-Value="Categoria.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
+                <ValidationMessage For="(() => Categoria.Fecha)" />
             </div>
+            <br />
 
             <div class="form-group">
-                <label>Nombre</label>
-                <InputText class="form-control" @bind-Value="Categoria.Nombre"></InputText>
+                <MatTextField Label="Nombre" @bind-Value="Categoria.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
                 <ValidationMessage For="(() => Categoria.Nombre)" />
             </div>
 
-            <div class="form-group">
-                <label>Fecha de Ingreso</label>
-                <InputDate class="form-control" @bind-Value="Categoria.Fecha"></InputDate>
-                <ValidationMessage For="(() => Categoria.Fecha)" />
-            </div>
+
 
             <div>
-                <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
-                <button type="submit" class="btn btn-success">Guardar</button>
-                <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
+
+                <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+
             </div>
             <h5 class="text-success">@Mensaje</h5>
         </EditForm>
     </div>
-@code {
-    [Parameter]
-    public int CategoriaId { get; set; }
-    public Categorias Categoria { get; set; }
-    string Mensaje = string.Empty;
-    CategoriasController controller = new CategoriasController();
+</MatCard>
 
-    protected override void OnInitialized()
-    {
-        Limpiar();
-        if (CategoriaId != 0)
-        {
-            Categoria = controller.Buscar(CategoriaId);
-        }
-    }
+    @code {
+        [Parameter]
+        public int CategoriaId { get; set; }
+        public Categorias Categoria { get; set; }
+        string Mensaje = string.Empty;
+        CategoriasController controller = new CategoriasController();
 
-    private void Limpiar()
-    {
-        Categoria = new Categorias();
-        LimpiarMensajes();
-    }
-
-    public void LimpiarMensajes()
-    {
-        Mensaje = string.Empty;
-    }
-
-    public void Guardar()
-    {
-        if (controller.Guardar(Categoria))
+        protected override void OnInitialized()
         {
             Limpiar();
-            toastService.ShowSuccess("Categoria guardada correctamente", "Exito");
+            if (CategoriaId != 0)
+            {
+                Categoria = controller.Buscar(CategoriaId);
+            }
         }
-        else
+
+        private void Limpiar()
         {
-            Limpiar();
-            toastService.ShowError("Error al guardar la categoria", "Fallo");
+            Categoria = new Categorias();
+            LimpiarMensajes();
         }
+
+        public void LimpiarMensajes()
+        {
+            Mensaje = string.Empty;
+        }
+
+        public void Guardar()
+        {
+            if (controller.Guardar(Categoria))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Categoria guardada correctamente", "Exito");
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("Error al guardar la categoria", "Fallo");
+            }
+        }
+
+        public void Buscar()
+        {
+            var categoria = controller.Buscar(Categoria.CategoriaId);
+
+            if (categoria != null)
+            {
+                Limpiar();
+                Categoria = categoria;
+                toastService.ShowSuccess("Categoria encontrado.", "Exito");
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("La categoria no fue encontrada", "Fallo");
+            }
+        }
+
+        public void Eliminar()
+        {
+            var categoria = controller.Buscar(Categoria.CategoriaId);
+
+            if (categoria != null)
+            {
+                controller.Eliminar(Categoria.CategoriaId);
+                Limpiar();
+                toastService.ShowSuccess("Categoria eliminada correctamente.", "Exito");
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("Error al eliminar la Categoria.", "Fallo");
+            }
+        }
+
+        
+                MatTheme guarda = new MatTheme()
+            {
+                Primary = "green",
+            };
+ 
+                MatTheme eliminar = new MatTheme()
+            {
+                Primary = "red",
+            };
+ 
+                MatTheme buscar = new MatTheme()
+            {
+                Primary = "grey",
+            };
     }
-
-    public void Buscar()
-    {
-        var categoria = controller.Buscar(Categoria.CategoriaId);
-
-        if (categoria != null)
-        {
-            Limpiar();
-            Categoria = categoria;
-            toastService.ShowSuccess("Categoria encontrado.", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("La categoria no fue encontrada", "Fallo");
-        }
-    }
-
-    public void Eliminar()
-    {
-        var categoria = controller.Buscar(Categoria.CategoriaId);
-
-        if (categoria != null)
-        {
-            controller.Eliminar(Categoria.CategoriaId);
-            Limpiar();
-            toastService.ShowSuccess("Categoria eliminada correctamente.", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("Error al eliminar la Categoria.", "Fallo");
-        }
-    }
-}

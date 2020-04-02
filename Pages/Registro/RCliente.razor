@@ -1,145 +1,187 @@
 ﻿@page "/Registro/Cliente"
 @page "/Registro/Cliente/{ClienteId:int}"
 @inject IToastService toastService
-<div class="form-register">
-    <h3>Clientes</h3>
-    <EditForm Model="@Cliente" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
-        <label class="text-muted form-text">@Mensaje</label>
-        <div class="form-group">
-            <label> ClienteId</label>
-            <InputNumber class="form-control" @bind-Value="Cliente.ClienteId"></InputNumber>
-            <ValidationMessage For="(() => Cliente.ClienteId)" />
-            <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+
+
+
+    <style>
+        .demo-mat-card {
+            max-width: 900px;
+            margin-top: 2rem;
+            margin-left: auto;
+            margin-right: auto
+        }
+    </style>
+
+    <MatCard Class="demo-mat-card">
+        <MatHeadline6 Class="demo-mat-card-clean-margin">
+            Clientes
+        </MatHeadline6>
+        <div class="form-register">
+
+
+            <EditForm Model="@Cliente" OnValidSubmit="Guardar">
+                <DataAnnotationsValidator />
+                <label class="text-muted form-text">@Mensaje</label>
+
+
+                <div class="form-row">
+                    <div class="input-group-append">
+                        <MatTextField Label="ClienteId" @bind-Value="Cliente.ClienteId" Style="height: 37px;"></MatTextField>
+                        <ValidationMessage For="(() => Cliente.ClienteId)" />
+                        <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                    </div>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <MatDatePicker @bind-Value="Cliente.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
+                    <ValidationMessage For="(() => Cliente.Fecha)" />
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label for="TipoCliente">TipoCliente</label>
+                    <InputSelect @bind-Value="@TipoClienteSeleccionado" class="form-control " @onchange="SeleccionarTipoCliente" @onclick="SeleccionarTipoCliente">
+                        <option value="0" disabled selected>Seleccione un Tipo de Cliente</option>
+                        @if (ListadoTipoClientes.Count <= 0)
+                        {
+                            <option value="" disabled>No Hay TipoCliente Registrado</option>
+                        }
+                        else
+                            @foreach (var item in ListadoTipoClientes)
+                            {
+                                <option value="@item.TipoClienteId">@item.Descripcion</option>
+                            }
+
+                    </InputSelect>
+                    <ValidationMessage For="@(()=>Cliente.TipoClienteId)" />
+                </div>
+               
+
+                <div class="form-group">
+                    <MatTextField Label="Nombre" @bind-Value="Cliente.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
+                    <ValidationMessage For="(() => Cliente.Nombre)" />
+                </div>
+        
+
+                <div class="form-group">
+
+                    <MatTextField Label="Cedula" @bind-Value="Cliente.Cedula" Style="height:37px; width: 30rem;"></MatTextField>
+                    <ValidationMessage For="(() => Cliente.Cedula)" />
+                </div>
+            
+
+                <div class="form-group">
+
+                    <MatTextField Label="Telefono" @bind-Value="Cliente.Telefono" Style="height:37px; width: 30rem;"></MatTextField>
+                    <ValidationMessage For="(() => Cliente.Telefono)" />
+                </div>
+                <div class="form-group">
+                    <MatTextField Label="Direccion" @bind-Value="Cliente.Direccion" Style="height:37px; width: 30rem;"></MatTextField>
+                    <ValidationMessage For="(() => Cliente.Direccion)" />
+                </div>
+
+
+                <div>
+                    <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                    <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                    <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+
+                </div>
+                <h5 class="text-success">@Mensaje</h5>
+            </EditForm>
         </div>
-        <div class="form-group">
-            <label for="TipoCliente">TipoCliente</label>
-            <InputSelect @bind-Value="@TipoClienteSeleccionado" class="form-control " @onchange="SeleccionarTipoCliente" @onclick="SeleccionarTipoCliente">
-                <option value="0" disabled selected>Seleccione un Tipo de Cliente</option>
-                @if (ListadoTipoClientes.Count <= 0)
+    </MatCard>
+
+        @code {
+            [Parameter]
+            public int ClienteId { get; set; }
+            string Mensaje = string.Empty;
+            string TipoClienteSeleccionado = "0";
+            Clientes Cliente = new Clientes();
+            ClientesController controller = new ClientesController();
+            TipoClientesController tipoClientesController = new TipoClientesController();
+            private List<TiposClientes> ListadoTipoClientes { get; set; }
+
+            protected override void OnInitialized()
+            {
+
+                ListadoTipoClientes = tipoClientesController.GetList(e => true);
+                Limpiar();
+                if (ClienteId != 0)
                 {
-                    <option value="" disabled>No Hay TipoCliente Registrado</option>
+                    Cliente = controller.Buscar(ClienteId);
+                }
+            }
+            private void Limpiar()
+            {
+                Cliente = new Clientes();
+            }
+
+            public void Guardar()
+            {
+                if (controller.Guardar(Cliente))
+                {
+                    Limpiar();
+                    toastService.ShowSuccess("Cliente guardado correctamente", "Exito");
                 }
                 else
-                @foreach (var item in ListadoTipoClientes)
                 {
-                    <option value="@item.TipoClienteId">@item.Descripcion</option>
+                    Limpiar();
+                    toastService.ShowError("Error al guardar el cliente", "Fallo");
                 }
+            }
 
-            </InputSelect>
-            <ValidationMessage For="@(()=>Cliente.TipoClienteId)" />
-        </div>
-        <div class="form-group">
-            <label>Nombre</label>
-            <InputText class="form-control" @bind-Value="Cliente.Nombre"></InputText>
-            <ValidationMessage For="(() => Cliente.Nombre)" />
-        </div>
+            public void Buscar()
+            {
+                var cliente = controller.Buscar(Cliente.ClienteId);
 
-        <div class="form-group">
-            <label>Cedula</label>
-            <InputText class="form-control" @bind-Value="Cliente.Cedula"></InputText>
-            <ValidationMessage For="(() => Cliente.Cedula)" />
-        </div>
+                if (cliente != null)
+                {
+                    Cliente = cliente;
+                    toastService.ShowSuccess("Cliente encontrado.", "Exito");
+                }
+                else
+                {
+                    Limpiar();
+                    toastService.ShowError("El cliente no fue encontrado.", "Fallo");
+                }
+            }
 
-        <div class="form-group">
-            <label>Telefono</label>
-            <InputText class="form-control" @bind-Value="Cliente.Telefono"></InputText>
-            <ValidationMessage For="(() => Cliente.Telefono)" />
-        </div>
-        <div class="form-group">
-            <label>Direccion</label>
-            <InputText class="form-control" @bind-Value="Cliente.Direccion"></InputText>
-            <ValidationMessage For="(() => Cliente.Direccion)" />
-        </div>
+            public void Eliminar()
+            {
+                var cliente = controller.Buscar(Cliente.ClienteId);
 
-        <div class="form-group">
-            <label>Fecha de Ingreso</label>
-            <InputDate class="form-control" @bind-Value="Cliente.Fecha"></InputDate>`
-            <ValidationMessage For="(() => Cliente.Fecha)" />
-        </div>
+                if (cliente != null)
+                {
+                    controller.Eliminar(Cliente.ClienteId);
+                    Limpiar();
+                    toastService.ShowSuccess("Cliente eliminado correctamente.", "Exito");
+                }
+                else
+                {
+                    Limpiar();
+                    toastService.ShowError("Error al eliminar el cliente.", "Fallo");
+                }
+            }
+            private void SeleccionarTipoCliente()
+            {
+                Cliente.TipoClienteId = Convert.ToInt32(TipoClienteSeleccionado);
+            }
 
-        <div>
-            <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
-            <button type="submit" class="btn btn-success">Guardar</button>
-            <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
-        </div>
-        <h5 class="text-success">@Mensaje</h5>
-    </EditForm>
-</div>
-
-@code {
-    [Parameter]
-    public int ClienteId { get; set; }
-    string Mensaje = string.Empty;
-    string TipoClienteSeleccionado = "0";
-    Clientes Cliente = new Clientes();
-    ClientesController controller = new ClientesController();
-    TipoClientesController tipoClientesController = new TipoClientesController();
-    private List<TiposClientes> ListadoTipoClientes{ get; set; }
-
-    protected override void OnInitialized()
-    {
-        
-        ListadoTipoClientes = tipoClientesController.GetList(e => true);
-        Limpiar();
-        if (ClienteId != 0)
-        {
-            Cliente = controller.Buscar(ClienteId);
+            
+                MatTheme guarda = new MatTheme()
+            {
+                Primary = "green",
+            };
+ 
+                MatTheme eliminar = new MatTheme()
+            {
+                Primary = "red",
+            };
+ 
+                MatTheme buscar = new MatTheme()
+            {
+                Primary = "grey",
+            };
+ 
         }
-    }
-    private void Limpiar()
-    {
-        Cliente = new Clientes();
-    }
-
-    public void Guardar()
-    {
-        if (controller.Guardar(Cliente))
-        {
-            Limpiar();
-            toastService.ShowSuccess("Cliente guardado correctamente", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("Error al guardar el cliente", "Fallo");
-        }
-    }
-
-    public void Buscar()
-    {
-        var cliente = controller.Buscar(Cliente.ClienteId);
-
-        if (cliente != null)
-        {
-            Cliente = cliente;
-            toastService.ShowSuccess("Cliente encontrado.", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("El cliente no fue encontrado.", "Fallo");
-        }
-    }
-
-    public void Eliminar()
-    {
-        var cliente = controller.Buscar(Cliente.ClienteId);
-
-        if (cliente != null)
-        {
-            controller.Eliminar(Cliente.ClienteId);
-            Limpiar();
-            toastService.ShowSuccess("Cliente eliminado correctamente.", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("Error al eliminar el cliente.", "Fallo");
-        }
-    }
-    private void SeleccionarTipoCliente()
-    {
-        Cliente.TipoClienteId = Convert.ToInt32(TipoClienteSeleccionado);
-    }
-}
