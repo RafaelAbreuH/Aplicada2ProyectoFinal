@@ -13,10 +13,11 @@
         }
     </style>
 
-    <MatCard Class="demo-mat-card">
+    <MatCard Class="mat-elevation-z8 demo-mat-card">
         <MatHeadline6 Class="demo-mat-card-clean-margin">
             Clientes
         </MatHeadline6>
+        <MatDivider Padded="true"></MatDivider>
         <div class="form-register">
 
 
@@ -55,20 +56,20 @@
                     </InputSelect>
                     <ValidationMessage For="@(()=>Cliente.TipoClienteId)" />
                 </div>
-               
+
 
                 <div class="form-group">
                     <MatTextField Label="Nombre" @bind-Value="Cliente.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
                     <ValidationMessage For="(() => Cliente.Nombre)" />
                 </div>
-        
+
 
                 <div class="form-group">
 
                     <MatTextField Label="Cedula" @bind-Value="Cliente.Cedula" Style="height:37px; width: 30rem;"></MatTextField>
                     <ValidationMessage For="(() => Cliente.Cedula)" />
                 </div>
-            
+
 
                 <div class="form-group">
 

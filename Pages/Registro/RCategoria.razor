@@ -12,47 +12,48 @@
     </style>
 
 
-<MatCard Class="demo-mat-card">
-    <MatHeadline6 Class="demo-mat-card-clean-margin">
-        Categoria
-    </MatHeadline6>
-    <div class="form-register">
-        <EditForm Model="@Categoria" OnValidSubmit="Guardar">
-            <DataAnnotationsValidator />
-            <label class="text-muted form-text">@Mensaje</label>
+    <MatCard Class="mat-elevation-z8 demo-mat-card">
+        <MatHeadline6 Class="demo-mat-card-clean-margin">
+            Categoria
+        </MatHeadline6>
+        <MatDivider Padded="true"></MatDivider>
+        <div class="form-register">
+            <EditForm Model="@Categoria" OnValidSubmit="Guardar">
+                <DataAnnotationsValidator />
+                <label class="text-muted form-text">@Mensaje</label>
 
-            <div class="form-row">
-                <div class="input-group-append">
+                <div class="form-row">
+                    <div class="input-group-append">
 
-                    <MatTextField Label="CategoriaId" @bind-Value="Categoria.CategoriaId" Style="height: 37px;"></MatTextField>
-                    <ValidationMessage For="(() => Categoria.CategoriaId)" />
-                    <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+                        <MatTextField Label="CategoriaId" @bind-Value="Categoria.CategoriaId" Style="height: 37px;"></MatTextField>
+                        <ValidationMessage For="(() => Categoria.CategoriaId)" />
+                        <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+                    </div>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <MatDatePicker @bind-Value="Categoria.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
+                    <ValidationMessage For="(() => Categoria.Fecha)" />
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <MatTextField Label="Nombre" @bind-Value="Categoria.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
+                    <ValidationMessage For="(() => Categoria.Nombre)" />
                 </div>
 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <MatDatePicker @bind-Value="Categoria.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
-                <ValidationMessage For="(() => Categoria.Fecha)" />
-            </div>
-            <br />
-
-            <div class="form-group">
-                <MatTextField Label="Nombre" @bind-Value="Categoria.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
-                <ValidationMessage For="(() => Categoria.Nombre)" />
-            </div>
 
 
+                <div>
 
-            <div>
+                    <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                    <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                    <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
 
-                <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
-                <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
-                <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
-
-            </div>
-            <h5 class="text-success">@Mensaje</h5>
-        </EditForm>
-    </div>
-</MatCard>
+                </div>
+                <h5 class="text-success">@Mensaje</h5>
+            </EditForm>
+        </div>
+    </MatCard>
 
     @code {
         [Parameter]

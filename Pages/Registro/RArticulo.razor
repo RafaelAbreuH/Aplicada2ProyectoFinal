@@ -13,10 +13,11 @@
 
 </style>
 
-<MatCard Class="demo-mat-card">
+<MatCard Class="mat-elevation-z8 demo-mat-card">
     <MatHeadline6 Class="demo-mat-card-clean-margin">
         Articulos
     </MatHeadline6>
+    <MatDivider Padded="true"></MatDivider>
     <div class="form-register">
 
         <EditForm Model="@Articulo" OnValidSubmit="Guardar">
@@ -26,14 +27,14 @@
             <div class="form-row">
                 <div class="input-group-append">
 
-                        <MatTextField Label="ArticuloId" @bind-Value="Articulo.ArticuloId" InputStyle="number" Style="height: 37px;"></MatTextField>
-                        <ValidationMessage For="(() => Articulo.ArticuloId)" />
-                        <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                    <MatTextField Label="ArticuloId" @bind-Value="Articulo.ArticuloId" InputStyle="number" Style="height: 37px;"></MatTextField>
+                    <ValidationMessage For="(() => Articulo.ArticuloId)" />
+                    <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
                 </div>
 
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <MatDatePicker @bind-Value="Articulo.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
-                    <ValidationMessage For="(() => Articulo.Fecha)" />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <MatDatePicker @bind-Value="Articulo.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
+                <ValidationMessage For="(() => Articulo.Fecha)" />
             </div>
             <br />
 
