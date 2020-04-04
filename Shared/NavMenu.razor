@@ -1,9 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Components;
 @inject NavigationManager navigationManager
 
-<NavMenu>
 
-</NavMenu>
+
 <MatNavMenu Multi="true" Class="app-sidebar">
     <MatNavItem Href="@navigationManager.ToAbsoluteUri(" ").AbsoluteUri" NavLinkMatch="NavLinkMatch.All">
         <MatIcon>home</MatIcon> <span class="miniHover">Home page</span>
@@ -29,22 +28,22 @@
         </MatNavSubMenuList>
     </MatNavSubMenu>
 
-    <MatNavItem Href="@navigationManager.ToAbsoluteUri("dashboard").AbsoluteUri" Disabled="@(!IsLoggedIn)">
+    <MatNavItem Href="@navigationManager.ToAbsoluteUri("dashboard").AbsoluteUri">
         <MatIcon>bar_chart</MatIcon> <span class="miniHover">Dashboard</span>
     </MatNavItem>
 
     <MatNavSubMenu>
         <MatNavSubMenuHeader>
-            <MatNavItem AllowSelection="false" Disabled="@(!IsLoggedIn)">
+            <MatNavItem AllowSelection="false">
                 <MatIcon>mail_outline</MatIcon>
                 <span class="miniHover"> Email</span>
             </MatNavItem>
         </MatNavSubMenuHeader>
         <MatNavSubMenuList>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("email_view").AbsoluteUri" Disabled="@(!IsLoggedIn)">
+            <MatNavItem Href="@navigationManager.ToAbsoluteUri("email_view").AbsoluteUri">
                 <MatIcon>inbox</MatIcon> <span class="miniHover">Read Email</span>
             </MatNavItem>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("email").AbsoluteUri" Disabled="@(!IsLoggedIn)">
+            <MatNavItem Href="@navigationManager.ToAbsoluteUri("email").AbsoluteUri">
                 <MatIcon>send</MatIcon> <span class="miniHover">Send Email</span>
             </MatNavItem>
         </MatNavSubMenuList>
@@ -78,7 +77,7 @@
             </MatNavItem>
 
 
-    <MatNavItem Href="@navigationManager.ToAbsoluteUri("forum").AbsoluteUri" Disabled="@(!IsLoggedIn)">
+    <MatNavItem Href="@navigationManager.ToAbsoluteUri("forum").AbsoluteUri">
         <MatIcon>forum</MatIcon> <span class="miniHover">Forum</span>
     </MatNavItem>
 
@@ -88,9 +87,7 @@
 </MatNavMenu>
 
 @code {
-    public bool IsLoggedIn = true;
 
-    [CascadingParameter]
-    Task<AuthenticationState> authenticationStateTask { get; set; }
+
 
 }
