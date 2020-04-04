@@ -1,314 +1,350 @@
 ﻿@page "/Registro/Empeños"
 @page "/Registro/Empeños/{EmpeñoId:int}"
 @inject IToastService toastService
-<div class="form-register">
-    <h3>Empeños</h3>
-    <EditForm Model="@Empeño" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
-        <label class="text-muted form-text">@Mensaje</label>
-        <div class="form-group">
-            <label> EmpeñoId</label>
-            <InputNumber class="form-control" @bind-Value="Empeño.EmpeñoId"></InputNumber>
-            <ValidationMessage For="(() => Empeño.EmpeñoId)" />
-            <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
-        </div>
-        <div class="form-group">
-            <label for="Cliente">Cliente</label>
-            <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarClientes" @onclick="CargarClientes">
-                <option value="0" disabled selected>Seleccione un Cliente</option>
-                @if (ListadoClientes.Count <= 0)
-                {
-                    <option value="" disabled>No Hay Cliente Registrado</option>
-                }
-                else
-                @foreach (var item in ListadoClientes)
-                {
-                    <option value="@item.ClienteId">@item.Nombre</option>
-                }
-            </InputSelect>
-        </div>
 
-        <div class="form-group">
-            <label for="Articulo">Articulo</label>
-            <InputSelect @bind-Value="@ArticuloSeleccionado" class="form-control " @onchange="CargarArticulos" @onclick="CargarArticulos">
-                <option value="0" disabled selected>Seleccione un Articulo</option>
-                @if (ListadoArticulos.Count <= 0)
-                {
-                    <option value="" disabled>No Hay Articulo Registrado</option>
-                }
-                else
-                @foreach (var item in ListadoArticulos)
-                {
-                    <option value="@item.ArticuloId">@item.Nombre</option>
-                }
-            </InputSelect>
-        </div>
-        <div class="form-group">
-            <label>Cantidad</label>
-            <InputNumber class="form-control" @bind-Value="Detalle.Cantidad"></InputNumber>
-            <ValidationMessage For="(() => Detalle.Cantidad)" />
-        </div>
 
-        <div class="form-group">
-            <label>Fecha Empeño</label>
-            <InputDate class="form-control" @bind-Value="Empeño.Fecha" @onchange="CalcularEstado" @onclick="CalcularEstado"></InputDate>
-            <ValidationMessage For="(() => Empeño.Fecha)" />
-        </div>
-        <div class="form-group">
-            <label>Fecha Actual</label>
-            <InputDate class="form-control" @bind-Value="FechaActual" ReadOnly="true"></InputDate>
-        </div>
-        <div class="form-group">
-            <label>Estado</label>
-            <InputText class="form-control" @bind-Value="Estado" ReadOnly="true"></InputText>
-        </div>
-        <div class="form-group">
-            <label>Descripcion</label>
-            <InputTextArea class="form-control" @bind-Value="Detalle.Descripcion"></InputTextArea>
-            <ValidationMessage For="(() => Detalle.Descripcion)" />
-        </div>
-        <div class="form-group">
-            <label>Monto</label>
-            <InputNumber class="form-control" @bind-Value="Detalle.Monto"></InputNumber>
-            <ValidationMessage For="(() => Detalle.Monto)" />
-            <button type="button" class="btn btn-success" @onclick="AgregarDetalle">Agregar</button>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>EmpeñoId</th>
-                            <th>ArticuloId</th>
-                            <th>Descripcion</th>
-                            <th>Cantidad</th>
-                            <th>Monto</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Empeño.Detalle)
-                        {
-                            <tr>
-                                <th>@item.EmpeñoId</th>
-                                <th>@item.ArticuloId</th>
-                                <th>@item.Articulo</th>
-                                <th>@item.Descripcion</th>
-                                <th>@item.Cantidad</th>
-                                <th>@item.Monto</th>
-                                <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarArticulo(item))">Eliminar</button></th>
+<style>
+    .demo-mat-card {
+        max-width: 900px;
+        margin-top: 2rem;
+        margin-left: auto;
+        margin-right: auto
+    }
+</style>
 
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+<MatCard Class="mat-elevation-z8 demo-mat-card">
+    <MatHeadline6 Class="demo-mat-card-clean-margin">
+        Articulos
+    </MatHeadline6>
+    <MatDivider Padded="true"></MatDivider>
+    <div class="form-register">
+ 
 
-                <div class="col-md-2 no-padding">
-                    <label>Monto Total</label>
-                    <InputNumber @bind-Value="@MontoTotal" class="form-control" ReadOnly="true"></InputNumber>
+        <EditForm Model="@Empeño" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <label class="text-muted form-text">@Mensaje</label>
+
+            <div class="form-row">
+                <div class="input-group-append">
+                    <MatTextField Label="EmpeñoId" @bind-Value="Empeño.EmpeñoId" InputStyle="number" Style="height: 37px; width: 10rem"></MatTextField>
+                    <ValidationMessage For="(() => Empeño.EmpeñoId)" />
+                    <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
                 </div>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <MatDatePicker @bind-Value="FechaActual" Label="Fecha Actual" ReadOnly="true" Style="height:37px; width: 10rem; "></MatDatePicker>
             </div>
-        </div>
-        <div>
-            <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
-            <button type="submit" class="btn btn-success">Guardar</button>
-            <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
-        </div>
-        <h5 class="text-success">@Mensaje</h5>
-    </EditForm>
-</div>
 
-@code {
-    [Parameter]
-    public int EmpeñoId { get; set; }
-    public string Estado { get; set; }
-    public Empeños Empeño { get; set; }
-    public EmpeñosDetalle Detalle { get; set; }
-    public DateTime FechaActual { get; set; }
-    EmpeñosController empeñoscontroller = new EmpeñosController();
 
-    Articulos Articulo { get; set; }
-    ArticulosController articulosController = new ArticulosController();
-    List<Articulos> ListadoArticulos = new List<Articulos>();
+                <div class="form-group">
+                    <label for="Cliente">Cliente</label>
+                    <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarClientes" @onclick="CargarClientes">
+                        <option value="0" disabled selected>Seleccione un Cliente</option>
+                        @if (ListadoClientes.Count <= 0)
+                        {
+                            <option value="" disabled>No Hay Cliente Registrado</option>
+                        }
+                        else
+                            @foreach (var item in ListadoClientes)
+                            {
+                                <option value="@item.ClienteId">@item.Nombre</option>
+                            }
+                    </InputSelect>
+                </div>
 
-    Clientes Cliente { get; set; }
-    ClientesController clientesController = new ClientesController();
-    List<Clientes> ListadoClientes = new List<Clientes>();
-    List<EmpeñosDetalle> ListaDetalle = new List<EmpeñosDetalle>();
+                <div class="form-group">
+                    <label for="Articulo">Articulo</label>
+                    <InputSelect @bind-Value="@ArticuloSeleccionado" class="form-control " @onchange="CargarArticulos" @onclick="CargarArticulos">
+                        <option value="0" disabled selected>Seleccione un Articulo</option>
+                        @if (ListadoArticulos.Count <= 0)
+                        {
+                            <option value="" disabled>No Hay Articulo Registrado</option>
+                        }
+                        else
+                            @foreach (var item in ListadoArticulos)
+                            {
+                                <option value="@item.ArticuloId">@item.Nombre</option>
+                            }
+                    </InputSelect>
+                </div>
 
-    int Cantidad = 0;
-    decimal Monto = 0;
-    string Descripcion = String.Empty;
-    string Mensaje = string.Empty;
-    string ArticuloSeleccionado = "0";
-    string ClienteSeleccionado = "0";
-    decimal MontoTotal = 0;
+                <div class="form-group">
+                    <MatTextField Label="Cantidad" @bind-Value="Detalle.Cantidad" Style="height:37px; "></MatTextField>
+                    <ValidationMessage For="(() => Detalle.Cantidad)" />
+                </div>
 
-    protected override void OnInitialized()
-    {
-        Estado = "Vigente";
-        FechaActual = DateTime.Now;
-        ListadoArticulos = articulosController.GetList(e => true);
-        ListadoClientes = clientesController.GetList(e => true);
-        Empeño = new Empeños();
-        Articulo = new Articulos();
-        Cliente = new Clientes();
-        Detalle = new EmpeñosDetalle();
+                <div class="form-group">
+                    <MatDatePicker @bind-Value="Empeño.Fecha" Label="Fecha Empeño"  Style="height:37px; " @onchange="CalcularEstado" @onclick="CalcularEstado"></MatDatePicker>
+                    <ValidationMessage For="(() => Empeño.Fecha)" />
+                </div>
 
-        if (EmpeñoId != 0)
+                <div class="form-group">
+                    <MatTextField @bind-Value="Estado" Label="Estado" Style="height:37px; " ReadOnly="true"></MatTextField>
+                </div>
+
+                <div class="form-group">
+                    <MatTextField @bind-Value="Detalle.Descripcion" Label="Descripcion" Style="height:37px; "></MatTextField>
+                    <ValidationMessage For="(() => Detalle.Descripcion)" />
+                </div>
+                <div class="form-group">
+                    <MatTextField @bind-Value="Detalle.Monto" Label="Monto" Style="height:37px; "></MatTextField>
+                    <ValidationMessage For="(() => Detalle.Monto)" />
+                    <MatIconButton Raised="true" Icon="add_box" @onclick="AgregarDetalle" ></MatIconButton> 
+
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>EmpeñoId</th>
+                                    <th>ArticuloId</th>
+                                    <th>Descripcion</th>
+                                    <th>Cantidad</th>
+                                    <th>Monto</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Empeño.Detalle)
+                                {
+                                    <tr>
+                                        <th>@item.EmpeñoId</th>
+                                        <th>@item.ArticuloId</th>
+                                        <th>@item.Articulo</th>
+                                        <th>@item.Descripcion</th>
+                                        <th>@item.Cantidad</th>
+                                        <th>@item.Monto</th>
+                                        <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarArticulo(item))">Eliminar</button></th>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <div class="col-md-2 no-padding">
+                            <MatTextField @bind-Value="@MontoTotal" Label="Total" Style="height:37px; " ReadOnly="true"></MatTextField>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                    <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                    <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+
+                </div>
+                <h5 class="text-success">@Mensaje</h5>
+</EditForm>
+    </div>
+</MatCard>
+
+    @code {
+        [Parameter]
+        public int EmpeñoId { get; set; }
+        public string Estado { get; set; }
+        public Empeños Empeño { get; set; }
+        public EmpeñosDetalle Detalle { get; set; }
+        public DateTime FechaActual { get; set; }
+        EmpeñosController empeñoscontroller = new EmpeñosController();
+
+        Articulos Articulo { get; set; }
+        ArticulosController articulosController = new ArticulosController();
+        List<Articulos> ListadoArticulos = new List<Articulos>();
+
+        Clientes Cliente { get; set; }
+        ClientesController clientesController = new ClientesController();
+        List<Clientes> ListadoClientes = new List<Clientes>();
+        List<EmpeñosDetalle> ListaDetalle = new List<EmpeñosDetalle>();
+
+        int Cantidad = 0;
+        decimal Monto = 0;
+        string Descripcion = String.Empty;
+        string Mensaje = string.Empty;
+        string ArticuloSeleccionado = "0";
+        string ClienteSeleccionado = "0";
+        decimal MontoTotal = 0;
+
+        protected override void OnInitialized()
         {
-            Empeño.EmpeñoId = EmpeñoId;
-            Buscar();
-        }
-    }
-    public void Guardar()
-    {
+            Estado = "Vigente";
+            FechaActual = DateTime.Now;
+            ListadoArticulos = articulosController.GetList(e => true);
+            ListadoClientes = clientesController.GetList(e => true);
+            Empeño = new Empeños();
+            Articulo = new Articulos();
+            Cliente = new Clientes();
+            Detalle = new EmpeñosDetalle();
 
-        if (Empeño.Detalle.Count <= 0)
-        {
-            Mensaje = "Debe ingresar algun articulo al empeño.";
-        }
-        else
-        {
-            if (empeñoscontroller.Guardar(Empeño))
+            if (EmpeñoId != 0)
             {
-                Limpiar();
-                toastService.ShowSuccess("Empeño guardado correctamente", "Exito");
+                Empeño.EmpeñoId = EmpeñoId;
+                Buscar();
+            }
+        }
+        public void Guardar()
+        {
 
+            if (Empeño.Detalle.Count <= 0)
+            {
+                Mensaje = "Debe ingresar algun articulo al empeño.";
             }
             else
             {
-                toastService.ShowError("Error al guardar el Empeño", "Fallo");
-            }
-        }
-    }
-    public void Buscar()
-    {
-        Empeños EmpeñoTemporal = empeñoscontroller.Buscar(Empeño.EmpeñoId);
-
-        if (EmpeñoTemporal != null)
-        {
-            Limpiar();
-            Empeño = EmpeñoTemporal;
-            toastService.ShowSuccess("Empeño encontrado.", "Exito");
-
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("El empeño no fue encontrado.", "Fallo");
-        }
-    }
-    public void Eliminar()
-    {
-        Empeños EmpeñoTemporal = empeñoscontroller.Buscar(Empeño.EmpeñoId);
-
-        if (EmpeñoTemporal != null)
-        {
-            if (empeñoscontroller.Eliminar(Empeño.EmpeñoId))
-            {
-                Limpiar();
-                toastService.ShowSuccess("Empeño eliminado correctamente.", "Exito");
-            }
-            else
-            {
-                toastService.ShowError("Error al eliminar el empeño.", "Fallo");
-            }
-        }
-    }
-
-    public void Limpiar()
-    {
-        this.Empeño = new Empeños();
-        ArticuloSeleccionado = "0";
-        ClienteSeleccionado = "0";
-        Cantidad = 0;
-        LimpiarMensajes();
-    }
-
-    public void LimpiarMensajes()
-    {
-        Mensaje = string.Empty;
-    }
-
-    private void CargarArticulos()
-    {
-        Articulo = articulosController.Buscar(Convert.ToInt32(ArticuloSeleccionado));
-    }
-    private void CargarClientes()
-    {
-        Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
-    }
-
-    private void AgregarDetalle()
-    {
-
-        if (ArticuloSeleccionado == "0" && ClienteSeleccionado != "0")
-        {
-            toastService.ShowInfo("Debe seleccionar un Articulo ", "Info");
-        }
-        else
-        if (ArticuloSeleccionado != "0" && ClienteSeleccionado == "0")
-        {
-            toastService.ShowInfo("Debe seleccionar un Cliente ", "Info");
-        }
-        else
-        if (ArticuloSeleccionado == "0" && ClienteSeleccionado == "0")
-        {
-            toastService.ShowInfo("Debe seleccionar un Cliente y un Articulo ", "Info");
-        }
-        else
-        {
-            if (Empeño.Detalle.Any(i => i.ArticuloId == Articulo.ArticuloId))
-            {
-                toastService.ShowInfo("Este Producto ya esta agregado", "Info");
-            }
-            else if (Cantidad < 1)
-            {
-                toastService.ShowError("La catidad debe ser mayor a 0!", "Fallo");
-            }
-            else
-            {
-                Mensaje = string.Empty;
-                ListaDetalle.Add(new EmpeñosDetalle()
+                if (empeñoscontroller.Guardar(Empeño))
                 {
-                    EmpeñoId = Empeño.EmpeñoId,
-                    ArticuloId = Articulo.ArticuloId,
-                    Articulo = Articulo.Nombre,
-                    Descripcion = Descripcion,
-                    Cantidad = Cantidad,
-                    Monto = Monto,
-                });
-                ArticuloSeleccionado = "0";
-                ClienteSeleccionado = "0";
-                Cantidad = 0;
-                Monto = 0;
-                Descripcion = string.Empty;
-                MontoTotal = 0;
+                    Limpiar();
+                    toastService.ShowSuccess("Empeño guardado correctamente", "Exito");
+
+                }
+                else
+                {
+                    toastService.ShowError("Error al guardar el Empeño", "Fallo");
+                }
+            }
+        }
+        public void Buscar()
+        {
+            Empeños EmpeñoTemporal = empeñoscontroller.Buscar(Empeño.EmpeñoId);
+
+            if (EmpeñoTemporal != null)
+            {
+                Limpiar();
+                Empeño = EmpeñoTemporal;
+                toastService.ShowSuccess("Empeño encontrado.", "Exito");
+
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("El empeño no fue encontrado.", "Fallo");
+            }
+        }
+        public void Eliminar()
+        {
+            Empeños EmpeñoTemporal = empeñoscontroller.Buscar(Empeño.EmpeñoId);
+
+            if (EmpeñoTemporal != null)
+            {
+                if (empeñoscontroller.Eliminar(Empeño.EmpeñoId))
+                {
+                    Limpiar();
+                    toastService.ShowSuccess("Empeño eliminado correctamente.", "Exito");
+                }
+                else
+                {
+                    toastService.ShowError("Error al eliminar el empeño.", "Fallo");
+                }
+            }
+        }
+
+        public void Limpiar()
+        {
+            this.Empeño = new Empeños();
+            ArticuloSeleccionado = "0";
+            ClienteSeleccionado = "0";
+            Cantidad = 0;
+            LimpiarMensajes();
+        }
+
+        public void LimpiarMensajes()
+        {
+            Mensaje = string.Empty;
+        }
+
+        private void CargarArticulos()
+        {
+            Articulo = articulosController.Buscar(Convert.ToInt32(ArticuloSeleccionado));
+        }
+        private void CargarClientes()
+        {
+            Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
+        }
+
+        private void AgregarDetalle()
+        {
+
+            if (ArticuloSeleccionado == "0" && ClienteSeleccionado != "0")
+            {
+                toastService.ShowInfo("Debe seleccionar un Articulo ", "Info");
+            }
+            else
+            if (ArticuloSeleccionado != "0" && ClienteSeleccionado == "0")
+            {
+                toastService.ShowInfo("Debe seleccionar un Cliente ", "Info");
+            }
+            else
+            if (ArticuloSeleccionado == "0" && ClienteSeleccionado == "0")
+            {
+                toastService.ShowInfo("Debe seleccionar un Cliente y un Articulo ", "Info");
+            }
+            else
+            {
+                if (Empeño.Detalle.Any(i => i.ArticuloId == Articulo.ArticuloId))
+                {
+                    toastService.ShowInfo("Este Producto ya esta agregado", "Info");
+                }
+                else if (Cantidad < 1)
+                {
+                    toastService.ShowError("La catidad debe ser mayor a 0!", "Fallo");
+                }
+                else
+                {
+                    Mensaje = string.Empty;
+                    ListaDetalle.Add(new EmpeñosDetalle()
+                    {
+                        EmpeñoId = Empeño.EmpeñoId,
+                        ArticuloId = Articulo.ArticuloId,
+                        Articulo = Articulo.Nombre,
+                        Descripcion = Descripcion,
+                        Cantidad = Cantidad,
+                        Monto = Monto,
+                    });
+                    ArticuloSeleccionado = "0";
+                    ClienteSeleccionado = "0";
+                    Cantidad = 0;
+                    Monto = 0;
+                    Descripcion = string.Empty;
+                    MontoTotal = 0;
                     foreach (var item in ListaDetalle)
                     {
                         MontoTotal += item.Monto;
                     }
+                }
             }
         }
-    }
-    private void EliminarArticulo(EmpeñosDetalle detalle)
-    {
-        Empeño.Detalle.Remove(detalle);
-    }
-
-    private void CalcularEstado()
-    {
-        Empeño.Fecha.AddDays(90);
-        if (FechaActual >= Empeño.Fecha)
+        private void EliminarArticulo(EmpeñosDetalle detalle)
         {
-            Estado= "Vencido";
+            Empeño.Detalle.Remove(detalle);
         }
-        else
-        {
-            Estado = "Vigente";
-        }
-    }
 
-}
+        private void CalcularEstado()
+        {
+            Empeño.Fecha.AddDays(90);
+            if (FechaActual >= Empeño.Fecha)
+            {
+                Estado = "Vencido";
+            }
+            else
+            {
+                Estado = "Vigente";
+            }
+        }
+
+        
+                MatTheme guarda = new MatTheme()
+            {
+                Primary = "green",
+            };
+ 
+                MatTheme eliminar = new MatTheme()
+            {
+                Primary = "red",
+            };
+ 
+                MatTheme buscar = new MatTheme()
+            {
+                Primary = "grey",
+            };
+
+    }
 

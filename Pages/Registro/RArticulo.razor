@@ -19,26 +19,26 @@
     </MatHeadline6>
     <MatDivider Padded="true"></MatDivider>
     <div class="form-register">
+        
+            <EditForm Model="@Articulo" OnValidSubmit="Guardar">
+                <DataAnnotationsValidator />
+                <label class="text-muted form-text">@Mensaje</label>
 
-        <EditForm Model="@Articulo" OnValidSubmit="Guardar">
-            <DataAnnotationsValidator />
-            <label class="text-muted form-text">@Mensaje</label>
+                <div class="form-row form-group">
+                    <div class="input-group-append">
 
-            <div class="form-row">
-                <div class="input-group-append">
+                        <MatTextField Label="ArticuloId" @bind-Value="Articulo.ArticuloId" InputStyle="number" Style="height: 37px;"></MatTextField>
+                        <ValidationMessage For="(() => Articulo.ArticuloId)" />
+                        <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                    </div>
 
-                    <MatTextField Label="ArticuloId" @bind-Value="Articulo.ArticuloId" InputStyle="number" Style="height: 37px;"></MatTextField>
-                    <ValidationMessage For="(() => Articulo.ArticuloId)" />
-                    <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <MatDatePicker @bind-Value="Articulo.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
+                    <ValidationMessage For="(() => Articulo.Fecha)" />
                 </div>
+                <br />
 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <MatDatePicker @bind-Value="Articulo.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
-                <ValidationMessage For="(() => Articulo.Fecha)" />
-            </div>
-            <br />
-
-            <div class="form-group col-sm-6"
+                <div class="form-group col-sm-6"
             <InputSelect @bind-Value="@CategoriaSeleccionado" label="Categoria" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
                 <option value="0" disabled selected>Seleccione una Categoria</option>
                 @if (ListadoCategorias.Count <= 0)
@@ -52,29 +52,31 @@
                     }
             </InputSelect>
             <ValidationMessage For="@(()=>Articulo.CategoriaId)" />
-        </div>
+                 </div>
 
-            <div class="form-group">
-                <MatTextField Label="Nombre" @bind-Value="Articulo.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
-                <ValidationMessage For="(() => Articulo.Nombre)" />
-            </div>
+                <div class="form-group">
+                    <MatTextField Label="Nombre" @bind-Value="Articulo.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
+                    <ValidationMessage For="(() => Articulo.Nombre)" />
+                </div>
 
-            <div class="form-group">
-                <MatTextField Label="Inventario" ReadOnly="true" @bind-Value="Articulo.Inventario" Style="height:37px; width: 30rem;"></MatTextField>
-            </div>
+                <div class="form-group">
+                    <MatTextField Label="Inventario" ReadOnly="true" @bind-Value="Articulo.Inventario" Style="height:37px; width: 30rem;"></MatTextField>
+                </div>
 
 
 
-            <div>
+                <div>
 
-                <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
-                <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
-                <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+                    <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                    <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                    <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
 
-            </div>
-            <h5 class="text-success">@Mensaje</h5>
-        </EditForm>
+                </div>
+                <h5 class="text-success">@Mensaje</h5>
+
+            </EditForm>
     </div>
+
 </MatCard>
 
 

@@ -1,32 +1,51 @@
 ﻿@page "/Registro/TipoUsuario"
 @page "/Registro/TipoUsuario/{TipoUsuarioId:int}"
 @inject IToastService toastService
-<div class="form-register">
-    <h3>Tipos Usuario</h3>
-    <EditForm Model="@TipoUsuario" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
-        <label class="text-muted form-text">@Mensaje</label>
-        <div class="form-group">
-            <label> TipoClienteId </label>
-            <InputNumber class="form-control" @bind-Value="TipoUsuario.TipoUsuarioId"></InputNumber>
-            <ValidationMessage For="(() => TipoUsuario.TipoUsuarioId)" />
-            <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
-        </div>
 
-        <div class="form-group">
-            <label>Descripcion</label>
-            <InputText class="form-control" @bind-Value="TipoUsuario.Descripcion"></InputText>
-            <ValidationMessage For="(() => TipoUsuario.Descripcion)" />
-        </div>
 
-        <div>
-            <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
-            <button type="submit" class="btn btn-success">Guardar</button>
-            <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
-        </div>
-        <h5 class="text-success">@Mensaje</h5>
-    </EditForm>
-</div>
+
+<style>
+    .demo-mat-card {
+        max-width: 900px;
+        margin-top: 2rem;
+        margin-left: auto;
+        margin-right: auto
+    }
+</style>
+
+<MatCard Class="mat-elevation-z8 demo-mat-card">
+    <MatHeadline6 Class="demo-mat-card-clean-margin">
+        TipoUsuarios
+    </MatHeadline6>
+    <MatDivider Padded="true"></MatDivider>
+
+    <div class="form-register">
+        <EditForm Model="@TipoUsuario" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <label class="text-muted form-text">@Mensaje</label>
+
+
+            <div class="form-group">
+                <MatTextField Label="TipoUsuarioId" @bind-Value="TipoUsuario.TipoUsuarioId" InputStyle="number" Style="height: 37px;"></MatTextField>
+                <ValidationMessage For="(() => TipoUsuario.TipoUsuarioId)" />
+                <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+            </div>
+            <br />
+            <div class="form-group">
+                <MatTextField Label="Descripcion" @bind-Value="TipoUsuario.Descripcion" Style="height: 37px;"></MatTextField>
+                <ValidationMessage For="(() => TipoUsuario.Descripcion)" />
+            </div>
+
+            <div>
+                <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+
+            </div>
+            <h5 class="text-success">@Mensaje</h5>
+        </EditForm>
+    </div>
+</MatCard>
 @code {
     [Parameter]
     public int TipoUsuarioId { get; set; }
@@ -101,4 +120,20 @@
             toastService.ShowError("Error al eliminar el TipoUsuario.", "Fallo");
         }
     }
+
+    
+                MatTheme guarda = new MatTheme()
+            {
+                Primary = "green",
+            };
+ 
+                MatTheme eliminar = new MatTheme()
+            {
+                Primary = "red",
+            };
+ 
+                MatTheme buscar = new MatTheme()
+            {
+                Primary = "grey",
+            };
 }

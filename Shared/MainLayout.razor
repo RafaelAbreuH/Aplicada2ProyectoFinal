@@ -1,22 +1,79 @@
 ﻿@inherits LayoutComponentBase
-@using Blazored.Toast.Configuration
 
 
-<BlazoredToasts Position="ToastPosition.BottomRight"
-                Timeout="5"
-                SuccessClass="success-toast-override"
-                SuccessIconClass="fa fa-thumbs-up"
-                ErrorIconClass="fa fa-bug" />
-<div class="sidebar">
-    <NavMenu />
-</div>
 
-<div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
+<MatDrawerContainer Style="width: 100vw; height: 100vh;" Class="@bbDrawerClass">
+    <MatDrawer @bind-Opened="@_navMenuOpened">
+        <header class="drawer-header">
+            <div class="drawer-logo">
+                <img alt="ProyectoFinal" class="logo-img" src="" title="Proyecto Final">
+                <a class="miniHover" href="/Index"></a>
+            </div>
+          
+        </header>
+        <NavMenu />
+    </MatDrawer>
+    <MatDrawerContent>
+        <MatAppBarContainer>
+            <MatAppBar Fixed="true">
+                <MatAppBarRow>
+                    <MatAppBarSection>
+                        <MatAppBarTitle>
 
-    <div class="content px-4">
-        @Body
-    </div>
-</div>
+                        </MatAppBarTitle>
+                        <div class="hidden-mdc-down">
+                            <MatTooltip Tooltip="Toggle Navigation">
+                                <MatIconButton Class="navToggle" Icon="menu" ToggleIcon="menu" OnClick="@((e) => NavToggle())" RefBack="@context"></MatIconButton>
+                            </MatTooltip>
+
+                        </div>
+                    </MatAppBarSection>
+                    <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                   
+                    </MatAppBarSection>
+                </MatAppBarRow>
+            </MatAppBar>
+            <MatAppBarContent>
+
+                <section class="container-fluid">
+                    @Body
+                </section>
+                <footer class="page-footer">
+                    <div class="flex-1">
+                    </div>
+                </footer>
+            </MatAppBarContent>
+        </MatAppBarContainer>
+    </MatDrawerContent>
+</MatDrawerContainer>
+
+@code {
+    bool _navMenuOpened = true;
+    bool _navMinified = false;
+    public string bbDrawerClass = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+
+
+    }
+
+    void NavToggle()
+    {
+        _navMenuOpened = !_navMenuOpened;
+        if (_navMenuOpened)
+        {
+            bbDrawerClass = "full";
+        }
+        else
+        {
+            bbDrawerClass = "closed";
+        }
+
+        this.StateHasChanged();
+    }
+
+}

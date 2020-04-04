@@ -1,149 +1,182 @@
 ﻿@page "/Registro/Usuario"
 @page "/Registro/Usuario/{UsuarioId:int}"
 @inject IToastService toastService
-<div class="form-register">
-    <h3>Usuarios</h3>
-    <EditForm Model="@Usuario" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
-        <label class="text-muted form-text">@Mensaje</label>
-        <div class="form-group">
-            <label> UsuarioId</label>
-            <InputNumber class="form-control" @bind-Value="Usuario.UsuarioId"></InputNumber>
-            <ValidationMessage For="(() => Usuario.UsuarioId)" />
-            <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
-        </div>
 
-        <div class="form-group">
-            <label>Nombre</label>
-            <InputText class="form-control" @bind-Value="Usuario.Nombre"></InputText>
-            <ValidationMessage For="(() => Usuario.Nombre)" />
-        </div>
 
-        <div class="form-group">
-            <label>Email</label>
-            <InputText class="form-control" @bind-Value="Usuario.Usuario"></InputText>
-            <ValidationMessage For="(() => Usuario.Usuario)" />
-        </div>
-
-        <div class="form-group">
-            <label>Clave</label>
-            <InputText type="password" class="form-control" @bind-Value="Usuario.Contraseña"></InputText>
-            <ValidationMessage For="(() => Usuario.Contraseña)" />
-        </div>
-
-        <div class="form-group">
-            <label>Confirmar Clave</label>
-            <InputText class="form-control" @bind-Value="Usuario.RepeatContraseña" type="password"></InputText>
-            <ValidationMessage For="(() => Usuario.RepeatContraseña)" />
-        </div>
-        <div class="form-group">
-            <label>Tipo de Usuario</label>
-            <InputSelect class="form-control" @bind-Value="Usuario.TipoUsuarioId">
-                <option value="0" disabled selected>Seleccione un Tipo de Usuario</option>
-                @if (ListadoTipos.Count == 0)
-                {
-                    <option value="" disabled>No hay Tipo de usuario Registrado</option>
-                }
-                else
-                {
-                    @foreach (var item in ListadoTipos)
-                    {
-                        <option value="@item.TipoUsuarioId">@item.Descripcion</option>
-                    }
-                }
-            </InputSelect>
-            <ValidationMessage For="(() => Usuario.TipoUsuarioId)" />
-        </div>
-        <div class="form-group">
-            <label>Fecha de Ingreso</label>
-            <InputDate class="form-control" @bind-Value="Usuario.Fecha"></InputDate>
-            <ValidationMessage For="(() => Usuario.Fecha)" />
-        </div>
-
-        <div>
-            <button type="button" class="btn btn-danger" @onclick="Limpiar">Nuevo</button>
-            <button type="submit" class="btn btn-success">Guardar</button>
-            <button type="button" class="btn btn-secondary" @onclick="Eliminar">Eliminar</button>
-        </div>
-        <h5 class="text-success">@Mensaje</h5>
-    </EditForm>
-</div>
-
-@code {
-    [Parameter]
-    public int UsuarioId { get; set; }
-    string Mensaje = string.Empty;
-    private int TipoSeleccionado = 0;
-    Usuarios Usuario { get; set; }
-    UsuariosController controller = new UsuariosController();
-    TiposUsuarios Tipos { get; set; }
-    List<TiposUsuarios> ListadoTipos = new List<TiposUsuarios>();
-    TipoUsuariosController tipousuariosController = new TipoUsuariosController();
-
-    protected override void OnInitialized()
-    {
-        Usuario = new Usuarios();
-        Tipos = new TiposUsuarios();
-        ListadoTipos = tipousuariosController.GetList(e => true);
-        if (UsuarioId != 0)
-        {
-            Usuario = controller.Buscar(UsuarioId);
-        }
+<style>
+    .demo-mat-card {
+        max-width: 900px;
+        margin-top: 2rem;
+        margin-left: auto;
+        margin-right: auto
     }
-    private void Limpiar()
-    {
-        Usuario = new Usuarios();
-    }
+</style>
 
-    public void Guardar()
-    {
-        if (controller.Guardar(Usuario))
-        {
-            Limpiar();
-            toastService.ShowSuccess("Usuario guardado correctamente", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("Error al guardar el usuario", "Fallo");
-        }
-    }
+<MatCard Class="mat-elevation-z8 demo-mat-card">
+    <MatHeadline6 Class="demo-mat-card-clean-margin">
+        TipoClientes
+    </MatHeadline6>
+    <MatDivider Padded="true"></MatDivider>
 
-    public void Buscar()
-    {
-        var usuario = controller.Buscar(Usuario.UsuarioId);
+    <div class="form-register">
+        <h3>Usuarios</h3>
+        <EditForm Model="@Usuario" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+            <label class="text-muted form-text">@Mensaje</label>
 
-        if (usuario != null)
-        {
-            Usuario = usuario;
-            TipoSeleccionado = Usuario.TipoUsuarioId;
-            toastService.ShowSuccess("Usuario encontrado.", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("El usuario no fue encontrado.", "Fallo");
-        }
-    }
 
-    public void Eliminar()
-    {
-        var usuario = controller.Buscar(Usuario.UsuarioId);
+            <div class="form-row">
+                <div class="input-group-append">
+                    <MatTextField Label="UsuarioId" @bind-Value="Usuario.UsuarioId" InputStyle="number" Style="height: 37px;"></MatTextField>
+                    <ValidationMessage For="(() => Usuario.UsuarioId)" />
+                    <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                </div>
 
-        if (usuario != null)
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <MatDatePicker @bind-Value="Usuario.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
+                <ValidationMessage For="(() => Usuario.Fecha)" />
+            </div>
+
+            <div class="form-group">
+                <MatTextField Label="Nombre" @bind-Value="Usuario.Nombre" Style="height: 37px;"></MatTextField>
+                <ValidationMessage For="(() => Usuario.Nombre)" />
+            </div>
+
+            <div class="form-group">
+                <MatTextField Label="Email" @bind-Value="Usuario.Usuario" Icon="mail_outline" Style="height: 37px;"></MatTextField>
+                <ValidationMessage For="(() => Usuario.Usuario)" />
+            </div>
+
+            <div class="form-group">
+                <MatTextField Label="Clave" @bind-Value="Usuario.Contraseña" Style="height: 37px;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
+                <ValidationMessage For="(() => Usuario.Contraseña)" />
+            </div>
+
+            <div class="form-group">
+                <label>Confirmar Clave</label>
+                <MatTextField Label="Clave" @bind-Value="Usuario.RepeatContraseña" Style="height: 37px;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
+                <ValidationMessage For="(() => Usuario.RepeatContraseña)" />
+            </div>
+                <div class="form-group">
+                    <label>Tipo de Usuario</label>
+                    <InputSelect class="form-control" @bind-Value="Usuario.TipoUsuarioId">
+                        <option value="0" disabled selected>Seleccione un Tipo de Usuario</option>
+                        @if (ListadoTipos.Count == 0)
+                        {
+                            <option value="" disabled>No hay Tipo de usuario Registrado</option>
+                        }
+                        else
+                        {
+                            @foreach (var item in ListadoTipos)
+                            {
+                                <option value="@item.TipoUsuarioId">@item.Descripcion</option>
+                            }
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="(() => Usuario.TipoUsuarioId)" />
+                </div>
+
+                <div>
+                    <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                    <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                    <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+                </div>
+                <h5 class="text-success">@Mensaje</h5>
+        </EditForm>
+    </div>
+</MatCard>
+
+    @code {
+        [Parameter]
+        public int UsuarioId { get; set; }
+        string Mensaje = string.Empty;
+        private int TipoSeleccionado = 0;
+        Usuarios Usuario { get; set; }
+        UsuariosController controller = new UsuariosController();
+        TiposUsuarios Tipos { get; set; }
+        List<TiposUsuarios> ListadoTipos = new List<TiposUsuarios>();
+        TipoUsuariosController tipousuariosController = new TipoUsuariosController();
+
+        protected override void OnInitialized()
         {
-            controller.Eliminar(Usuario.UsuarioId);
-            Limpiar();
-            toastService.ShowSuccess("Usuario eliminado correctamente.", "Exito");
+            Usuario = new Usuarios();
+            Tipos = new TiposUsuarios();
+            ListadoTipos = tipousuariosController.GetList(e => true);
+            if (UsuarioId != 0)
+            {
+                Usuario = controller.Buscar(UsuarioId);
+            }
         }
-        else
+        private void Limpiar()
         {
-            Limpiar();
-            toastService.ShowError("Error al eliminar el usuario.", "Fallo");
+            Usuario = new Usuarios();
         }
+
+        public void Guardar()
+        {
+            if (controller.Guardar(Usuario))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Usuario guardado correctamente", "Exito");
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("Error al guardar el usuario", "Fallo");
+            }
+        }
+
+        public void Buscar()
+        {
+            var usuario = controller.Buscar(Usuario.UsuarioId);
+
+            if (usuario != null)
+            {
+                Usuario = usuario;
+                TipoSeleccionado = Usuario.TipoUsuarioId;
+                toastService.ShowSuccess("Usuario encontrado.", "Exito");
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("El usuario no fue encontrado.", "Fallo");
+            }
+        }
+
+        public void Eliminar()
+        {
+            var usuario = controller.Buscar(Usuario.UsuarioId);
+
+            if (usuario != null)
+            {
+                controller.Eliminar(Usuario.UsuarioId);
+                Limpiar();
+                toastService.ShowSuccess("Usuario eliminado correctamente.", "Exito");
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("Error al eliminar el usuario.", "Fallo");
+            }
+        }
+        private void SeleccionarTipo()
+        {
+            Usuario.TipoUsuarioId = TipoSeleccionado;
+        }
+
+                     MatTheme guarda = new MatTheme()
+            {
+                Primary = "green",
+            };
+ 
+                MatTheme eliminar = new MatTheme()
+            {
+                Primary = "red",
+            };
+ 
+                MatTheme buscar = new MatTheme()
+            {
+                Primary = "grey",
+            };
+ 
     }
-    private void SeleccionarTipo()
-    {
-        Usuario.TipoUsuarioId = TipoSeleccionado;
-    }
-}
