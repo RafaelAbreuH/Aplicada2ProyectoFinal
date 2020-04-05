@@ -4,7 +4,7 @@
 
     <style>
         .demo-mat-card {
-            max-width: 900px;
+            max-width: 500px;
             margin-top: 2rem;
             margin-left: auto;
             margin-right: auto
@@ -12,28 +12,27 @@
     </style>
 
 
-    <MatCard Class="mat-elevation-z8 demo-mat-card">
-        <MatHeadline6 Class="demo-mat-card-clean-margin">
+    <MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
+        <MatHeadline6 Class="demo-mat-card-clean-margin mat-layout-grid-cell mat-layout-grid-cell-align-middle">
             Categoria
         </MatHeadline6>
         <MatDivider Padded="true"></MatDivider>
+
         <div class="form-register">
             <EditForm Model="@Categoria" OnValidSubmit="Guardar">
                 <DataAnnotationsValidator />
                 <label class="text-muted form-text">@Mensaje</label>
 
 
-                    <div class="input-group-append">
-                        <MatTextField Label="CategoriaId" Required="true" @bind-Value="Categoria.CategoriaId" Style="height: 37px;"></MatTextField>
-                        <ValidationMessage For="(() => Categoria.CategoriaId)" />
-                        <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
-                    </div>
-
-
+                <div class="input-group-append">
+                    <MatTextField Label="CategoriaId" Required="true" @bind-Value="Categoria.CategoriaId" Style="height: 37px; margin-left:5px;"></MatTextField>
+                    <ValidationMessage For="(() => Categoria.CategoriaId)" />
+                    <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                </div>
                 <br />
 
                 <div class="form-group">
-                    <MatTextField Label="Nombre" Required="true" @bind-Value="Categoria.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
+                    <MatTextField Label="Nombre" Required="true" @bind-Value="Categoria.Nombre" Style="height:37px; width:400px;"></MatTextField>
                     <ValidationMessage For="(() => Categoria.Nombre)" />
                 </div>
 

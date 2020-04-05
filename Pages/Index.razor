@@ -1,4 +1,4 @@
-﻿@page "/home"
+﻿@page "/"
 
 <style>
             .demo-mat-card {
@@ -14,33 +14,30 @@
             }
 </style>
 
-   <div style="display: flex; flex-direction: column; padding: 1px;" class="mat-layout-grid mat-elevation-z5">
+<div style="display: flex; flex-direction: column; padding: 1px;" class="mat-layout-grid mat-elevation-z5">
+    <MatHeadline4 Class="mat-layout-grid-cell mat-layout-grid-cell-align-middle">Contenido</MatHeadline4>
+    <MatDivider Padded="true"> </MatDivider>
+    <div style="padding: 5px; border: 1px solid white;">
+        <div class="mat-layout-grid-inner">
 
-       <div style="padding: 5px; border: 1px solid white;">
-           <div class="mat-layout-grid-inner">
 
+            <MatCard class="mat-layout-grid-cell demo-mat-card mat-elevation-z6">
+                <MatCardContent>
+                    <MatCardMedia Wide="true" ImageUrl="https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg">
+                        <div class="demo-mat-card-content" style="color: white;">
+                            <MatHeadline6 class="demo-mat-card-clean-margin">
+                                Registro Usuario
+                            </MatHeadline6>
+                        </div>
+                    </MatCardMedia>
+                    <MatBody2 class="demo-mat-card-content demo-mat-card-clean-margin">
+                        En este registro puedes crear los usuarios.
+                    </MatBody2>
+                </MatCardContent>
 
-               <MatCard class="mat-layout-grid-cell demo-mat-card mat-elevation-z6">
-                   <MatCardContent>
-                       <MatCardMedia Wide="true" ImageUrl="https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg">
-                           <div class="demo-mat-card-content" style="color: white;">
-                               <MatHeadline6 class="demo-mat-card-clean-margin">
-                                   Registro Usuario
-                               </MatHeadline6>
-                           </div>
-                       </MatCardMedia>
-                       <MatBody2 class="demo-mat-card-content demo-mat-card-clean-margin">
-                           En este registro puedes crear los usuarios.
-                       </MatBody2>
-                   </MatCardContent>
-                   <MatCardActions>
-                       <MatCardActionButtons>
-                           <MatButton Link="/Registro/Articulo" Icon="create">Crear</MatButton>
-                       </MatCardActionButtons>
-                   </MatCardActions>
-               </MatCard>
+            </MatCard>
 
-           </div>
-       </div>
+        </div>
     </div>
+</div>
 

@@ -38,7 +38,7 @@
                 <br />
 
                 <div class="form-group">
-            <InputSelect @bind-Value="@CategoriaSeleccionado" label="Categoria" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
+            <InputSelect @bind-Value="@CategoriaSeleccionado"  class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
                 <option value="0" disabled selected>Seleccione una Categoria</option>
                 @if (ListadoCategorias.Count <= 0)
                 {

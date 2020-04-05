@@ -6,15 +6,15 @@
 
 <style>
     .demo-mat-card {
-        max-width: 900px;
+        max-width: 500px;
         margin-top: 2rem;
         margin-left: auto;
         margin-right: auto
     }
 </style>
 
-<MatCard Class="mat-elevation-z8 demo-mat-card">
-    <MatHeadline6 Class="demo-mat-card-clean-margin">
+<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
+    <MatHeadline6 Class="demo-mat-card-clean-margin mat-layout-grid-cell mat-layout-grid-cell-align-middle">
         TipoUsuarios
     </MatHeadline6>
     <MatDivider Padded="true"></MatDivider>
@@ -25,14 +25,14 @@
             <label class="text-muted form-text">@Mensaje</label>
 
 
-            <div class="form-group">
-                <MatTextField Label="TipoUsuarioId" Required="true" @bind-Value="TipoUsuario.TipoUsuarioId" InputStyle="number" Style="height: 37px;"></MatTextField>
+            <div class="input-group-append">
+                <MatTextField Label="TipoUsuarioId" Required="true" @bind-Value="TipoUsuario.TipoUsuarioId" InputStyle="number" Style="height: 37px; margin-left:5px"></MatTextField>
                 <ValidationMessage For="(() => TipoUsuario.TipoUsuarioId)" />
                 <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
             </div>
             <br />
             <div class="form-group">
-                <MatTextField Label="Descripcion" Required="true" @bind-Value="TipoUsuario.Descripcion" Style="height: 37px;"></MatTextField>
+                <MatTextField Label="Descripcion" Required="true" @bind-Value="TipoUsuario.Descripcion" Style="height: 37px; width:400px;"  ></MatTextField>
                 <ValidationMessage For="(() => TipoUsuario.Descripcion)" />
             </div>
 
