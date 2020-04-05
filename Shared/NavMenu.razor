@@ -27,16 +27,49 @@
 
         <MatNavSubMenuHeader>
             <MatNavItem>
-                <MatIcon>list</MatIcon>
+                <MatIcon>add_box</MatIcon>
                 <span class="miniHover">  Registros</span>
             </MatNavItem>
         </MatNavSubMenuHeader>
 
         <MatNavSubMenuList>
 
-            <MatNavItem Href="/Consulta/Usuario">
-                <MatIcon>send</MatIcon> <span class="miniHover">Consulta Usuario</span>
+            <MatNavItem Href="/Registro/Empeños">
+                <MatIcon>account_balance</MatIcon> <span class="miniHover">Registro Empeños</span>
             </MatNavItem>
+
+            <MatNavItem Href="/Registro/Cobros">
+                <MatIcon>attach_money</MatIcon> <span class="miniHover">Resgistro Cobros</span>
+            </MatNavItem>
+
+            <MatNavItem Href="/Registro/Articulo">
+                <MatIcon>add</MatIcon> <span class="miniHover">Registro Articulos</span>
+            </MatNavItem>
+
+            <MatNavItem Href="/Registro/Usuario">
+                <MatIcon>add</MatIcon> <span class="miniHover">Registro Usuarios</span>
+            </MatNavItem>
+
+            <MatNavItem Href="/Registro/Cliente">
+                <MatIcon>add</MatIcon> <span class="miniHover">Registro Clientes</span>
+            </MatNavItem>
+
+
+            <MatNavItem Href="/Registro/Categoria">
+                <MatIcon>add</MatIcon> <span class="miniHover">Registro Categorias</span>
+            </MatNavItem>
+
+
+            <MatNavItem Href="/Registro/Cliente">
+                <MatIcon>add</MatIcon> <span class="miniHover">Registro Tipos Clientes</span>
+            </MatNavItem>
+
+
+            <MatNavItem Href="/Registro/Cliente">
+                <MatIcon>add</MatIcon> <span class="miniHover">Registro Tipos Usuarios</span>
+            </MatNavItem>
+
+
         </MatNavSubMenuList>
 
 
@@ -53,41 +86,57 @@
         </MatNavSubMenuHeader>
 
         <MatNavSubMenuList>
-            <MatNavItem Href="/Consulta/Usuario">
-                <MatIcon>send</MatIcon> <span class="miniHover">Consulta Usuario</span>
+            <MatNavItem Href="/Consulta/Empeño">
+                <MatIcon>view_list</MatIcon> <span class="miniHover">Consulta Empeños</span>
             </MatNavItem>
         </MatNavSubMenuList>
 
+        <MatNavSubMenuList>
+            <MatNavItem Href="/Consulta/Cobro">
+                <MatIcon>view_list</MatIcon> <span class="miniHover">Consulta Cobros</span>
+            </MatNavItem>
+        </MatNavSubMenuList>
+
+        <MatNavSubMenuList>
+            <MatNavItem Href="/Consulta/Articulo">
+                <MatIcon>view_list</MatIcon> <span class="miniHover">Consulta Articulos</span>
+            </MatNavItem>
+        </MatNavSubMenuList>
+
+        <MatNavSubMenuList>
+            <MatNavItem Href="/Consulta/Usuario">
+                <MatIcon>view_list</MatIcon> <span class="miniHover">Consulta Usuarios</span>
+            </MatNavItem>
+        </MatNavSubMenuList>
+
+        <MatNavSubMenuList>
+            <MatNavItem Href="/Consulta/Cliente">
+                <MatIcon>view_list</MatIcon> <span class="miniHover">Consulta Clientes</span>
+            </MatNavItem>
+        </MatNavSubMenuList>
+
+        <MatNavSubMenuList>
+            <MatNavItem Href="/Consulta/Categoria">
+                <MatIcon>view_list</MatIcon> <span class="miniHover">Consulta Categoria</span>
+            </MatNavItem>
+        </MatNavSubMenuList>
+
+        <MatNavSubMenuList>
+            <MatNavItem Href="/Consulta/TipoCliente">
+                <MatIcon>view_list</MatIcon> <span class="miniHover">Consulta Tipo Clientes</span>
+            </MatNavItem>
+        </MatNavSubMenuList>
+
+        <MatNavSubMenuList>
+            <MatNavItem Href="/Consulta/TipoUsuario">
+                <MatIcon>view_list</MatIcon> <span class="miniHover">Consulta Tipo Usuarios</span>
+            </MatNavItem>
+        </MatNavSubMenuList>
 
     </MatNavSubMenu>
     <MatDivider></MatDivider>
 
-    <MatNavSubMenu>
-        <MatNavSubMenuHeader>
-            <MatNavItem AllowSelection="false">
-                <MatIcon>settings_applications</MatIcon> <span class="miniHover">Admin</span>
-            </MatNavItem>
-        </MatNavSubMenuHeader>
-        <MatNavSubMenuList>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/users").AbsoluteUri">
-                <MatIcon>supervisor_account</MatIcon> <span class="miniHover">Users</span>
-            </MatNavItem>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/roles").AbsoluteUri">
-                <MatIcon>supervisor_account</MatIcon> <span class="miniHover">Roles</span>
-            </MatNavItem>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/blazor_middlware_audit").AbsoluteUri">
-                <MatIcon>change_history</MatIcon> <span class="miniHover">Api Audit Log</span>
-            </MatNavItem>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/dBlogViewer").AbsoluteUri">
-                <MatIcon>notes</MatIcon> <span class="miniHover">DB Logging View</span>
-            </MatNavItem>
-        </MatNavSubMenuList>
-    </MatNavSubMenu>
-
-    <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/users").AbsoluteUri" Disabled="true">
-        <MatIcon>supervisor_account</MatIcon> <span class="miniHover">Admin</span>
-    </MatNavItem>
-
+  
 
 </MatNavMenu>
 
