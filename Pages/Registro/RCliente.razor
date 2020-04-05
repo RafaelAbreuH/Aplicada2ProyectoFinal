@@ -28,20 +28,20 @@
 
                 <div class="form-row">
                     <div class="input-group-append">
-                        <MatTextField Label="ClienteId" @bind-Value="Cliente.ClienteId" Style="height: 37px;"></MatTextField>
+                        <MatTextField Label="ClienteId" Required="true" @bind-Value="Cliente.ClienteId" Style="height: 37px;"></MatTextField>
                         <ValidationMessage For="(() => Cliente.ClienteId)" />
                         <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
                     </div>
 
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <MatDatePicker @bind-Value="Cliente.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
+                    <MatDatePicker @bind-Value="Cliente.Fecha" Required="true" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
                     <ValidationMessage For="(() => Cliente.Fecha)" />
                 </div>
                 <br />
 
                 <div class="form-group">
                     <label for="TipoCliente">TipoCliente</label>
-                    <InputSelect @bind-Value="@TipoClienteSeleccionado" class="form-control " @onchange="SeleccionarTipoCliente" @onclick="SeleccionarTipoCliente">
+                    <InputSelect @bind-Value="@TipoClienteSeleccionado" Required="true" class="form-control " @onchange="SeleccionarTipoCliente" @onclick="SeleccionarTipoCliente">
                         <option value="0" disabled selected>Seleccione un Tipo de Cliente</option>
                         @if (ListadoTipoClientes.Count <= 0)
                         {
@@ -59,25 +59,25 @@
 
 
                 <div class="form-group">
-                    <MatTextField Label="Nombre" @bind-Value="Cliente.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
+                    <MatTextField Label="Nombre" @bind-Value="Cliente.Nombre" Required="true" Style="height:37px; width: 30rem;"></MatTextField>
                     <ValidationMessage For="(() => Cliente.Nombre)" />
                 </div>
 
 
                 <div class="form-group">
 
-                    <MatTextField Label="Cedula" @bind-Value="Cliente.Cedula" Style="height:37px; width: 30rem;"></MatTextField>
+                    <MatTextField Label="Cedula" @bind-Value="Cliente.Cedula" Required="true" Style="height:37px; width: 30rem;"></MatTextField>
                     <ValidationMessage For="(() => Cliente.Cedula)" />
                 </div>
 
 
                 <div class="form-group">
 
-                    <MatTextField Label="Telefono" @bind-Value="Cliente.Telefono" Style="height:37px; width: 30rem;"></MatTextField>
+                    <MatTextField Label="Telefono" @bind-Value="Cliente.Telefono" Required="true" Style="height:37px; width: 30rem;"></MatTextField>
                     <ValidationMessage For="(() => Cliente.Telefono)" />
                 </div>
                 <div class="form-group">
-                    <MatTextField Label="Direccion" @bind-Value="Cliente.Direccion" Style="height:37px; width: 30rem;"></MatTextField>
+                    <MatTextField Label="Direccion" @bind-Value="Cliente.Direccion" Required="true" Style="height:37px; width: 30rem;"></MatTextField>
                     <ValidationMessage For="(() => Cliente.Direccion)" />
                 </div>
 

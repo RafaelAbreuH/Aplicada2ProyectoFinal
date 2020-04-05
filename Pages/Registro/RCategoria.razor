@@ -24,7 +24,7 @@
 
 
                     <div class="input-group-append">
-                        <MatTextField Label="CategoriaId" @bind-Value="Categoria.CategoriaId" Style="height: 37px;"></MatTextField>
+                        <MatTextField Label="CategoriaId" Required="true" @bind-Value="Categoria.CategoriaId" Style="height: 37px;"></MatTextField>
                         <ValidationMessage For="(() => Categoria.CategoriaId)" />
                         <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
                     </div>
@@ -33,7 +33,7 @@
                 <br />
 
                 <div class="form-group">
-                    <MatTextField Label="Nombre" @bind-Value="Categoria.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
+                    <MatTextField Label="Nombre" Required="true" @bind-Value="Categoria.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
                     <ValidationMessage For="(() => Categoria.Nombre)" />
                 </div>
 
