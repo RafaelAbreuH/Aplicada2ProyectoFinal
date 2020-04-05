@@ -4,22 +4,21 @@
 
 <style>
     .demo-mat-card {
-        max-width: 900px;
+        max-width: 500px;
         margin-top: 2rem;
         margin-left: auto;
         margin-right: auto
     }
-
-
 </style>
 
-<MatCard Class="mat-elevation-z8 demo-mat-card">
-    <MatHeadline6 Class="demo-mat-card-clean-margin">
-        Articulos
-    </MatHeadline6>
-    <MatDivider Padded="true"></MatDivider>
-    <div class="form-register">
-        
+
+    <MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
+        <MatHeadline6 Class="demo-mat-card-clean-margin">
+            Articulos
+        </MatHeadline6>
+        <MatDivider Padded="true"></MatDivider>
+        <div class="form-register">
+
             <EditForm Model="@Articulo" OnValidSubmit="Guardar">
                 <DataAnnotationsValidator />
                 <label class="text-muted form-text">@Mensaje</label>
@@ -27,7 +26,7 @@
                 <div class="form-row form-group">
                     <div class="input-group-append">
 
-                        <MatTextField Label="ArticuloId" @bind-Value="Articulo.ArticuloId" InputStyle="number" Style="height: 37px;"></MatTextField>
+                        <MatTextField Label="ArticuloId" @bind-Value="Articulo.ArticuloId" InputStyle="number" Style="height: 37px; padding:1px;"></MatTextField>
                         <ValidationMessage For="(() => Articulo.ArticuloId)" />
                         <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
                     </div>
@@ -38,7 +37,7 @@
                 </div>
                 <br />
 
-                <div class="form-group col-sm-6"
+                <div class="form-group"
             <InputSelect @bind-Value="@CategoriaSeleccionado" label="Categoria" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
                 <option value="0" disabled selected>Seleccione una Categoria</option>
                 @if (ListadoCategorias.Count <= 0)
@@ -55,12 +54,12 @@
                  </div>
 
                 <div class="form-group">
-                    <MatTextField Label="Nombre" @bind-Value="Articulo.Nombre" Style="height:37px; width: 30rem;"></MatTextField>
+                    <MatTextField Label="Nombre" @bind-Value="Articulo.Nombre" Style="height:37px;"></MatTextField>
                     <ValidationMessage For="(() => Articulo.Nombre)" />
                 </div>
 
                 <div class="form-group">
-                    <MatTextField Label="Inventario" ReadOnly="true" @bind-Value="Articulo.Inventario" Style="height:37px; width: 30rem;"></MatTextField>
+                    <MatTextField Label="Inventario" ReadOnly="true" @bind-Value="Articulo.Inventario" FullWidth="true" Style="height:37px; max-width:20; background-color:InactiveBorder;"></MatTextField>
                 </div>
 
 
@@ -75,110 +74,110 @@
                 <h5 class="text-success">@Mensaje</h5>
 
             </EditForm>
-    </div>
+        </div>
 
-</MatCard>
+    </MatCard>
 
 
-@code {
-    [Parameter]
-    public int ArticuloId { get; set; }
-    public Articulos Articulo { get; set; }
-    public Categorias Categoria { get; set; }
-    string Mensaje = string.Empty;
-    ArticulosController articulosController = new ArticulosController();
-    CategoriasController categoriasController = new CategoriasController();
-    private List<Categorias> ListadoCategorias { get; set; }
-    string CategoriaSeleccionado = "0";
+    @code {
+        [Parameter]
+        public int ArticuloId { get; set; }
+        public Articulos Articulo { get; set; }
+        public Categorias Categoria { get; set; }
+        string Mensaje = string.Empty;
+        ArticulosController articulosController = new ArticulosController();
+        CategoriasController categoriasController = new CategoriasController();
+        private List<Categorias> ListadoCategorias { get; set; }
+        string CategoriaSeleccionado = "0";
 
-    protected override void OnInitialized()
-    {
-        Articulo = new Articulos();
-        ListadoCategorias = categoriasController.GetList(e => true);
-        Limpiar();
-        if (ArticuloId != 0)
+        protected override void OnInitialized()
         {
-            Articulo = articulosController.Buscar(ArticuloId);
-        }
-    }
-
-    private void Limpiar()
-    {
-        Articulo = new Articulos();
-        LimpiarMensajes();
-    }
-
-    public void LimpiarMensajes()
-    {
-        Mensaje = string.Empty;
-    }
-
-    public void Guardar()
-    {
-        if (articulosController.Guardar(Articulo))
-        {
+            Articulo = new Articulos();
+            ListadoCategorias = categoriasController.GetList(e => true);
             Limpiar();
-            toastService.ShowSuccess("Articulo guardado correctamente", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("Error al guardar el articulo", "Fallo");
-        }
-    }
-
-    public void Buscar()
-    {
-        var articulo = articulosController.Buscar(Articulo.ArticuloId);
-
-        if (articulo != null)
-        {
-            Limpiar();
-            Articulo = articulo;
-            toastService.ShowSuccess("Articulo encontrado.", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("El articulo no fue encontrad.o", "Fallo");
-        }
-    }
-
-    public void Eliminar()
-    {
-        var articulo = articulosController.Buscar(Articulo.ArticuloId);
-
-        if (articulo != null)
-        {
-            articulosController.Eliminar(Articulo.ArticuloId);
-            Limpiar();
-            toastService.ShowSuccess("Articulo eliminado correctamente.", "Exito");
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("Error al eliminar el articulo.", "Fallo");
-        }
-    }
-    private void SeleccionarCategoria()
-    {
-        Articulo.CategoriaId = Convert.ToInt32(CategoriaSeleccionado);
-    }
-
-                MatTheme guarda = new MatTheme()
+            if (ArticuloId != 0)
             {
-                Primary = "green",
-            };
- 
-                MatTheme eliminar = new MatTheme()
+                Articulo = articulosController.Buscar(ArticuloId);
+            }
+        }
+
+        private void Limpiar()
+        {
+            Articulo = new Articulos();
+            LimpiarMensajes();
+        }
+
+        public void LimpiarMensajes()
+        {
+            Mensaje = string.Empty;
+        }
+
+        public void Guardar()
+        {
+            if (articulosController.Guardar(Articulo))
             {
-                Primary = "red",
-            };
- 
-                MatTheme buscar = new MatTheme()
+                Limpiar();
+                toastService.ShowSuccess("Articulo guardado correctamente", "Exito");
+            }
+            else
             {
-                Primary = "grey",
-            };
- 
-}
+                Limpiar();
+                toastService.ShowError("Error al guardar el articulo", "Fallo");
+            }
+        }
+
+        public void Buscar()
+        {
+            var articulo = articulosController.Buscar(Articulo.ArticuloId);
+
+            if (articulo != null)
+            {
+                Limpiar();
+                Articulo = articulo;
+                toastService.ShowSuccess("Articulo encontrado.", "Exito");
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("El articulo no fue encontrad.o", "Fallo");
+            }
+        }
+
+        public void Eliminar()
+        {
+            var articulo = articulosController.Buscar(Articulo.ArticuloId);
+
+            if (articulo != null)
+            {
+                articulosController.Eliminar(Articulo.ArticuloId);
+                Limpiar();
+                toastService.ShowSuccess("Articulo eliminado correctamente.", "Exito");
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("Error al eliminar el articulo.", "Fallo");
+            }
+        }
+        private void SeleccionarCategoria()
+        {
+            Articulo.CategoriaId = Convert.ToInt32(CategoriaSeleccionado);
+        }
+
+        MatTheme guarda = new MatTheme()
+        {
+            Primary = "green",
+        };
+
+        MatTheme eliminar = new MatTheme()
+        {
+            Primary = "red",
+        };
+
+        MatTheme buscar = new MatTheme()
+        {
+            Primary = "grey",
+        };
+
+    }
 

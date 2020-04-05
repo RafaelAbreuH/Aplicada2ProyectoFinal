@@ -23,40 +23,40 @@
         <EditForm Model="@Usuario" OnValidSubmit="Guardar">
             <DataAnnotationsValidator />
             <label class="text-muted form-text">@Mensaje</label>
+            <fieldset>
 
+                <div class="form-row">
+                    <div class="input-group-append">
+                        <MatTextField Label="UsuarioId" @bind-Value="Usuario.UsuarioId" InputStyle="number" Style="height: 37px;"></MatTextField>
+                        <ValidationMessage For="(() => Usuario.UsuarioId)" />
+                        <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                    </div>
 
-            <div class="form-row">
-                <div class="input-group-append">
-                    <MatTextField Label="UsuarioId" @bind-Value="Usuario.UsuarioId" InputStyle="number" Style="height: 37px;"></MatTextField>
-                    <ValidationMessage For="(() => Usuario.UsuarioId)" />
-                    <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <MatDatePicker @bind-Value="Usuario.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
+                    <ValidationMessage For="(() => Usuario.Fecha)" />
                 </div>
 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <MatDatePicker @bind-Value="Usuario.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
-                <ValidationMessage For="(() => Usuario.Fecha)" />
-            </div>
+                <div class="form-group">
+                    <MatTextField Label="Nombre" @bind-Value="Usuario.Nombre" Style="height: 37px;"></MatTextField>
+                    <ValidationMessage For="(() => Usuario.Nombre)" />
+                </div>
 
-            <div class="form-group">
-                <MatTextField Label="Nombre" @bind-Value="Usuario.Nombre" Style="height: 37px;"></MatTextField>
-                <ValidationMessage For="(() => Usuario.Nombre)" />
-            </div>
+                <div class="form-group">
+                    <MatTextField Label="Email" @bind-Value="Usuario.Usuario" Icon="mail_outline" Style="height: 37px;"></MatTextField>
+                    <ValidationMessage For="(() => Usuario.Usuario)" />
+                </div>
 
-            <div class="form-group">
-                <MatTextField Label="Email" @bind-Value="Usuario.Usuario" Icon="mail_outline" Style="height: 37px;"></MatTextField>
-                <ValidationMessage For="(() => Usuario.Usuario)" />
-            </div>
+                <div class="form-group">
+                    <MatTextField Label="Clave" @bind-Value="Usuario.Contraseña" Style="height: 37px;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
+                    <ValidationMessage For="(() => Usuario.Contraseña)" />
+                </div>
 
-            <div class="form-group">
-                <MatTextField Label="Clave" @bind-Value="Usuario.Contraseña" Style="height: 37px;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
-                <ValidationMessage For="(() => Usuario.Contraseña)" />
-            </div>
-
-            <div class="form-group">
-                <label>Confirmar Clave</label>
-                <MatTextField Label="Clave" @bind-Value="Usuario.RepeatContraseña" Style="height: 37px;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
-                <ValidationMessage For="(() => Usuario.RepeatContraseña)" />
-            </div>
+                <div class="form-group">
+                    <label>Confirmar Clave</label>
+                    <MatTextField Label="Clave" @bind-Value="Usuario.RepeatContraseña" Style="height: 37px;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
+                    <ValidationMessage For="(() => Usuario.RepeatContraseña)" />
+                </div>
                 <div class="form-group">
                     <label>Tipo de Usuario</label>
                     <InputSelect class="form-control" @bind-Value="Usuario.TipoUsuarioId">
@@ -82,7 +82,8 @@
                     <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
                 </div>
                 <h5 class="text-success">@Mensaje</h5>
-        </EditForm>
+             </fieldset>>
+</EditForm>
     </div>
 </MatCard>
 

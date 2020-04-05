@@ -1,94 +1,105 @@
 ﻿@page "/Consulta/Usuarios"
-<h3>Consulta de Usuarios</h3>
 
-<div class="form-group row">
-    <input class="ml-2" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-    <div class="input-group  col-sm-6">
-
-        <label for="DesdeFecha" class="col-auto">Desde</label>
-        <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
-
-        <label for="HastaFechaInput" class="col-auto">&nbsp;&nbsp;Hasta</label>
-        <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
-    </div>
-</div>
-
-<div class="form-group row">
-    <label for="filtro">Filtro</label>
-    <div class="input-group  col-sm-10">
-        <select class="form-control" @bind="Filtro">
-            <option value="Todo">Todo</option>
-            <option value="Id">Id</option>
-            <option value="Nombres">Nombres</option>
-            <option value="Usuario">Usuario</option>
-        </select>
-
-        <div align="right" class="input-group col-md-8">
-            <label for="criterio"> Criterio </label>
-            <input type="search" class="form-control" @bind-value="Criterio" />
-        </div>
-        <button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
-    </div>
-</div>
-
-
-
-
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th>Usuario Id</th>
-            <th>Nombres</th>
-            <th>Nivel de Usuario</th>
-            <th>Usuario</th>
-            <th>Fecha Ingreso</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in lista)
-        {
-            <tr>
-                <th>@item.UsuarioId</th>
-                <th>@item.Nombre</th>
-                <th>@item.TiposUsuario</th>
-                <th>@item.Usuario</th>
-                <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
-                <td><a class="btn btn-sm btn-outline-primary" href="rUsuario/@item.UsuarioId">Ver</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<h5 class="text-success">@mensaje</h5>
-
-
-@code {
-
-    private List<Usuarios> lista { get; set; }
-
-    private string Filtro { get; set; }
-    private string Criterio { get; set; }
-    private string mensaje;
-
-    public bool BuscarFecha { get; set; }
-    public DateTime DesdeFecha { get; set; }
-    public DateTime HastaFecha { get; set; }
-
-
-    protected override void OnInitialized()
-    {
-        lista = new List<Usuarios>();
-        DesdeFecha = DateTime.Now;
-        HastaFecha = DateTime.Now;
+<style>
+    .demo-mat-card {
+        max-width: 900px;
+        margin-top: 2rem;
     }
+</style>
 
-    private void Buscar()
-    {
-        UsuariosController controller = new UsuariosController();
+<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
 
-        try
+    <MatHeadline6 Class="demo-mat-card-clean-margin">
+        Consulta Clientes
+    </MatHeadline6>
+
+    <MatDivider Padded="true"></MatDivider>
+    <div class="form-row">
+        <p>
+            <MatDatePicker @bind-Value="DesdeFecha" Label="Fecha:Desde" Style="height:37px;"></MatDatePicker>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <MatDatePicker @bind-Value="HastaFecha" Label="Fecha:Hasta" Style="height:37px; "></MatDatePicker>
+            <MatCheckbox Label="Filtra por fecha" @bind-Value="BuscarFecha"></MatCheckbox>
+        </p>
+    </div>
+
+    <br /><br />
+    <div class=" form-row">
+        <MatSelect Label="Filtro:" @bind-Value="Filtro" Style="height:20px;">
+            <MatOptionString Value="Todos">Todo</MatOptionString>
+            <MatOptionString Value="Id">Id</MatOptionString>
+            <MatOptionString Value="Nombre">Nombre</MatOptionString>
+            <MatOptionString Value="Usuario">Usuario</MatOptionString>
+        </MatSelect>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <MatTextField Label="Criterio" @bind-Value="Criterio" Style="width:400px;"></MatTextField>
+        &nbsp;&nbsp;
+        <MatThemeProvider Theme="buscar">  <MatIconButton Icon="search" @onclick="Buscar"> </MatIconButton> </MatThemeProvider>
+    </div>
+</MatCard>
+
+<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Usuario Id</th>
+                <th>Nombres</th>
+                <th>Nivel de Usuario</th>
+                <th>Usuario</th>
+                <th>Fecha Ingreso</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in lista)
+            {
+                <tr>
+                    <th>@item.UsuarioId</th>
+                    <th>@item.Nombre</th>
+                    <th>@item.TiposUsuario</th>
+                    <th>@item.Usuario</th>
+                    <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
+                    <td><a class="btn btn-sm btn-outline-primary" href="/Registro/Usuario/@item.UsuarioId">Ver</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</MatCard>
+
+    <h5 class="text-success">@mensaje</h5>
+
+
+    @code {
+
+        MatTheme buscar = new MatTheme()
         {
+            Primary = "grey",
+        };
+
+        private List<Usuarios> lista { get; set; }
+
+        private string Filtro { get; set; }
+        private string Criterio { get; set; }
+        private string mensaje;
+
+        public bool BuscarFecha { get; set; }
+        public DateTime DesdeFecha { get; set; }
+        public DateTime HastaFecha { get; set; }
+
+
+        protected override void OnInitialized()
+        {
+            lista = new List<Usuarios>();
+            DesdeFecha = DateTime.Now;
+            HastaFecha = DateTime.Now;
+        }
+
+        private void Buscar()
+        {
+            UsuariosController controller = new UsuariosController();
+
+            try
+            {
                 lista = controller.GetList(a => true);
 
                 if (lista.Count == 0)
@@ -106,7 +117,7 @@
                         case "Id":
                             lista = controller.GetList(e => e.UsuarioId == Convert.ToInt32(Criterio));
                             break;
-                        case "Nombres":
+                        case "Nombre":
                             lista = controller.GetList(e => e.Nombre == Criterio);
                             break;
                         case "Usuario":
@@ -118,11 +129,11 @@
                         lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
                     }
                 }
-            
-        }
-        catch (Exception)
-        {
-            throw;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
-}

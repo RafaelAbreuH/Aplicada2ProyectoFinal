@@ -1,37 +1,49 @@
 ﻿@page "/Consulta/Articulos"
-<h3>Consulta de Articulos</h3>
 
-<div class="form-group row">
-    <input class="ml-2" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-    <div class="input-group  col-sm-6">
 
-        <label for="DesdeFecha" class="col-auto">Desde</label>
-        <input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
 
-        <label for="HastaFechaInput" class="col-auto">&nbsp;&nbsp;Hasta</label>
-        <input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
+<style>
+    .demo-mat-card {
+        max-width: 900px;
+        margin-top: 2rem;
+
+    }
+   
+
+</style>
+
+<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
+
+        <MatHeadline6 Class="demo-mat-card-clean-margin">
+            Consulta Articulos
+        </MatHeadline6>
+
+    <MatDivider Padded="true"></MatDivider>
+    <div class="form-row">
+        <p>
+            <MatDatePicker @bind-Value="DesdeFecha" Label="Fecha:Desde" Style="height:37px;"></MatDatePicker>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <MatDatePicker @bind-Value="HastaFecha" Label="Fecha:Hasta" Style="height:37px; "></MatDatePicker>
+            <MatCheckbox Label="Filtra por fecha" @bind-Value="BuscarFecha"></MatCheckbox>
+        </p>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="filtro">Filtro</label>
-    <div class="input-group  col-sm-10">
-        <select class="form-control" @bind="Filtro">
-            <option value="" disabled selected>Seleccione un filtro</option>
-            <option value="Todo">Todo</option>
-            <option value="Id">Id</option>
-            <option value="Nombres">Nombres</option>
-            <option value="Usuario">Inventario</option>
-        </select>
-
-        <div align="right" class="input-group col-md-8">
-            <label for="criterio"> Criterio </label>
-            <input type="search" class="form-control" @bind-value="Criterio" />
-        </div>
-        <button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
+    <br /><br />
+    <div class=" form-row">
+        <MatSelect Label="Filtro:" @bind-Value="Filtro" Style="height:20px;">
+            <MatOptionString Value="Todo">Todo</MatOptionString>
+            <MatOptionString Value="Id">Id</MatOptionString>
+            <MatOptionString Value="Nombres">Nombres</MatOptionString>
+            <MatOptionString Value="Usuario">Inventario</MatOptionString>
+        </MatSelect>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <MatTextField Label="Criterio" @bind-Value="Criterio" Style="width:400px;"></MatTextField>
+        &nbsp;&nbsp;
+        <MatThemeProvider Theme="buscar">  <MatIconButton Icon="search" @onclick="Buscar"> </MatIconButton> </MatThemeProvider>
     </div>
-</div>
+</MatCard>
 
+<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
     <table class="table">
         <thead class="thead-light">
             <tr>
@@ -50,78 +62,83 @@
                     <td>@item.Nombre</td>
                     <td>@item.Inventario</td>
                     <td>@item.Fecha</td>
-                    <td><a class="btn btn-outline-info" href="Articulos/@item.ArticuloId">Ver</a></td>
+                    <td><a class="btn btn-outline-info" href="/Registro/Articulo/@item.ArticuloId">Ver</a></td>
                 </tr>
             }
         </tbody>
     </table>
+</MatCard>
+
+    @code {
+
+        private List<Articulos> lista { get; set; }
+
+        private string Filtro { get; set; }
+        private string Criterio { get; set; }
+        public string mensaje;
+        public bool BuscarFecha { get; set; }
+        public DateTime DesdeFecha { get; set; }
+        public DateTime HastaFecha { get; set; }
 
 
-@code {
-  
-    private List<Articulos> lista { get; set; }
-
-    private string Filtro { get; set; }
-    private string Criterio { get; set; }
-    public string mensaje;
-    public bool BuscarFecha { get; set; }
-    public DateTime DesdeFecha { get; set; }
-    public DateTime HastaFecha { get; set; }
-
-
-    protected override void OnInitialized()
-    {
-        lista = new List<Articulos>();
-        DesdeFecha = DateTime.Now;
-        HastaFecha = DateTime.Now;
-    }
-
-    private void Buscar()
-    {
-        ArticulosController controller = new ArticulosController();
-
-        try
+        MatTheme buscar = new MatTheme()
         {
-            if (Filtro == null)
-            {
-                mensaje = "Debe seleccionar un Filtro";
-            }
-            else
-            {
-                lista = controller.GetList(a => true);
+            Primary = "grey",
+        };
 
-                if (lista.Count == 0)
+        protected override void OnInitialized()
+        {
+            lista = new List<Articulos>();
+            DesdeFecha = DateTime.Now;
+            HastaFecha = DateTime.Now;
+        }
+
+        private void Buscar()
+        {
+            ArticulosController controller = new ArticulosController();
+
+            try
+            {
+                if (Filtro == null)
                 {
-                    mensaje = "No hay Clientes Registrado";
+                    mensaje = "Debe seleccionar un Filtro";
                 }
                 else
                 {
-                    mensaje = "";
-                    switch (Filtro)
+                    lista = controller.GetList(a => true);
+
+                    if (lista.Count == 0)
                     {
-                        case "Todo":
-                            lista = controller.GetList(e => true);
-                            break;
-                        case "Id":
-                            lista = controller.GetList(e => e.ArticuloId == Convert.ToInt32(Criterio));
-                            break;
-                        case "Nombre":
-                            lista = controller.GetList(e => e.Nombre == Criterio);
-                            break;
-                        case "Cedula":
-                            lista = controller.GetList(e => e.Inventario.ToString() == Criterio);
-                            break;
+                        mensaje = "No hay Clientes Registrado";
                     }
-                    if (BuscarFecha == true)
+                    else
                     {
-                        lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
+                        mensaje = "";
+                        switch (Filtro)
+                        {
+                            case "Todo":
+                                lista = controller.GetList(e => true);
+                                break;
+                            case "Id":
+                                lista = controller.GetList(e => e.ArticuloId == Convert.ToInt32(Criterio));
+                                break;
+                            case "Nombre":
+                                lista = controller.GetList(e => e.Nombre == Criterio);
+                                break;
+                            case "Cedula":
+                                lista = controller.GetList(e => e.Inventario.ToString() == Criterio);
+                                break;
+                        }
+                        if (BuscarFecha == true)
+                        {
+                            lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
+                        }
                     }
                 }
             }
-        }
-        catch (Exception)
-        {
-            throw;
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
-}

@@ -1,89 +1,94 @@
 ﻿@using Microsoft.AspNetCore.Components;
 @inject NavigationManager navigationManager
 
+<style>
+    .app-sidebar {
+        color: #fff
+    }
+    .mdc-drawer .mdc-list-item {
+        color: black;
+    }
 
+    .app-sidebar .mdc-list-item--selected {
+        border-left: solid 3px rgba(255, 255, 255, .5);
+        background: #6200ee !important;
+
+    }
+
+
+</style>
 
 <MatNavMenu Multi="true" Class="app-sidebar">
-    <MatNavItem Href="@navigationManager.ToAbsoluteUri(" ").AbsoluteUri" NavLinkMatch="NavLinkMatch.All">
+    <MatNavItem Href="/home" NavLinkMatch="NavLinkMatch.All">
         <MatIcon>home</MatIcon> <span class="miniHover">Home page</span>
     </MatNavItem>
 
-    <MatNavItem Href="@navigationManager.ToAbsoluteUri("todo_list").AbsoluteUri">
-        <MatIcon>list_alt</MatIcon> <span class="miniHover">Todo List</span>
-    </MatNavItem>
+    <MatNavSubMenu>
+
+        <MatNavSubMenuHeader>
+            <MatNavItem>
+                <MatIcon>list</MatIcon>
+                <span class="miniHover">  Registros</span>
+            </MatNavItem>
+        </MatNavSubMenuHeader>
+
+        <MatNavSubMenuList>
+
+            <MatNavItem Href="/Consulta/Usuario">
+                <MatIcon>send</MatIcon> <span class="miniHover">Consulta Usuario</span>
+            </MatNavItem>
+        </MatNavSubMenuList>
+
+
+    </MatNavSubMenu>
+    <MatDivider></MatDivider>
+
+    <MatNavSubMenu>
+
+        <MatNavSubMenuHeader>
+            <MatNavItem>
+                <MatIcon>list</MatIcon>
+                <span class="miniHover">  Consultas</span>
+            </MatNavItem>
+        </MatNavSubMenuHeader>
+
+        <MatNavSubMenuList>
+            <MatNavItem Href="/Consulta/Usuario">
+                <MatIcon>send</MatIcon> <span class="miniHover">Consulta Usuario</span>
+            </MatNavItem>
+        </MatNavSubMenuList>
+
+
+    </MatNavSubMenu>
+    <MatDivider></MatDivider>
 
     <MatNavSubMenu>
         <MatNavSubMenuHeader>
             <MatNavItem AllowSelection="false">
-                <MatIcon>stars</MatIcon><span class="miniHover"> Features</span>
+                <MatIcon>settings_applications</MatIcon> <span class="miniHover">Admin</span>
             </MatNavItem>
         </MatNavSubMenuHeader>
         <MatNavSubMenuList>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("drag_and_drop").AbsoluteUri">
-                <MatIcon>touch_app</MatIcon> <span class="miniHover">Drag and Drop</span>
+            <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/users").AbsoluteUri">
+                <MatIcon>supervisor_account</MatIcon> <span class="miniHover">Users</span>
             </MatNavItem>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("screenshots").AbsoluteUri">
-                <MatIcon>screen_share</MatIcon> <span class="miniHover">Screenshots</span>
+            <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/roles").AbsoluteUri">
+                <MatIcon>supervisor_account</MatIcon> <span class="miniHover">Roles</span>
+            </MatNavItem>
+            <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/blazor_middlware_audit").AbsoluteUri">
+                <MatIcon>change_history</MatIcon> <span class="miniHover">Api Audit Log</span>
+            </MatNavItem>
+            <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/dBlogViewer").AbsoluteUri">
+                <MatIcon>notes</MatIcon> <span class="miniHover">DB Logging View</span>
             </MatNavItem>
         </MatNavSubMenuList>
     </MatNavSubMenu>
 
-    <MatNavItem Href="@navigationManager.ToAbsoluteUri("dashboard").AbsoluteUri">
-        <MatIcon>bar_chart</MatIcon> <span class="miniHover">Dashboard</span>
+    <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/users").AbsoluteUri" Disabled="true">
+        <MatIcon>supervisor_account</MatIcon> <span class="miniHover">Admin</span>
     </MatNavItem>
 
-    <MatNavSubMenu>
-        <MatNavSubMenuHeader>
-            <MatNavItem AllowSelection="false">
-                <MatIcon>mail_outline</MatIcon>
-                <span class="miniHover"> Email</span>
-            </MatNavItem>
-        </MatNavSubMenuHeader>
-        <MatNavSubMenuList>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("email_view").AbsoluteUri">
-                <MatIcon>inbox</MatIcon> <span class="miniHover">Read Email</span>
-            </MatNavItem>
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("email").AbsoluteUri">
-                <MatIcon>send</MatIcon> <span class="miniHover">Send Email</span>
-            </MatNavItem>
-        </MatNavSubMenuList>
-    </MatNavSubMenu>
 
-
-            <MatNavSubMenu>
-                <MatNavSubMenuHeader>
-                    <MatNavItem AllowSelection="false">
-                        <MatIcon>settings_applications</MatIcon> <span class="miniHover">Admin</span>
-                    </MatNavItem>
-                </MatNavSubMenuHeader>
-                <MatNavSubMenuList>
-                    <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/users").AbsoluteUri">
-                        <MatIcon>supervisor_account</MatIcon> <span class="miniHover">Users</span>
-                    </MatNavItem>
-                    <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/roles").AbsoluteUri">
-                        <MatIcon>supervisor_account</MatIcon> <span class="miniHover">Roles</span>
-                    </MatNavItem>
-                    <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/blazor_middlware_audit").AbsoluteUri">
-                        <MatIcon>change_history</MatIcon> <span class="miniHover">Api Audit Log</span>
-                    </MatNavItem>
-                    <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/dBlogViewer").AbsoluteUri">
-                        <MatIcon>notes</MatIcon> <span class="miniHover">DB Logging View</span>
-                    </MatNavItem>
-                </MatNavSubMenuList>
-            </MatNavSubMenu>
-
-            <MatNavItem Href="@navigationManager.ToAbsoluteUri("admin/users").AbsoluteUri" Disabled="true">
-                <MatIcon>supervisor_account</MatIcon> <span class="miniHover">Admin</span>
-            </MatNavItem>
-
-
-    <MatNavItem Href="@navigationManager.ToAbsoluteUri("forum").AbsoluteUri">
-        <MatIcon>forum</MatIcon> <span class="miniHover">Forum</span>
-    </MatNavItem>
-
-    <MatNavItem Href="@navigationManager.ToAbsoluteUri("sponsors").AbsoluteUri">
-        <MatIcon>attach_money</MatIcon> <span class="miniHover">Sponsors</span>
-    </MatNavItem>
 </MatNavMenu>
 
 @code {

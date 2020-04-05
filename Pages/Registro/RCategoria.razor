@@ -22,18 +22,14 @@
                 <DataAnnotationsValidator />
                 <label class="text-muted form-text">@Mensaje</label>
 
-                <div class="form-row">
-                    <div class="input-group-append">
 
+                    <div class="input-group-append">
                         <MatTextField Label="CategoriaId" @bind-Value="Categoria.CategoriaId" Style="height: 37px;"></MatTextField>
                         <ValidationMessage For="(() => Categoria.CategoriaId)" />
                         <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
                     </div>
 
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <MatDatePicker @bind-Value="Categoria.Fecha" Label="Fecha" Style="height:37px; width: 10rem; "></MatDatePicker>
-                    <ValidationMessage For="(() => Categoria.Fecha)" />
-                </div>
+
                 <br />
 
                 <div class="form-group">

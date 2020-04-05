@@ -1,69 +1,83 @@
 ﻿@page "/Consulta/TipoUsuario"
-<h3>Consulta de TipoUsuario</h3>
-
-
-<div class="form-group row">
-    <label for="filtro">Filtro</label>
-    <div class="input-group  col-sm-10">
-        <select class="form-control" @bind="Filtro">
-            <option value="0">Todos</option>
-            <option value="1">Id</option>
-            <option value="2">Descripcion</option>
-        </select>
-        <div align="right" class="input-group col-md-8">
-            <label for="criterio"> Criterio </label>
-            <input type="search" class="form-control" @bind-value="Criterio" />
-        </div>
-        <button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
-    </div>
-</div>
-
-
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th>Id</th>
-            <th>Descripcion</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in lista)
-        {
-            <tr>
-                <td>@item.TipoUsuarioId</td>
-                <td>@item.Descripcion</td>
-                <td><a class="btn btn-outline-info" href="Clientes/@item.TipoUsuarioId">Ver</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
-
-@code {
-
-    private List<TiposUsuarios> lista { get; set; }
-
-    private string Filtro { get; set; }
-    private string Criterio { get; set; }
-    public string mensaje;
-    public bool BuscarFecha { get; set; }
-
-
-
-    protected override void OnInitialized()
-    {
-        lista = new List<TiposUsuarios>();
-
+<style>
+    .demo-mat-card {
+        max-width: 900px;
+        margin-top: 2rem;
     }
+</style>
 
-    private void Buscar()
-    {
-        TipoUsuariosController controller = new TipoUsuariosController();
+<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
 
-        try
+    <MatHeadline6 Class="demo-mat-card-clean-margin">
+        Consulta Tipo Usuario
+    </MatHeadline6>
+
+    <MatDivider Padded="true"></MatDivider>
+
+    <br /><br />
+    <div class=" form-row">
+        <MatSelect Label="Filtro:" @bind-Value="Filtro" Style="height:20px;">
+            <MatOptionString Value="Todos">Todo</MatOptionString>
+            <MatOptionString Value="Id">Id</MatOptionString>
+            <MatOptionString Value="Descripcion">Descripcion</MatOptionString>
+
+        </MatSelect>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <MatTextField Label="Criterio" @bind-Value="Criterio" Style="width:400px;"></MatTextField>
+        &nbsp;&nbsp;
+        <MatThemeProvider Theme="buscar">  <MatIconButton Icon="search" @onclick="Buscar"> </MatIconButton> </MatThemeProvider>
+    </div>
+</MatCard>
+
+<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in lista)
+            {
+                <tr>
+                    <td>@item.TipoUsuarioId</td>
+                    <td>@item.Descripcion</td>
+                    <td><a class="btn btn-outline-info" href="/Registro/TipoUsuario/@item.TipoUsuarioId">Ver</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</MatCard>
+
+
+    @code {
+
+        private List<TiposUsuarios> lista { get; set; }
+
+        private string Filtro { get; set; }
+        private string Criterio { get; set; }
+        public string mensaje;
+        public bool BuscarFecha { get; set; }
+
+        MatTheme buscar = new MatTheme()
         {
+            Primary = "grey",
+        };
+
+        protected override void OnInitialized()
+        {
+            lista = new List<TiposUsuarios>();
+
+        }
+
+        private void Buscar()
+        {
+            TipoUsuariosController controller = new TipoUsuariosController();
+
+            try
+            {
                 lista = controller.GetList(a => true);
 
                 if (lista.Count == 0)
@@ -86,10 +100,10 @@
                             break;
                     }
                 }
-        }
-        catch (Exception)
-        {
-            throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
-}

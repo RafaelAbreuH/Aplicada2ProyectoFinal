@@ -1,4 +1,4 @@
-﻿@page "/Consulta/TipoCliente"
+﻿@page "/Consulta/Categoria"
 <style>
     .demo-mat-card {
         max-width: 900px;
@@ -19,7 +19,7 @@
         <MatSelect Label="Filtro:" @bind-Value="Filtro" Style="height:20px;">
             <MatOptionString Value="Todos">Todo</MatOptionString>
             <MatOptionString Value="Id">Id</MatOptionString>
-            <MatOptionString Value="Descripcion">Descripcion</MatOptionString>
+            <MatOptionString Value="Nombre">Nombre</MatOptionString>
 
         </MatSelect>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -30,32 +30,32 @@
 </MatCard>
 
 <MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th>Id</th>
-            <th>Descripcion</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in lista)
-        {
+    <table class="table">
+        <thead class="thead-light">
             <tr>
-                <td>@item.TipoClienteId</td>
-                <td>@item.Descripcion</td>
-                <td><a class="btn btn-outline-info" href="/Registro/TipoCliente/@item.TipoClienteId">Ver</a></td>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in lista)
+            {
+                <tr>
+                    <td>@item.CategoriaId</td>
+                    <td>@item.Nombre</td>
+                    <td><a class="btn btn-outline-info" href="/Registro/Categoria/@item.CategoriaId">Ver</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </MatCard>
 
 
 
 @code {
 
-    private List<TiposClientes> lista { get; set; }
+    private List<Categorias> lista { get; set; }
 
     private string Filtro { get; set; }
     private string Criterio { get; set; }
@@ -69,12 +69,12 @@
 
     protected override void OnInitialized()
     {
-        lista = new List<TiposClientes>();
+        lista = new List<Categorias>();
     }
 
     private void Buscar()
     {
-        TipoClientesController controller = new TipoClientesController();
+        CategoriasController controller = new CategoriasController();
 
         try
         {
@@ -82,7 +82,7 @@
 
             if (lista.Count == 0)
             {
-                mensaje = "No hay TipoClinete Registrado";
+                mensaje = "No hay Categoria Registrado";
             }
             else
             {
@@ -93,10 +93,10 @@
                         lista = controller.GetList(e => true);
                         break;
                     case "Id":
-                        lista = controller.GetList(e => e.TipoClienteId == Convert.ToInt32(Criterio));
+                        lista = controller.GetList(e => e.CategoriaId == Convert.ToInt32(Criterio));
                         break;
-                    case "Descripcion":
-                        lista = controller.GetList(e => e.Descripcion == Criterio);
+                    case "Nombre":
+                        lista = controller.GetList(e => e.Nombre == Criterio);
                         break;
                 }
             }
