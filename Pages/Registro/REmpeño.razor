@@ -10,11 +10,14 @@
         margin-left: auto;
         margin-right: auto
     }
+    .mdc-text-field {
+        width: 100%;
+    }
 </style>
 
-<MatCard Class="mat-elevation-z8 demo-mat-card">
-    <MatHeadline6 Class="demo-mat-card-clean-margin">
-        Articulos
+<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
+    <MatHeadline6 Class="demo-mat-card-clean-margin mat-layout-grid-cell mat-layout-grid-cell-align-middle">
+        Registro Empeño
     </MatHeadline6>
     <MatDivider Padded="true"></MatDivider>
     <div class="form-register">
@@ -33,6 +36,11 @@
 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <MatDatePicker @bind-Value="FechaActual" Required="true" Label="Fecha Actual" ReadOnly="true" Style="height:37px; width: 10rem; "></MatDatePicker>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                    <MatDatePicker @bind-Value="Empeño.Fecha" Required="true" Label="Fecha Empeño" Style="height:37px; " @onchange="CalcularEstado" @onclick="CalcularEstado"></MatDatePicker>
+                    <ValidationMessage For="(() => Empeño.Fecha)" />
+                </div>
             </div>
 
 
@@ -52,88 +60,93 @@
                 </InputSelect>
             </div>
 
-                <div class="form-group">
-                    <label for="Articulo">Articulo</label>
-                    <InputSelect @bind-Value="@ArticuloSeleccionado" class="form-control " @onchange="CargarArticulos" @onclick="CargarArticulos">
-                        <option value="0" disabled selected>Seleccione un Articulo</option>
-                        @if (ListadoArticulos.Count <= 0)
+            <div class="form-group">
+                <label for="Articulo">Articulo</label>
+                <InputSelect @bind-Value="@ArticuloSeleccionado" class="form-control " @onchange="CargarArticulos" @onclick="CargarArticulos">
+                    <option value="0" disabled selected>Seleccione un Articulo</option>
+                    @if (ListadoArticulos.Count <= 0)
+                    {
+                        <option value="" disabled>No Hay Articulo Registrado</option>
+                    }
+                    else
+                        @foreach (var item in ListadoArticulos)
                         {
-                            <option value="" disabled>No Hay Articulo Registrado</option>
+                            <option value="@item.ArticuloId">@item.Nombre</option>
                         }
-                        else
-                            @foreach (var item in ListadoArticulos)
-                            {
-                                <option value="@item.ArticuloId">@item.Nombre</option>
-                            }
-                    </InputSelect>
-                </div>
+                </InputSelect>
+            </div>
 
-                <div class="form-group">
-                    <MatTextField Label="Cantidad" Required="true" @bind-Value="Detalle.Cantidad" Style="height:37px; "></MatTextField>
-                    <ValidationMessage For="(() => Detalle.Cantidad)" />
-                </div>
 
-                <div class="form-group">
-                    <MatDatePicker @bind-Value="Empeño.Fecha" Required="true" Label="Fecha Empeño"  Style="height:37px; " @onchange="CalcularEstado" @onclick="CalcularEstado"></MatDatePicker>
-                    <ValidationMessage For="(() => Empeño.Fecha)" />
-                </div>
 
-                <div class="form-group">
-                    <MatTextField @bind-Value="Estado" Label="Estado" Style="height:37px; " ReadOnly="true"></MatTextField>
-                </div>
+            <div class="form-group">
+                <MatTextField @bind-Value="Estado" Label="Estado" Style="height:37px; " ReadOnly="true"></MatTextField>
+            </div>
 
-                <div class="form-group">
-                    <MatTextField @bind-Value="Detalle.Descripcion" Required="true" Label="Descripcion" Style="height:37px; "></MatTextField>
+
+            <div class="form-row">
+                <div class="form-group mat-layout-grid-cell" style="max-width: 500px;">
+                    <MatTextField @bind-Value="Detalle.Descripcion" Required="true" Label="Descripcion" Style="height:37px; max-width:500px;"></MatTextField>
                     <ValidationMessage For="(() => Detalle.Descripcion)" />
                 </div>
-                <div class="form-group">
-                    <MatTextField @bind-Value="Detalle.Monto" Required="true" Label="Monto" Style="height:37px; "></MatTextField>
-                    <ValidationMessage For="(() => Detalle.Monto)" />
-                    <MatIconButton Raised="true" Icon="add_box" @onclick="AgregarDetalle" ></MatIconButton> 
 
+                &nbsp;&nbsp;&nbsp;
+                <div class="form-group mat-layout-grid-cell">
+                    <MatTextField Label="Cantidad" Required="true" @bind-Value="Detalle.Cantidad" Style="height:37px; max-width:100px;"></MatTextField>
+                    <ValidationMessage For="(() => Detalle.Cantidad)" />
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>EmpeñoId</th>
-                                    <th>ArticuloId</th>
-                                    <th>Descripcion</th>
-                                    <th>Cantidad</th>
-                                    <th>Monto</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Empeño.Detalle)
-                                {
-                                    <tr>
-                                        <th>@item.EmpeñoId</th>
-                                        <th>@item.ArticuloId</th>
-                                        <th>@item.Articulo</th>
-                                        <th>@item.Descripcion</th>
-                                        <th>@item.Cantidad</th>
-                                        <th>@item.Monto</th>
-                                        <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarArticulo(item))">Eliminar</button></th>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                &nbsp;&nbsp;&nbsp;
+                <div class="input-group-append mat-layout-grid-cell">
+                    <MatTextField @bind-Value="Detalle.Monto" Required="true" Label="Monto" Style="height:37px; max-width:100px;"></MatTextField>
+                    <ValidationMessage For="(() => Detalle.Monto)" />
+                    &nbsp;&nbsp;&nbsp;
+                    <MatIconButton Raised="true" Icon="add_box" @onclick="AgregarDetalle"></MatIconButton>
+                </div>
 
-                        <div class="col-md-2 no-padding">
-                            <MatTextField @bind-Value="@MontoTotal" Label="Total" Style="height:37px; " ReadOnly="true"></MatTextField>
-                        </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>EmpeñoId</th>
+                                <th>ArticuloId</th>
+                                <th>Descripcion</th>
+                                <th>Cantidad</th>
+                                <th>Monto</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Empeño.Detalle)
+                            {
+                                <tr>
+                                    <th>@item.EmpeñoId</th>
+                                    <th>@item.ArticuloId</th>
+                                    <th>@item.Articulo</th>
+                                    <th>@item.Descripcion</th>
+                                    <th>@item.Cantidad</th>
+                                    <th>@item.Monto</th>
+                                    <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarArticulo(item))">Eliminar</button></th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="mat-layout-grid mat-layout-grid-align-right" style="max-width: 800px;">
+
+                        <MatTextField @bind-Value="@MontoTotal" Label="Total" Style="height:37px; " ReadOnly="true"></MatTextField>
                     </div>
                 </div>
-                <div>
-                    <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
-                    <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
-                    <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+            </div>
+            <div>
+                <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
 
-                </div>
-                <h5 class="text-success">@Mensaje</h5>
-</EditForm>
+            </div>
+            <h5 class="text-success">@Mensaje</h5>
+        </EditForm>
     </div>
 </MatCard>
 

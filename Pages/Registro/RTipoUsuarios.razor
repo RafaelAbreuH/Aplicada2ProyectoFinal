@@ -28,11 +28,11 @@
             <div class="input-group-append">
                 <MatTextField Label="TipoUsuarioId" Required="true" @bind-Value="TipoUsuario.TipoUsuarioId" InputStyle="number" Style="height: 37px; margin-left:5px"></MatTextField>
                 <ValidationMessage For="(() => TipoUsuario.TipoUsuarioId)" />
-                <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
+                <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" max-width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
             </div>
             <br />
             <div class="form-group">
-                <MatTextField Label="Descripcion" Required="true" @bind-Value="TipoUsuario.Descripcion" Style="height: 37px; width:400px;"  ></MatTextField>
+                <MatTextField Label="Descripcion" Required="true" @bind-Value="TipoUsuario.Descripcion" Style="height: 37px;  width:100%  !important;"  ></MatTextField>
                 <ValidationMessage For="(() => TipoUsuario.Descripcion)" />
             </div>
 
