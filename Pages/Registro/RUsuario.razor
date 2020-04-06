@@ -175,19 +175,8 @@
             Usuario.TipoUsuarioId = Convert.ToInt32(TipoSeleccionado);
         }
 
-                     MatTheme guarda = new MatTheme()
-            {
-                Primary = "green",
-            };
- 
-                MatTheme eliminar = new MatTheme()
-            {
-                Primary = "red",
-            };
- 
-                MatTheme buscar = new MatTheme()
-            {
-                Primary = "grey",
-            };
+        MatTheme guarda = new MatTheme() { Primary = "green" };
+        MatTheme eliminar = new MatTheme(){ Primary = "red" };
+        MatTheme buscar = new MatTheme() { Primary = "grey" };
  
     }
