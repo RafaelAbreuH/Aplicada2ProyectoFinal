@@ -41,7 +41,7 @@
                 <br />
 
                 <div class="form-group">
-            <InputSelect @bind-Value="@CategoriaSeleccionado"  class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
+            <InputSelect @bind-Value="@CategoriaSeleccionada"  class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
                 <option value="0" disabled selected>Seleccione una Categoria</option>
                 @if (ListadoCategorias.Count <= 0)
                 {
@@ -91,7 +91,7 @@
         ArticulosController articulosController = new ArticulosController();
         CategoriasController categoriasController = new CategoriasController();
         private List<Categorias> ListadoCategorias { get; set; }
-        string CategoriaSeleccionado = "0";
+        string CategoriaSeleccionada = string.Empty;
 
         protected override void OnInitialized()
         {
@@ -100,14 +100,15 @@
             Limpiar();
             if (ArticuloId != 0)
             {
-                Articulo.ArticuloId =ArticuloId;
+                Articulo.ArticuloId = ArticuloId;
                 Buscar();
             }
         }
 
         private void Limpiar()
         {
-            Articulo = new Articulos();
+            this.Articulo = new Articulos();
+            CategoriaSeleccionada = "0";
             LimpiarMensajes();
         }
 
@@ -132,12 +133,13 @@
 
         public void Buscar()
         {
-            var articulo = articulosController.Buscar(Articulo.ArticuloId);
+            Articulos articulo = articulosController.Buscar(Articulo.ArticuloId);
 
             if (articulo != null)
             {
                 Limpiar();
                 Articulo = articulo;
+                CategoriaSeleccionada = Articulo.CategoriaId.ToString();
                 toastService.ShowSuccess("Articulo encontrado.", "Exito");
             }
             else
@@ -149,7 +151,7 @@
 
         public void Eliminar()
         {
-            var articulo = articulosController.Buscar(Articulo.ArticuloId);
+            Articulos articulo = articulosController.Buscar(Articulo.ArticuloId);
 
             if (articulo != null)
             {
@@ -165,7 +167,7 @@
         }
         private void SeleccionarCategoria()
         {
-            Articulo.CategoriaId = Convert.ToInt32(CategoriaSeleccionado);
+            Articulo.CategoriaId = Convert.ToInt32(CategoriaSeleccionada);
         }
 
         MatTheme guarda = new MatTheme()
