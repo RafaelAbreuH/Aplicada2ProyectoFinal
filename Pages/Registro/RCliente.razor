@@ -92,19 +92,20 @@
             public int ClienteId { get; set; }
             string Mensaje = string.Empty;
             string TipoClienteSeleccionado = "0";
-            Clientes Cliente = new Clientes();
+            Clientes Cliente { get; set; }
             ClientesController controller = new ClientesController();
             TipoClientesController tipoClientesController = new TipoClientesController();
             private List<TiposClientes> ListadoTipoClientes { get; set; }
 
             protected override void OnInitialized()
             {
-
+                Cliente = new Clientes();
                 ListadoTipoClientes = tipoClientesController.GetList(e => true);
                 Limpiar();
                 if (ClienteId != 0)
                 {
-                    Cliente = controller.Buscar(ClienteId);
+                    Cliente.ClienteId = ClienteId;
+                    Buscar();
                 }
             }
             private void Limpiar()

@@ -100,7 +100,8 @@
             Limpiar();
             if (ArticuloId != 0)
             {
-                Articulo = articulosController.Buscar(ArticuloId);
+                Articulo.ArticuloId =ArticuloId;
+                Buscar();
             }
         }
 

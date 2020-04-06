@@ -56,10 +56,12 @@
 
         protected override void OnInitialized()
         {
+            TipoCliente = new TiposClientes();
             Limpiar();
             if (TipoClienteId != 0)
             {
-                TipoCliente = controller.Buscar(TipoClienteId);
+                TipoCliente.TipoClienteId = TipoClienteId;
+                Buscar();
             }
         }
 

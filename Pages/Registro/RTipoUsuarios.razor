@@ -52,10 +52,12 @@
 
     protected override void OnInitialized()
     {
+        TipoUsuario = new TiposUsuarios();
         Limpiar();
         if (TipoUsuarioId != 0)
         {
-            TipoUsuario = controller.Buscar(TipoUsuarioId);
+            TipoUsuario.TipoUsuarioId = TipoUsuarioId;
+            Buscar();
         }
     }
 

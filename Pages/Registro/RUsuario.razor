@@ -31,13 +31,13 @@
                         <ValidationMessage For="(() => Usuario.UsuarioId)" />
                         <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" max-width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
                     </div>
-                    &nbsp; &nbsp; 
+                    &nbsp; &nbsp;
                     <MatDatePicker Required="true" @bind-Value="Usuario.Fecha" Label="Fecha" Style="height:37px; max-width: 10rem; "></MatDatePicker>
                     <ValidationMessage For="(() => Usuario.Fecha)" />
                 </div>
                 <br />
                 <div class="form-group">
-                    <InputSelect class="form-control" @bind-Value="Usuario.TipoUsuarioId" @onchange="SeleccionarTipo" @onclick="SeleccionarTipo" >
+                    <InputSelect class="form-control" @bind-Value="TipoSeleccionado" @onchange="SeleccionarTipo" @onclick="SeleccionarTipo">
                         <option value="0" disabled selected>Seleccione un Tipo de Usuario</option>
                         @if (ListadoTipos.Count == 0)
                         {
@@ -61,6 +61,12 @@
                 <div class="form-group">
                     <MatTextField Label="Email" Required="true" @bind-Value="Usuario.Email" Icon="mail_outline" Style="height: 37px;width:100%  !important;"></MatTextField>
                     <ValidationMessage For="(() => Usuario.Email)" />
+                    <p class="validation-message"> @MensajeEmail </p>
+                </div>
+                <div class="form-group">
+                    <MatTextField Label="Usuario" Required="true" @bind-Value="Usuario.Usuario"  Style="height: 37px;width:100%  !important;"></MatTextField>
+                    <ValidationMessage For="(() => Usuario.Usuario)" />
+                    <p class="validation-message"> @MensajeUsuario </p>
                 </div>
                 <div class="form-group">
                     <MatTextField Label="Contraseña" Required="true" @bind-Value="Usuario.Contraseña" Style="height: 37px;width:100%  !important;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
@@ -69,6 +75,7 @@
                 <div class="form-group">
                     <MatTextField Label="Confirmar Contraseña" Required="true" @bind-Value="Usuario.RepeatContraseña" Style="height: 37px;width:100%  !important;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
                     <ValidationMessage For="(() => Usuario.RepeatContraseña)" />
+                    <p class="validation-message"> @MensajeContrasena </p>
                 </div>
 
 
@@ -87,9 +94,13 @@
         [Parameter]
         public int UsuarioId { get; set; }
         string Mensaje = string.Empty;
-        private int TipoSeleccionado = 0;
+        private string MensajeEmail = string.Empty;
+        private string MensajeUsuario =string.Empty;
+        private string MensajeContrasena =string.Empty;
+        private string TipoSeleccionado = string.Empty;
         Usuarios Usuario { get; set; }
         UsuariosController controller = new UsuariosController();
+
         TiposUsuarios Tipos { get; set; }
         List<TiposUsuarios> ListadoTipos = new List<TiposUsuarios>();
         TipoUsuariosController tipousuariosController = new TipoUsuariosController();
@@ -97,20 +108,22 @@
         protected override void OnInitialized()
         {
             Usuario = new Usuarios();
-            Tipos = new TiposUsuarios();
             ListadoTipos = tipousuariosController.GetList(e => true);
             if (UsuarioId != 0)
             {
-                Usuario = controller.Buscar(UsuarioId);
+                Usuario.UsuarioId = UsuarioId;
+                Buscar();
             }
         }
         private void Limpiar()
         {
-            Usuario = new Usuarios();
+            this.Usuario = new Usuarios();
+            TipoSeleccionado = "0";
         }
 
         public void Guardar()
         {
+            SeleccionarTipo();
             if (controller.Guardar(Usuario))
             {
                 Limpiar();
@@ -125,12 +138,13 @@
 
         public void Buscar()
         {
-            var usuario = controller.Buscar(Usuario.UsuarioId);
+            Usuarios usuario = controller.Buscar(Usuario.UsuarioId);
 
             if (usuario != null)
             {
+                Limpiar();
                 Usuario = usuario;
-                TipoSeleccionado = Usuario.TipoUsuarioId;
+                TipoSeleccionado = Usuario.TipoUsuarioId.ToString();
                 toastService.ShowSuccess("Usuario encontrado.", "Exito");
             }
             else
@@ -158,7 +172,7 @@
         }
         private void SeleccionarTipo()
         {
-            Usuario.TipoUsuarioId = TipoSeleccionado;
+            Usuario.TipoUsuarioId = Convert.ToInt32(TipoSeleccionado);
         }
 
                      MatTheme guarda = new MatTheme()

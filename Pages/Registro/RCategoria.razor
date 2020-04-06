@@ -62,7 +62,8 @@
             Limpiar();
             if (CategoriaId != 0)
             {
-                Categoria = controller.Buscar(CategoriaId);
+                Categoria.CategoriaId = CategoriaId;
+                Buscar();
             }
         }
 
