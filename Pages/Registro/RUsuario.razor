@@ -23,7 +23,6 @@
     <div class="form-register">
         <EditForm Model="@Usuario" OnValidSubmit="Guardar">
             <DataAnnotationsValidator />
-            <label class="text-muted form-text">@Mensaje</label>
             <fieldset>
                 <div class="form-row">
                     <div class="input-group-append">
@@ -84,7 +83,6 @@
                     <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
                     <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
                 </div>
-                <h5 class="text-success">@Mensaje</h5>
             </fieldset>
 </EditForm>
     </div>
@@ -93,7 +91,6 @@
     @code {
         [Parameter]
         public int UsuarioId { get; set; }
-        string Mensaje = string.Empty;
         private string MensajeEmail = string.Empty;
         private string MensajeUsuario =string.Empty;
         private string MensajeContrasena =string.Empty;
@@ -109,6 +106,7 @@
         {
             Usuario = new Usuarios();
             ListadoTipos = tipousuariosController.GetList(e => true);
+            Limpiar();
             if (UsuarioId != 0)
             {
                 Usuario.UsuarioId = UsuarioId;
@@ -119,10 +117,35 @@
         {
             this.Usuario = new Usuarios();
             TipoSeleccionado = "0";
+            LimpiarMensajes();
         }
-
+        private void LimpiarMensajes()
+        {
+            MensajeEmail = string.Empty;
+            MensajeUsuario =string.Empty;
+            MensajeContrasena =string.Empty;
+        }
         public void Guardar()
         {
+            LimpiarMensajes();
+
+            if (ExisteEmail())
+            {
+                MensajeEmail = "Existe un usuario con este Email, debe ingresar otro.";
+                return;
+            }
+
+            if (ExisteUsuario())
+            {
+                MensajeUsuario = "Existe un usuario con este nombre de Usuario, debe ingresar otro.";
+                return;
+            }
+
+            if (Usuario.Contraseña == Usuario.RepeatContraseña == false)
+        {
+                MensajeContrasena = "Las contraseñas no coinciden.";
+                return;
+            }
             SeleccionarTipo();
             if (controller.Guardar(Usuario))
             {
@@ -174,9 +197,61 @@
         {
             Usuario.TipoUsuarioId = Convert.ToInt32(TipoSeleccionado);
         }
+        public bool ExisteEmail()  
+        {
+        bool paso = false;
+        var Listado = new List<Usuarios>();
+
+        Listado = controller.GetList(p => p.Email == Usuario.Email);
+
+        if (Listado.Count == 1)
+        {
+            if(Usuario.UsuarioId== 0)
+                return paso = true;
+
+            Usuarios UsuarioTemporal = new Usuarios();
+            UsuarioTemporal = Listado[0];
+            if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+        }
+        public bool ExisteUsuario()
+        {
+        bool paso = false;
+        var Listado = new List<Usuarios>();
+
+        Listado = controller.GetList(p => p.Usuario == Usuario.Usuario);
+
+        if (Listado.Count == 1)
+        {
+            if(Usuario.UsuarioId== 0)
+                return paso = true;
+
+            Usuarios UsuarioTemporal = new Usuarios();
+            UsuarioTemporal = Listado[0];
+            if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+        }
 
         MatTheme guarda = new MatTheme() { Primary = "green" };
         MatTheme eliminar = new MatTheme(){ Primary = "red" };
         MatTheme buscar = new MatTheme() { Primary = "grey" };
- 
+
     }

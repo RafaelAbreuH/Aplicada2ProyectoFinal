@@ -15,29 +15,24 @@ namespace Aplicada2ProyectoFinal.Controllers
         {
             Contexto contexto = new Contexto();
             bool paso = false;
-
             try
             {
                 if (cliente.ClienteId == 0)
                 {
                     paso = Insertar(cliente);
-
                 }
                 else
                 {
                     paso = Modificar(cliente);
-
                 }
             }
             catch (Exception)
             {
                 throw;
-
             }
             finally
             {
                 contexto.Dispose();
-
             }
 
             return paso;

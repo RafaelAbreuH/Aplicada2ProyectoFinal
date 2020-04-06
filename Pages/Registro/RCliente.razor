@@ -2,8 +2,6 @@
 @page "/Registro/Cliente/{ClienteId:int}"
 @inject IToastService toastService
 
-
-
     <style>
         .demo-mat-card {
             max-width: 550px;
@@ -27,8 +25,6 @@
             <EditForm Model="@Cliente" OnValidSubmit="Guardar">
                 <DataAnnotationsValidator />
                 <label class="text-muted form-text">@Mensaje</label>
-
-
                 <div class="form-row">
                     <div class="input-group-append">
                         <MatTextField Label="ClienteId" Required="true" @bind-Value="Cliente.ClienteId" Style="height: 37px;"></MatTextField>
@@ -90,12 +86,13 @@
         @code {
             [Parameter]
             public int ClienteId { get; set; }
-            string Mensaje = string.Empty;
-            string TipoClienteSeleccionado = "0";
             Clientes Cliente { get; set; }
+            string Mensaje = string.Empty;
             ClientesController controller = new ClientesController();
             TipoClientesController tipoClientesController = new TipoClientesController();
             private List<TiposClientes> ListadoTipoClientes { get; set; }
+            string TipoClienteSeleccionado = string.Empty;
+           
 
             protected override void OnInitialized()
             {
@@ -110,7 +107,13 @@
             }
             private void Limpiar()
             {
-                Cliente = new Clientes();
+                this.Cliente = new Clientes();
+                TipoClienteSeleccionado = "0";
+                LimpiarMensajes();
+            }
+            public void LimpiarMensajes()
+            {
+            Mensaje = string.Empty;
             }
 
             public void Guardar()
@@ -129,11 +132,13 @@
 
             public void Buscar()
             {
-                var cliente = controller.Buscar(Cliente.ClienteId);
+                Clientes cliente = controller.Buscar(Cliente.ClienteId);
 
                 if (cliente != null)
                 {
+                    Limpiar();
                     Cliente = cliente;
+                    TipoClienteSeleccionado = Cliente.TipoClienteId.ToString();
                     toastService.ShowSuccess("Cliente encontrado.", "Exito");
                 }
                 else
@@ -145,7 +150,7 @@
 
             public void Eliminar()
             {
-                var cliente = controller.Buscar(Cliente.ClienteId);
+                Clientes cliente = controller.Buscar(Cliente.ClienteId);
 
                 if (cliente != null)
                 {

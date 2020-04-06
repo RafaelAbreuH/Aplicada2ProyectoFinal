@@ -178,14 +178,16 @@
 
         protected override void OnInitialized()
         {
-            Estado = "Vigente";
-            FechaActual = DateTime.Now;
-            ListadoArticulos = articulosController.GetList(e => true);
-            ListadoClientes = clientesController.GetList(e => true);
             Empeño = new Empeños();
             Articulo = new Articulos();
             Cliente = new Clientes();
             Detalle = new EmpeñosDetalle();
+            Estado = "Vigente";
+            FechaActual = DateTime.Now;
+            ListadoArticulos = articulosController.GetList(e => true);
+            ListadoClientes = clientesController.GetList(e => true);
+            Limpiar();
+            
 
             if (EmpeñoId != 0)
             {
@@ -252,6 +254,9 @@
         public void Limpiar()
         {
             this.Empeño = new Empeños();
+            this.Articulo = new Articulos();
+            this.Cliente = new Clientes();
+            this.Detalle = new EmpeñosDetalle();
             ArticuloSeleccionado = "0";
             ClienteSeleccionado = "0";
             Cantidad = 0;

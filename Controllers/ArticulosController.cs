@@ -41,7 +41,6 @@ namespace Aplicada2ProyectoFinal.Controllers
         {
             Contexto contexto = new Contexto();
             bool paso = false;
-
             try
             {
                 contexto.Articulos.Add(articulo);
@@ -51,7 +50,6 @@ namespace Aplicada2ProyectoFinal.Controllers
             catch (Exception)
             {
                 throw;
-
             }
             finally
             {

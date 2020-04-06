@@ -51,21 +51,23 @@
                 <th>Telefono</th>
                 <th>Direccion</th>
                 <th>Fecha de Ingreso</th>
+                <th>Tipo de Cliente</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in lista)
             {
-                <tr>
-                    <td>@item.ClienteId</td>
-                    <td>@item.Nombre</td>
-                    <td>@item.Cedula</td>
-                    <td>@item.Telefono</td>
-                    <td>@item.Direccion</td>
-                    <td>@item.Fecha</td>
-                    <td><a class="btn btn-outline-info" href="Registro/Cliente/@item.ClienteId">Ver</a></td>
-                </tr>
+            <tr>
+                <td>@item.ClienteId</td>
+                <td>@item.Nombre</td>
+                <td>@item.Cedula</td>
+                <td>@item.Telefono</td>
+                <td>@item.Direccion</td>
+                <td>@item.Fecha</td>
+                <td>@item.TipoClienteId</td>
+                <td><a class="btn btn-outline-info" href="Registro/Cliente/@item.ClienteId">Ver</a></td>
+            </tr>
             }
         </tbody>
     </table>
