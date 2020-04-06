@@ -48,9 +48,6 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.Property<int?>("ArticulosArticuloId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -266,6 +263,11 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.Property<string>("Contraseña")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");

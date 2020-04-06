@@ -14,6 +14,10 @@ namespace Aplicada2ProyectoFinal.Models
         public int UsuarioId { get; set; }
         [Required(ErrorMessage = " Nombre no puede estar vacío")]
         public string Nombre { get; set; }
+        [Required(ErrorMessage = "El Email es obligatorio")]
+        [EmailAddress(ErrorMessage = "Debe ingresar un Email valido.")]
+        [MaxLength(40, ErrorMessage = "Este correo es muy largo.")]
+        public string Email { get; set; }
         [Required(ErrorMessage = "El Usuario no puede estar vacío")]
         public string Usuario { get; set; }
         [Required(ErrorMessage = "La Contraseña no puede estar vacío")]

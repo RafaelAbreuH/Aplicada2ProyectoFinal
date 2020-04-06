@@ -11,114 +11,150 @@ namespace Aplicada2ProyectoFinal.Controllers
 {
     public class ArticulosController
     {
-            public bool Guardar(Articulos articulos)
+        public bool Guardar(Articulos articulo)
+        {
+            Contexto contexto = new Contexto();
+            bool paso = false;
+            try
             {
-                Contexto contexto = new Contexto();
-                bool paso = false;
-                try
+                if (articulo.ArticuloId == 0)
                 {
-                    if (articulos.ArticuloId == 0)
-                    {
-                        paso = Insertar(articulos);
-                    }
-                    else
-                    {
-                        paso = Modificar(articulos);
-                    }
+                    paso = Insertar(articulo);
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    paso = Modificar(articulo);
                 }
-                return paso;
             }
-            private bool Insertar(Articulos articulos)
+            catch (Exception)
             {
-                Contexto contexto = new Contexto();
-                bool paso = false;
-                try
-                {
-                    contexto.Articulos.Add(articulos);
-                    paso = contexto.SaveChanges() > 0;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                return paso;
+                throw;
             }
-            private bool Modificar(Articulos articulos)
+            finally
             {
-                Contexto contexto = new Contexto();
-                bool paso = false;
-                try
-                {
-                    contexto.Articulos.Add(articulos);
-                    contexto.Entry(articulos).State = EntityState.Modified;
-                    paso = contexto.SaveChanges() > 0;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                return paso;
+                contexto.Dispose();
+            }
+            return paso;
+        }
+
+        private bool Insertar(Articulos articulo)
+        {
+            Contexto contexto = new Contexto();
+            bool paso = false;
+
+            try
+            {
+                contexto.Articulos.Add(articulo);
+                paso = contexto.SaveChanges() > 0;
+
+            }
+            catch (Exception)
+            {
+                throw;
+
+            }
+            finally
+            {
+                contexto.Dispose();
             }
 
-            public Articulos Buscar(int id)
-            {
-                Contexto contexto = new Contexto();
-                Articulos articulos = new Articulos();
-                try
-                {
-                    articulos = contexto.Articulos.Find(id);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                return articulos;
-            }
-            public bool Eliminar(int id)
-            {
-                Contexto contexto = new Contexto();
-                bool paso = false;
-                Articulos articulos = new Articulos();
+            return paso;
+        }
 
-                try
+        private bool Modificar(Articulos articulo)
+        {
+            Contexto contexto = new Contexto();
+            bool paso = false;
+
+            try
+            {
+                Articulos ArticuloTemporal = contexto.Articulos.Find(articulo.ArticuloId);
+                if (ArticuloTemporal != null)
                 {
-                    articulos = contexto.Articulos.Find(id);
-                    contexto.Entry(articulos).State = EntityState.Deleted;
+                    contexto = new Contexto();
+                    contexto.Entry(articulo).State = EntityState.Modified;
                     paso = contexto.SaveChanges() > 0;
                 }
-                catch (Exception)
-                {
-                    throw;
-                }
-                return paso;
             }
-            public List<Articulos> GetList(Expression<Func<Articulos, bool>> expression)
+            catch (Exception)
             {
-                Contexto contexto = new Contexto();
-                List<Articulos> lista;
-                try
-                {
-                    lista = contexto.Articulos.Where(expression).ToList();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                return lista;
+                throw;
+
             }
-            public string RetornarNombre(string nombre)
+            finally
             {
-            string descripcion = string.Empty;
-            var lista = GetList(x => x.Nombre.Equals(nombre));
-            foreach (var item in lista)
+                contexto.Dispose();
+
+            }
+
+            return paso;
+        }
+
+        public Articulos Buscar(int id)
+        {
+            Contexto contexto = new Contexto();
+            Articulos articulo = new Articulos();
+
+            try
             {
-                descripcion = item.Nombre;
+                articulo = contexto.Articulos.Find(id);
             }
-            return descripcion;
+            catch (Exception)
+            {
+                throw;
             }
+            finally
+            {
+                contexto.Dispose();
+            }
+            return articulo;
+        }
+
+        public bool Eliminar(int id)
+        {
+            Contexto contexto = new Contexto();
+            bool paso = false;
+            Articulos articulo = new Articulos();
+            try
+            {
+                articulo = contexto.Articulos.Find(id);
+                contexto.Entry(articulo).State = EntityState.Deleted;
+                paso = contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+
+            return paso;
+        }
+
+        public List<Articulos> GetList(Expression<Func<Articulos, bool>> expression)
+        {
+            Contexto contexto = new Contexto();
+            List<Articulos> ListadoArticulos = new List<Articulos>();
+
+            try
+            {
+                ListadoArticulos = contexto.Articulos.Where(expression).ToList();
+
+            }
+            catch (Exception)
+            {
+                throw;
+
+            }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
+            return ListadoArticulos;
+        }
     }
 }

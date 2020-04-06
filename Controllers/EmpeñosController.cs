@@ -32,6 +32,10 @@ namespace Aplicada2ProyectoFinal.Controllers
             {
                 throw;
             }
+            finally
+            {
+                contexto.Dispose();
+            }
             return paso;
         }
         private bool Insertar(Empeños Empeño)

@@ -47,6 +47,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                     UsuarioId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(maxLength: 40, nullable: false),
                     Usuario = table.Column<string>(nullable: false),
                     Contraseña = table.Column<string>(nullable: false),
                     RepeatContraseña = table.Column<string>(nullable: false),
@@ -71,7 +72,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                 {
                     table.PrimaryKey("PK_TiposClientes", x => x.TipoClienteId);
                     table.ForeignKey(
-                        name: "FK_TiposClientes_Clientes_ClientesClienteId",
+                        name: "FK_TiposClientes_Clientes_ClienteId",
                         column: x => x.ClientesClienteId,
                         principalTable: "Clientes",
                         principalColumn: "ClienteId",
@@ -97,7 +98,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                 {
                     table.PrimaryKey("PK_CobrosDetalles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CobrosDetalles_Cobros_CobrosCobroId",
+                        name: "FK_CobrosDetalles_Cobros_CobroId",
                         column: x => x.CobrosCobroId,
                         principalTable: "Cobros",
                         principalColumn: "CobroId",
@@ -117,7 +118,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                 {
                     table.PrimaryKey("PK_TiposUsuarios", x => x.TipoUsuarioId);
                     table.ForeignKey(
-                        name: "FK_TiposUsuarios_Usuarios_UsuariosUsuarioId",
+                        name: "FK_TiposUsuarios_Usuarios_UsuarioId",
                         column: x => x.UsuariosUsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "UsuarioId",
@@ -165,7 +166,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                 {
                     table.PrimaryKey("PK_EmpeñosDetalles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmpeñosDetalles_Empeños_EmpeñosEmpeñoId",
+                        name: "FK_EmpeñosDetalles_Empeños_EmpeñoId",
                         column: x => x.EmpeñosEmpeñoId,
                         principalTable: "Empeños",
                         principalColumn: "EmpeñoId",
@@ -200,15 +201,14 @@ namespace Aplicada2ProyectoFinal.Migrations
                     CategoriaId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(nullable: false),
-                    Fecha = table.Column<DateTime>(nullable: false),
-                    ArticulosArticuloId = table.Column<int>(nullable: true)
+                    ArticuloId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categorias", x => x.CategoriaId);
                     table.ForeignKey(
-                        name: "FK_Categorias_Articulos_ArticulosArticuloId",
-                        column: x => x.ArticulosArticuloId,
+                        name: "FK_Categorias_Articulos_ArticuloId",
+                        column: x => x.ArticuloId,
                         principalTable: "Articulos",
                         principalColumn: "ArticuloId",
                         onDelete: ReferentialAction.Restrict);

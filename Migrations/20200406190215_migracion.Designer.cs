@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aplicada2ProyectoFinal.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200401020402_migracion")]
+    [Migration("20200406190215_migracion")]
     partial class migracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,9 +49,6 @@ namespace Aplicada2ProyectoFinal.Migrations
 
                     b.Property<int?>("ArticulosArticuloId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -268,6 +265,11 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.Property<string>("Contraseña")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
