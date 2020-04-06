@@ -32,7 +32,6 @@ namespace Aplicada2ProyectoFinal.Models
         public DateTime Fecha { get; set; }
         [MinLength(1, ErrorMessage = "Debe seleccionar un tipo de usuario")]
         public int TipoUsuarioId { get; set; }
-        public List<TiposUsuarios> TiposUsuario { get; set; }
         public Usuarios()
         {
             UsuarioId = 0;

@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200401020402_migracion.cs" />
     <Compile Remove="Migrations\20200401020402_migracion.Designer.cs" />
+    <Compile Remove="Migrations\20200406193137_migracion.cs" />
+    <Compile Remove="Migrations\20200406193137_migracion.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Database\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

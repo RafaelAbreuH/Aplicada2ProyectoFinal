@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,8 +22,8 @@ namespace Aplicada2ProyectoFinal.Models
         [Required(ErrorMessage = "Abono no puede estar vacío")]
         [MinLength(0, ErrorMessage = "Abono no puede ser 0")]
         public decimal Abono { get; set; }
+        [ForeignKey("CobroId")]
         public List<CobrosDetalle> Detalle { get; set; }
-
         public Cobros()
         {
             this.Detalle = new List<CobrosDetalle>();

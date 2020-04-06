@@ -11,7 +11,7 @@ namespace Aplicada2ProyectoFinal.Models
     {
         [Key]
         [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
-        public int Id { get; set; }
+        public int EmpeñoDetalleId { get; set; }
         [Required(ErrorMessage = "EmpeñoId no puede estar vacío")]
         [MinLength(1, ErrorMessage = "Empeño Id no existe")]
         public int EmpeñoId { get; set; }
@@ -25,22 +25,17 @@ namespace Aplicada2ProyectoFinal.Models
         [Required(ErrorMessage = "Cantidad no puede estar vacío")]
         [MinLength(1, ErrorMessage = "Cantidad no puede ser 0")]
         public int Cantidad { get; set; }
-
         [Required(ErrorMessage = "Monto no puede estar vacío")]
         [MinLength(1, ErrorMessage = "Monto no puede ser 0")]
         public decimal Monto { get; set; }
-
-        [ForeignKey("ArticuloId")]
-        public List <Articulos> Articulos { get; set; }
         public EmpeñosDetalle()
         {
-            this.Articulos = new List<Articulos>();
-            Id = 0;
+            EmpeñoDetalleId = 0;
             EmpeñoId = 0;
         }
         public EmpeñosDetalle(int id, int empeñoId, int articuloId, string articulo, string descripcion, int cantidad, decimal monto)
         {
-            id = Id;
+            id = EmpeñoDetalleId;
             EmpeñoId = empeñoId;
             ArticuloId = articuloId;
             Articulo = articulo;

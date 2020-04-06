@@ -21,11 +21,9 @@ namespace Aplicada2ProyectoFinal.Models
         [DisplayFormat(DataFormatString = "{0:dd,mm, yyyy}")]
         [Required(ErrorMessage = "El campo fecha no puede estar vacío")]
         public DateTime Fecha { get; set; }
-        public List <Categorias> ListadoCategorias { get; set; }
 
         public Articulos()
         {
-            this.ListadoCategorias = new List<Categorias>();
             ArticuloId = 0;
             CategoriaId = 0;
             Nombre = string.Empty;

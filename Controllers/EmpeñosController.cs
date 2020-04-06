@@ -32,10 +32,6 @@ namespace Aplicada2ProyectoFinal.Controllers
             {
                 throw;
             }
-            finally
-            {
-                contexto.Dispose();
-            }
             return paso;
         }
         private bool Insertar(Empeños Empeño)
@@ -75,16 +71,16 @@ namespace Aplicada2ProyectoFinal.Controllers
                     foreach (var item in recibos.Detalle)
                     {
                         contexto.Articulos.Find(item.ArticuloId).Inventario -= item.Cantidad;
-                        if (!Empeño.Detalle.ToList().Exists(v => v.Id == item.Id))
+                        if (!Empeño.Detalle.ToList().Exists(v => v.EmpeñoDetalleId == item.EmpeñoDetalleId))
                         {
-                            item.Articulos = null;
+                            contexto.Articulos.Find(item.ArticuloId).Inventario -= item.Cantidad;
                             contexto.Entry(item).State = EntityState.Deleted;
                         }
                     }
                     foreach (var item in Empeño.Detalle)
                     {
                         contexto.Articulos.Find(item.ArticuloId).Inventario += item.Cantidad;
-                        var estado = item.Id > 0 ? EntityState.Modified : EntityState.Added;
+                        var estado = item.EmpeñoDetalleId > 0 ? EntityState.Modified : EntityState.Added;
                         contexto.Entry(item).State = estado;
                     }
                     Empeños EntradaAnterior = Buscar(Empeño.EmpeñoId);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,10 +25,9 @@ namespace Aplicada2ProyectoFinal.Models
         [Required(ErrorMessage = "Abono no puede estar vacío")]
         [MinLength(1, ErrorMessage = "Abono no puede ser menor que 0")]
         public decimal Abono { get; set; }
-
         public DateTime UltimaFechadeVigencia { get; set; }
+        [ForeignKey("EmpeñoId")]
         public List<EmpeñosDetalle> Detalle { get; set; }
-
         public Empeños()
         {
             this.Detalle = new List<EmpeñosDetalle>();

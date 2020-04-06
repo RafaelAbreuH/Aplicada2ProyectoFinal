@@ -28,7 +28,6 @@ namespace Aplicada2ProyectoFinal.Models
         public DateTime Fecha { get; set; }
         [MinLength(1, ErrorMessage = "Debe seleccionar un tipo de cliente")]
         public int TipoClienteId { get; set; }
-        public List<TiposClientes> TiposClientes { get; set; }
 
         public Clientes()
         {
@@ -38,7 +37,6 @@ namespace Aplicada2ProyectoFinal.Models
             Telefono = string.Empty;
             Direccion = string.Empty;
             Fecha = DateTime.Now;
-            this.TiposClientes = new List<TiposClientes>();
         }
     }
 }

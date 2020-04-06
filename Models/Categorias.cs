@@ -18,7 +18,6 @@ namespace Aplicada2ProyectoFinal.Models
         {
             CategoriaId = 0;
             Nombre = string.Empty;
-         
         }
     }
 }
