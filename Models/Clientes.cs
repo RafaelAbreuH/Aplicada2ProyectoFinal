@@ -37,6 +37,7 @@ namespace Aplicada2ProyectoFinal.Models
             Telefono = string.Empty;
             Direccion = string.Empty;
             Fecha = DateTime.Now;
+            TipoClienteId = 0;
         }
     }
 }

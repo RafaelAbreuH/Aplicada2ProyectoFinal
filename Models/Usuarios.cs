@@ -37,6 +37,7 @@ namespace Aplicada2ProyectoFinal.Models
             UsuarioId = 0;
             Nombre = string.Empty;
             Usuario = string.Empty;
+            Email = string.Empty;
             Contraseña = string.Empty;
             Fecha = DateTime.Now;
             TipoUsuarioId = 0;

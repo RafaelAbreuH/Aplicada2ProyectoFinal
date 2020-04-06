@@ -19,12 +19,10 @@ namespace Aplicada2ProyectoFinal.Migrations
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Articulos", b =>
                 {
                     b.Property<int>("ArticuloId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CategoriaId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("EmpeñosDetalleId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Fecha")
@@ -48,19 +46,11 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ArticulosArticuloId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ArticulosArticuloId1")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("CategoriaId");
-
-                    b.HasIndex("ArticulosArticuloId");
 
                     b.ToTable("Categorias");
                 });
@@ -120,7 +110,7 @@ namespace Aplicada2ProyectoFinal.Migrations
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.CobrosDetalle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CobroDetalleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -131,9 +121,6 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("CobroId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("CobrosCobroId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("EmpeñoId")
@@ -151,7 +138,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.Property<DateTime>("UltimaFechadeVigencia")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("CobroDetalleId");
 
                     b.HasIndex("CobroId");
 
@@ -161,6 +148,7 @@ namespace Aplicada2ProyectoFinal.Migrations
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Empeños", b =>
                 {
                     b.Property<int>("EmpeñoId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Abono")
@@ -189,7 +177,7 @@ namespace Aplicada2ProyectoFinal.Migrations
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.EmpeñosDetalle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EmpeñoDetalleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -213,7 +201,7 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.Property<decimal>("Monto")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("EmpeñoDetalleId");
 
                     b.HasIndex("EmpeñoId");
 
@@ -226,16 +214,11 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ClientesClienteId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("TipoClienteId");
-
-                    b.HasIndex("ClientesClienteId");
 
                     b.ToTable("TiposClientes");
                 });
@@ -293,36 +276,11 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Articulos", b =>
-                {
-                    b.HasOne("Aplicada2ProyectoFinal.Models.EmpeñosDetalle", null)
-                        .WithMany("Articulos")
-                        .HasForeignKey("EmpeñosDetalleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Categorias", b =>
-                {
-                    b.HasOne("Aplicada2ProyectoFinal.Models.Articulos", null)
-                        .WithMany("ListadoCategorias")
-                        .HasForeignKey("ArticulosArticuloId1");
-                });
-
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.CobrosDetalle", b =>
                 {
                     b.HasOne("Aplicada2ProyectoFinal.Models.Cobros", null)
                         .WithMany("Detalle")
-                        .HasForeignKey("CobrosCobroId");
-                });
-
-            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.Empeños", b =>
-                {
-                    b.HasOne("Aplicada2ProyectoFinal.Models.CobrosDetalle", null)
-                        .WithMany("Empeños")
-                        .HasForeignKey("EmpeñoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CobroId");
                 });
 
             modelBuilder.Entity("Aplicada2ProyectoFinal.Models.EmpeñosDetalle", b =>
@@ -332,13 +290,6 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .HasForeignKey("EmpeñoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Aplicada2ProyectoFinal.Models.TiposClientes", b =>
-                {
-                    b.HasOne("Aplicada2ProyectoFinal.Models.Clientes", null)
-                        .WithMany("TiposClientes")
-                        .HasForeignKey("ClientesClienteId");
                 });
 #pragma warning restore 612, 618
         }

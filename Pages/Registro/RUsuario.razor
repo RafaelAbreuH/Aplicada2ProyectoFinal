@@ -1,8 +1,6 @@
 ﻿@page "/Registro/Usuario"
 @page "/Registro/Usuario/{UsuarioId:int}"
 @inject IToastService toastService
-
-
 <style>
     .demo-mat-card {
         max-width: 560px;
@@ -39,8 +37,7 @@
                 </div>
                 <br />
                 <div class="form-group">
-
-                    <InputSelect class="form-control" @bind-Value="Usuario.TipoUsuarioId">
+                    <InputSelect class="form-control" @bind-Value="Usuario.TipoUsuarioId" @onchange="SeleccionarTipo" @onclick="SeleccionarTipo" >
                         <option value="0" disabled selected>Seleccione un Tipo de Usuario</option>
                         @if (ListadoTipos.Count == 0)
                         {
@@ -62,8 +59,8 @@
                     <ValidationMessage For="(() => Usuario.Nombre)" />
                 </div>
                 <div class="form-group">
-                    <MatTextField Label="Email" Required="true" @bind-Value="Usuario.Usuario" Icon="mail_outline" Style="height: 37px;width:100%  !important;"></MatTextField>
-                    <ValidationMessage For="(() => Usuario.Usuario)" />
+                    <MatTextField Label="Email" Required="true" @bind-Value="Usuario.Email" Icon="mail_outline" Style="height: 37px;width:100%  !important;"></MatTextField>
+                    <ValidationMessage For="(() => Usuario.Email)" />
                 </div>
                 <div class="form-group">
                     <MatTextField Label="Contraseña" Required="true" @bind-Value="Usuario.Contraseña" Style="height: 37px;width:100%  !important;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
