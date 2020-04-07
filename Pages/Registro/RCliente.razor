@@ -1,6 +1,6 @@
 ﻿@page "/Registro/Cliente"
 @page "/Registro/Cliente/{ClienteId:int}"
-@inject IToastService toastService
+@inject IMatToaster  Toaster
 
     <style>
         .demo-mat-card {
@@ -119,12 +119,10 @@
                 if (controller.Guardar(Cliente))
                 {
                     Limpiar();
-                    toastService.ShowSuccess("Cliente guardado correctamente", "Exito");
                 }
                 else
                 {
                     Limpiar();
-                    toastService.ShowError("Error al guardar el cliente", "Fallo");
                 }
             }
 
@@ -137,12 +135,10 @@
                     Limpiar();
                     Cliente = cliente;
                     TipoClienteSeleccionado = Cliente.TipoClienteId.ToString();
-                    toastService.ShowSuccess("Cliente encontrado.", "Exito");
                 }
                 else
                 {
                     Limpiar();
-                    toastService.ShowError("El cliente no fue encontrado.", "Fallo");
                 }
             }
 
@@ -154,12 +150,10 @@
                 {
                     controller.Eliminar(Cliente.ClienteId);
                     Limpiar();
-                    toastService.ShowSuccess("Cliente eliminado correctamente.", "Exito");
                 }
                 else
                 {
                     Limpiar();
-                    toastService.ShowError("Error al eliminar el cliente.", "Fallo");
                 }
             }
             private void SeleccionarTipoCliente()

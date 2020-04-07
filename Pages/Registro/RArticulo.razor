@@ -1,6 +1,6 @@
 ﻿@page "/Registro/Articulo"
 @page "/Registro/Articulo/{ArticuloId:int}"
-@inject IToastService toastService
+@inject IMatToaster Toaster
 
 <style>
     .demo-mat-card {
@@ -9,169 +9,175 @@
         margin-left: auto;
         margin-right: auto
     }
-    .mdc-text-field{
-        width:100%;
+
+    .mdc-text-field {
+        width: 100%;
     }
 </style>
 
 
-    <MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
-        <MatHeadline6 Class="demo-mat-card-clean-margin mat-layout-grid-cell mat-layout-grid-cell-align-middle">
-            Articulos
-        </MatHeadline6>
-        <MatDivider Padded="true"></MatDivider>
-        <div class="form-register">
+<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
+    <MatHeadline6 Class="demo-mat-card-clean-margin mat-layout-grid-cell mat-layout-grid-cell-align-middle">
+        Articulos
+    </MatHeadline6>
+    <MatDivider Padded="true"></MatDivider>
+    <div class="form-register">
 
-            <EditForm Model="@Articulo" OnValidSubmit="Guardar">
-                <DataAnnotationsValidator />
-                <label class="text-muted form-text">@Mensaje</label>
+        <EditForm Model="@Articulo" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
 
-                <div class="form-row">
-                    <div class="input-group-append">
+            <div class="form-row">
+                <div class="input-group-append">
 
-                        <MatTextField Label="ArticuloId" @bind-Value="Articulo.ArticuloId" Required="true" InputStyle="number" Style="height: 37px; padding: 1px;"></MatTextField>
-                        <ValidationMessage For="(() => Articulo.ArticuloId)" />
-                        <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" max-width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
-                    </div>
-
-                    &nbsp;
-                    <MatDatePicker @bind-Value="Articulo.Fecha" Required="true" Label="Fecha" Style="height:37px; max-width: 10rem; "></MatDatePicker>
-                    <ValidationMessage For="(() => Articulo.Fecha)" />
+                    <MatTextField Label="ArticuloId" @bind-Value="Articulo.ArticuloId" Required="true" InputStyle="number" Style="height: 37px; padding: 1px;"></MatTextField>
+                    <ValidationMessage For="(() => Articulo.ArticuloId)" />
+                    <MatThemeProvider Theme="buscar">  <MatButton Raised="true" Icon="search" @onclick="Buscar" Style=" max-width: 7rem;"> Buscar</MatButton> </MatThemeProvider>
                 </div>
-                <br />
 
-                <div class="form-group">
-            <InputSelect @bind-Value="@CategoriaSeleccionada"  class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
-                <option value="0" disabled selected>Seleccione una Categoria</option>
-                @if (ListadoCategorias.Count <= 0)
-                {
-                    <option value="" disabled>No Hay Categoria Registrada</option>
-                }
-                else
-                    @foreach (var item in ListadoCategorias)
+                &nbsp;
+                <MatDatePicker @bind-Value="Articulo.Fecha" Required="true" Label="Fecha" Style="height:37px; max-width: 10rem; "></MatDatePicker>
+                <ValidationMessage For="(() => Articulo.Fecha)" />
+            </div>
+            <br />
+
+            <div class="form-group">
+                <InputSelect @bind-Value="@CategoriaSeleccionada" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
+                    <option value="0" disabled selected>Seleccione una Categoria</option>
+                    @if (ListadoCategorias.Count <= 0)
                     {
-                        <option value="@item.CategoriaId">@item.Nombre</option>
+                        <option value="" disabled>No Hay Categoria Registrada</option>
                     }
-            </InputSelect>
-            <ValidationMessage For="@(()=>Articulo.CategoriaId)" />
-                 </div>
+                    else
+                        @foreach (var item in ListadoCategorias)
+                        {
+                            <option value="@item.CategoriaId">@item.Nombre</option>
+                        }
+                </InputSelect>
+                <ValidationMessage For="@(()=>Articulo.CategoriaId)" />
+            </div>
 
-                <div class="form-group">
-                    <MatTextField Required="true" Label="Nombre" @bind-Value="Articulo.Nombre" Style="height:37px; width:100%  !important;"></MatTextField>
-                    <ValidationMessage For="(() => Articulo.Nombre)" />
-                </div>
+            <div class="form-group">
+                <MatTextField Required="true" Label="Nombre" @bind-Value="Articulo.Nombre" Style="height:37px; width:100%  !important;"></MatTextField>
+                <ValidationMessage For="(() => Articulo.Nombre)" />
+            </div>
 
-                <div class="form-group">
-                    <MatTextField Label="Inventario" ReadOnly="true" @bind-Value="Articulo.Inventario" FullWidth="true" Style="height:37px;  width:100%  !important; background-color:InactiveBorder;"></MatTextField>
-                </div>
+            <div class="form-group">
+                <MatTextField Label="Inventario" ReadOnly="true" @bind-Value="Articulo.Inventario" FullWidth="true" Style="height:37px;  width:100%  !important; background-color:InactiveBorder;"></MatTextField>
+            </div>
+            <div>
+                <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+            </div>
+        </EditForm>
+    </div>
 
-
-
-                <div>
-
-                    <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
-                    <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
-                    <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
-
-                </div>
-                <h5 class="text-success">@Mensaje</h5>
-
-            </EditForm>
-        </div>
-
-    </MatCard>
+</MatCard>
 
 
-    @code {
-        [Parameter]
-        public int ArticuloId { get; set; }
-        public Articulos Articulo { get; set; }
-        string Mensaje = string.Empty;
-        ArticulosController articulosController = new ArticulosController();
-        CategoriasController categoriasController = new CategoriasController();
-        private List<Categorias> ListadoCategorias { get; set; }
-        string CategoriaSeleccionada = string.Empty;
+@code {
+    [Parameter]
+    public int ArticuloId { get; set; }
+    public Articulos Articulo { get; set; }
+    string Mensaje = string.Empty;
+    string Titulo = string.Empty;
+    private bool MostrarBarraProgreso;
+    private bool MostrarBotonCerrar;
+    ArticulosController articulosController = new ArticulosController();
+    CategoriasController categoriasController = new CategoriasController();
+    private List<Categorias> ListadoCategorias { get; set; }
+    string CategoriaSeleccionada = string.Empty;
 
-        protected override void OnInitialized()
+    protected override void OnInitialized()
+    {
+        Articulo = new Articulos();
+        ListadoCategorias = categoriasController.GetList(e => true);
+        Limpiar();
+        if (ArticuloId != 0)
         {
-            Articulo = new Articulos();
-            ListadoCategorias = categoriasController.GetList(e => true);
-            Limpiar();
-            if (ArticuloId != 0)
-            {
-                Articulo.ArticuloId = ArticuloId;
-                Buscar();
-            }
+            Articulo.ArticuloId = ArticuloId;
+            Buscar();
         }
+    }
 
-        private void Limpiar()
+    private void Limpiar()
+    {
+        this.Articulo = new Articulos();
+        CategoriaSeleccionada = "0";
+    }
+
+    public void LimpiarMensajes()
+    {
+        Mensaje = string.Empty;
+    }
+
+    public void Guardar()
+    {
+        if (articulosController.Guardar(Articulo))
         {
-            this.Articulo = new Articulos();
-            CategoriaSeleccionada = "0";
+            Limpiar();
+            Mensaje = "Exito";
+            Titulo = "Exito";
+            Show(MatToastType.Success);
             LimpiarMensajes();
         }
-
-        public void LimpiarMensajes()
+        else
         {
-            Mensaje = string.Empty;
+            Limpiar();
         }
-
-        public void Guardar()
-        {
-            if (articulosController.Guardar(Articulo))
-            {
-                Limpiar();
-                toastService.ShowSuccess("Articulo guardado correctamente", "Exito");
-            }
-            else
-            {
-                Limpiar();
-                toastService.ShowError("Error al guardar el articulo", "Fallo");
-            }
-        }
-
-        public void Buscar()
-        {
-            Articulos articulo = articulosController.Buscar(Articulo.ArticuloId);
-
-            if (articulo != null)
-            {
-                Limpiar();
-                Articulo = articulo;
-                CategoriaSeleccionada = Articulo.CategoriaId.ToString();
-                toastService.ShowSuccess("Articulo encontrado.", "Exito");
-            }
-            else
-            {
-                Limpiar();
-                toastService.ShowError("El articulo no fue encontrado", "Fallo");
-            }
-        }
-
-        public void Eliminar()
-        {
-            Articulos articulo = articulosController.Buscar(Articulo.ArticuloId);
-
-            if (articulo != null)
-            {
-                articulosController.Eliminar(Articulo.ArticuloId);
-                Limpiar();
-                toastService.ShowSuccess("Articulo eliminado correctamente.", "Exito");
-            }
-            else
-            {
-                Limpiar();
-                toastService.ShowError("Error al eliminar el articulo.", "Fallo");
-            }
-        }
-        private void SeleccionarCategoria()
-        {
-            Articulo.CategoriaId = Convert.ToInt32(CategoriaSeleccionada);
-        }
-
-        MatTheme guarda = new MatTheme() { Primary = "green" };
-        MatTheme eliminar = new MatTheme(){ Primary = "red" };
-        MatTheme buscar = new MatTheme() { Primary = "grey" };
-
     }
+
+    public void Buscar()
+    {
+        Articulos articulo = articulosController.Buscar(Articulo.ArticuloId);
+
+        if (articulo != null)
+        {
+            Limpiar();
+            Articulo = articulo;
+            CategoriaSeleccionada = Articulo.CategoriaId.ToString();
+        }
+        else
+        {
+            Limpiar();
+        }
+    }
+
+    public void Eliminar()
+    {
+        Articulos articulo = articulosController.Buscar(Articulo.ArticuloId);
+
+        if (articulo != null)
+        {
+            articulosController.Eliminar(Articulo.ArticuloId);
+            Limpiar();
+        }
+        else
+        {
+            Limpiar();
+        }
+    }
+    private void SeleccionarCategoria()
+    {
+        Articulo.CategoriaId = Convert.ToInt32(CategoriaSeleccionada);
+    }
+
+    public void Show(MatToastType type, string icon = "")
+    {
+        Toaster.Add(Mensaje, type, Titulo, icon, config =>
+        {
+        config.ShowCloseButton = true;
+        config.ShowProgressBar = true;
+        config.MaximumOpacity = Convert.ToInt32("100");
+        config.ShowTransitionDuration = Convert.ToInt32("500");
+        config.VisibleStateDuration = Convert.ToInt32("5000");
+        config.HideTransitionDuration = Convert.ToInt32("500");
+        });
+            }
+ 
+    MatTheme guarda = new MatTheme() { Primary = "green" };
+    MatTheme eliminar = new MatTheme() { Primary = "red" };
+    MatTheme buscar = new MatTheme() { Primary = "grey" };
+
+}
 

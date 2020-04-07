@@ -10,6 +10,7 @@ namespace Aplicada2ProyectoFinal.Models
     public class Empeños
     {
         [Key]
+        [Required(ErrorMessage = "EmpeñoId no puede estar vacio")]
         [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int EmpeñoId { get; set; }
         [Required(ErrorMessage = "Debe Selecionar un cliente")]
@@ -23,7 +24,7 @@ namespace Aplicada2ProyectoFinal.Models
         [Required(ErrorMessage = "Monto Total no puede estar vacío")]
         public decimal MontoTotal { get; set; }
         [Required(ErrorMessage = "Abono no puede estar vacío")]
-        [MinLength(1, ErrorMessage = "Abono no puede ser menor que 0")]
+        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Abono Fuera de rango")]
         public decimal Abono { get; set; }
         public DateTime UltimaFechadeVigencia { get; set; }
         [ForeignKey("EmpeñoId")]

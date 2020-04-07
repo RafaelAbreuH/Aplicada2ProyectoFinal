@@ -1,6 +1,6 @@
 ﻿@page "/Registro/TipoUsuario"
 @page "/Registro/TipoUsuario/{TipoUsuarioId:int}"
-@inject IToastService toastService
+@inject IMatToaster  Toaster
 <style>
     .demo-mat-card {
         max-width: 500px;
@@ -77,12 +77,10 @@
         if (controller.Guardar(TipoUsuario))
         {
             Limpiar();
-            toastService.ShowSuccess("TipoUsuario guardado correctamente", "Exito");
         }
         else
         {
             Limpiar();
-            toastService.ShowError("Error al guardar el TipoUsuario", "Fallo");
         }
     }
 
@@ -94,12 +92,10 @@
         {
             Limpiar();
             TipoUsuario = tipousuario;
-            toastService.ShowSuccess("TipoUsuario encontrado.", "Exito");
         }
         else
         {
             Limpiar();
-            toastService.ShowError("el TipoUsuario no fue encontrada", "Fallo");
         }
     }
 
@@ -111,12 +107,10 @@
         {
             controller.Eliminar(TipoUsuario.TipoUsuarioId);
             Limpiar();
-            toastService.ShowSuccess("TipoUsuario eliminado correctamente.", "Exito");
         }
         else
         {
             Limpiar();
-            toastService.ShowError("Error al eliminar el TipoUsuario.", "Fallo");
         }
     }
 

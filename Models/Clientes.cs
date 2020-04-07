@@ -10,6 +10,7 @@ namespace Aplicada2ProyectoFinal.Models
     public class Clientes
     {
         [Key]
+        [Required(ErrorMessage = "ClienteId no puede estar vacio")]
         [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int ClienteId { get; set; }
         [Required(ErrorMessage = "Nombre no puede estar vacío")]

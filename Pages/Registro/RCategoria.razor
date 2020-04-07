@@ -1,6 +1,6 @@
 @page "/Registro/Categoria"
 @page "/Registro/Categoria/{CategoriaId:int}"
-@inject IToastService toastService
+@inject IMatToaster  Toaster
 
     <style>
         .demo-mat-card {
@@ -83,12 +83,10 @@
             if (controller.Guardar(Categoria))
             {
                 Limpiar();
-                toastService.ShowSuccess("Categoria guardada correctamente", "Exito");
             }
             else
             {
                 Limpiar();
-                toastService.ShowError("Error al guardar la categoria", "Fallo");
             }
         }
 
@@ -100,12 +98,10 @@
             {
                 Limpiar();
                 Categoria = categoria;
-                toastService.ShowSuccess("Categoria encontrado.", "Exito");
             }
             else
             {
                 Limpiar();
-                toastService.ShowError("La categoria no fue encontrada", "Fallo");
             }
         }
 
@@ -117,12 +113,10 @@
             {
                 controller.Eliminar(Categoria.CategoriaId);
                 Limpiar();
-                toastService.ShowSuccess("Categoria eliminada correctamente.", "Exito");
             }
             else
             {
                 Limpiar();
-                toastService.ShowError("Error al eliminar la Categoria.", "Fallo");
             }
         }
 

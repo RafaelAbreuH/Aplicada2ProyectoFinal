@@ -13,6 +13,10 @@
     <Compile Remove="Migrations\20200406194229_migracion.Designer.cs" />
     <Compile Remove="Migrations\20200406203248_migracion.cs" />
     <Compile Remove="Migrations\20200406203248_migracion.Designer.cs" />
+    <Compile Remove="Migrations\20200407012011_migracio.cs" />
+    <Compile Remove="Migrations\20200407012011_migracio.Designer.cs" />
+    <Compile Remove="Migrations\20200407161719_migracion.cs" />
+    <Compile Remove="Migrations\20200407161719_migracion.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +35,7 @@
 
   <ItemGroup>
     <Folder Include="Database\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

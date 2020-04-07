@@ -10,6 +10,7 @@ namespace Aplicada2ProyectoFinal.Models
     public class Cobros
     {
         [Key]
+        [Required(ErrorMessage = "CobroId no puede estar vacio")]
         [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int CobroId { get; set; }
         [Required(ErrorMessage = "Empeño Id no puede estar vacío")]
@@ -20,7 +21,7 @@ namespace Aplicada2ProyectoFinal.Models
         [Required(ErrorMessage = "El campo fecha no puede estar vacío")]
         public DateTime Fecha { get; set; }
         [Required(ErrorMessage = "Abono no puede estar vacío")]
-        [MinLength(0, ErrorMessage = "Abono no puede ser 0")]
+        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Abono Fuera de Rango.")]
         public decimal Abono { get; set; }
         [ForeignKey("CobroId")]
         public List<CobrosDetalle> Detalle { get; set; }

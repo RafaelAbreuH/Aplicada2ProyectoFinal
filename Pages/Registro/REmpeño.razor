@@ -1,6 +1,6 @@
 ﻿@page "/Registro/Empeños"
 @page "/Registro/Empeños/{EmpeñoId:int}"
-@inject IToastService toastService
+@inject IMatToaster  Toaster
 
 
 <style>
@@ -207,12 +207,10 @@
                 if (empeñoscontroller.Guardar(Empeño))
                 {
                     Limpiar();
-                    toastService.ShowSuccess("Empeño guardado correctamente", "Exito");
 
                 }
                 else
                 {
-                    toastService.ShowError("Error al guardar el Empeño", "Fallo");
                 }
             }
         }
@@ -224,13 +222,11 @@
             {
                 Limpiar();
                 Empeño = EmpeñoTemporal;
-                toastService.ShowSuccess("Empeño encontrado.", "Exito");
 
             }
             else
             {
                 Limpiar();
-                toastService.ShowError("El empeño no fue encontrado.", "Fallo");
             }
         }
         public void Eliminar()
@@ -242,11 +238,9 @@
                 if (empeñoscontroller.Eliminar(Empeño.EmpeñoId))
                 {
                     Limpiar();
-                    toastService.ShowSuccess("Empeño eliminado correctamente.", "Exito");
                 }
                 else
                 {
-                    toastService.ShowError("Error al eliminar el empeño.", "Fallo");
                 }
             }
         }
@@ -282,27 +276,22 @@
 
             if (ArticuloSeleccionado == "0" && ClienteSeleccionado != "0")
             {
-                toastService.ShowInfo("Debe seleccionar un Articulo ", "Info");
             }
             else
             if (ArticuloSeleccionado != "0" && ClienteSeleccionado == "0")
             {
-                toastService.ShowInfo("Debe seleccionar un Cliente ", "Info");
             }
             else
             if (ArticuloSeleccionado == "0" && ClienteSeleccionado == "0")
             {
-                toastService.ShowInfo("Debe seleccionar un Cliente y un Articulo ", "Info");
             }
             else
             {
                 if (Empeño.Detalle.Any(i => i.ArticuloId == Articulo.ArticuloId))
                 {
-                    toastService.ShowInfo("Este articulo ya esta agregado", "Info");
                 }
                 else if (Cantidad < 1)
                 {
-                    toastService.ShowError("La catidad debe ser mayor a 0!", "Fallo");
                 }
                 else
                 {

@@ -28,8 +28,8 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Inventario")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Inventario")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -182,7 +182,6 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Articulo")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ArticuloId")
@@ -192,7 +191,6 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Descripcion")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EmpeñoId")

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aplicada2ProyectoFinal.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200407012011_migracio")]
-    partial class migracio
+    [Migration("20200407162049_migracion")]
+    partial class migracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,8 +30,8 @@ namespace Aplicada2ProyectoFinal.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Inventario")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Inventario")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -184,7 +184,6 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Articulo")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ArticuloId")
@@ -194,7 +193,6 @@ namespace Aplicada2ProyectoFinal.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Descripcion")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EmpeñoId")

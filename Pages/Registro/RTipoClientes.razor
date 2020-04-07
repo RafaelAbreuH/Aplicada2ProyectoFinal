@@ -1,6 +1,6 @@
 ﻿@page "/Registro/TipoCliente"
 @page "/Registro/TipoCliente/{TipoClienteId:int}"
-@inject IToastService toastService
+@inject IMatToaster  Toaster
 
 
 
@@ -81,12 +81,10 @@
             if (controller.Guardar(TipoCliente))
             {
                 Limpiar();
-                toastService.ShowSuccess("Tipocliente guardado correctamente", "Exito");
             }
             else
             {
                 Limpiar();
-                toastService.ShowError("Error al guardar el TipoCliente", "Fallo");
             }
         }
 
@@ -98,12 +96,10 @@
             {
                 Limpiar();
                 TipoCliente = tipocliente;
-                toastService.ShowSuccess("TipoCliente encontrado.", "Exito");
             }
             else
             {
                 Limpiar();
-                toastService.ShowError("el TipoCliente no fue encontrada", "Fallo");
             }
         }
 
@@ -115,12 +111,10 @@
             {
                 controller.Eliminar(TipoCliente.TipoClienteId);
                 Limpiar();
-                toastService.ShowSuccess("TipoCliente eliminado correctamente.", "Exito");
             }
             else
             {
                 Limpiar();
-                toastService.ShowError("Error al eliminar el TipoCliente.", "Fallo");
             }
         }
 

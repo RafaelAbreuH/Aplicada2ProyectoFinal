@@ -9,6 +9,8 @@ namespace Aplicada2ProyectoFinal.Models
     public class TiposUsuarios
     {
         [Key]
+        [Required(ErrorMessage = "TipoUsuarioId no puede estar vacio")]
+        [Range(0, 100000000, ErrorMessage = "El campo Id no puede ser menor que cero")]
         public int TipoUsuarioId { get; set; }
         [Required(ErrorMessage = "Descripcion no puede estar vacia")]
         public string Descripcion { get; set; }

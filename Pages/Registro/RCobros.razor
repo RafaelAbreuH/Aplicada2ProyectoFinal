@@ -1,6 +1,6 @@
 ﻿@page "/Registro/Cobros"
 @page "/Registro/Cobros/{CobroId:int}"
-@inject IToastService toastService
+@inject IMatToaster  Toaster
 
 @code {
     [Parameter]
@@ -47,12 +47,11 @@
             if (cobroscontroller.Guardar(Cobro))
             {
                 Limpiar();
-                toastService.ShowSuccess("Cobro guardado correctamente", "Exito");
 
             }
             else
             {
-                toastService.ShowError("Error al guardar el Cobro", "Fallo");
+                Limpiar();
             }
         }
     }
@@ -64,13 +63,11 @@
         {
             Limpiar();
             Cobro = CobroTemporal;
-            toastService.ShowSuccess("Cobro encontrado.", "Exito");
 
         }
         else
         {
             Limpiar();
-            toastService.ShowError("El Cobro no fue encontrado.", "Fallo");
         }
     }
     public void Eliminar()
@@ -82,11 +79,10 @@
             if (cobroscontroller.Eliminar(Cobro.CobroId))
             {
                 Limpiar();
-                toastService.ShowSuccess("Cobro eliminado correctamente.", "Exito");
             }
             else
             {
-                toastService.ShowError("Error al eliminar el Cobro.", "Fallo");
+                Limpiar();
             }
         }
     }
@@ -114,7 +110,6 @@
 
         if (EmpeñoSeleccionado == "0")
         {
-            toastService.ShowInfo("Debe seleccionar un Empeño", "Info");
         }
         else
         {
