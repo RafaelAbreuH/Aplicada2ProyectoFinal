@@ -30,7 +30,7 @@ namespace Aplicada2ProyectoFinal.Models
         [DisplayFormat(DataFormatString = "{0:dd,mm, yyyy}")]
         [Required(ErrorMessage = "El campo fecha no puede estar vacío")]
         public DateTime Fecha { get; set; }
-        [MinLength(1, ErrorMessage = "Debe seleccionar un tipo de usuario")]
+        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Debe seleccionar un Tipo de Usuario .")]
         public int TipoUsuarioId { get; set; }
         public Usuarios()
         {

@@ -20,8 +20,6 @@
         </MatHeadline6>
         <MatDivider Padded="true"></MatDivider>
         <div class="form-register">
-
-
             <EditForm Model="@Cliente" OnValidSubmit="Guardar">
                 <DataAnnotationsValidator />
                 <label class="text-muted form-text">@Mensaje</label>
@@ -33,15 +31,15 @@
 
                     </div>
                     &nbsp;
-                    <MatDatePicker @bind-Value="Cliente.Fecha" Required="true" Label="Fecha" Style="height:37px; max-width: 10rem; "></MatDatePicker>
+                    <MatDatePicker @bind-Value="Cliente.Fecha" Label="Fecha" Style="height:37px; max-width: 10rem; "></MatDatePicker>
                     <ValidationMessage For="(() => Cliente.Fecha)" />
 
                 </div>
                 <br />
                 <div class="form-group">
-                    <InputSelect @bind-Value="@TipoClienteSeleccionado" Required="true" class="form-control " @onchange="SeleccionarTipoCliente" @onclick="SeleccionarTipoCliente">
+                    <InputSelect @bind-Value="@TipoClienteSeleccionado" class="form-control " @onchange="SeleccionarTipoCliente" @onclick="SeleccionarTipoCliente">
                         <option value="0" disabled selected>Seleccione un Tipo de Cliente</option>
-                        @if (ListadoTipoClientes.Count <= 0)
+                        @if (ListadoTipoClientes.Count == 0)
                         {
                             <option value="" disabled>No Hay TipoCliente Registrado</option>
                         }
