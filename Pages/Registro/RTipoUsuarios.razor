@@ -39,7 +39,6 @@
                 <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
 
             </div>
-            <h5 class="text-success">@Mensaje</h5>
         </EditForm>
     </div>
 </MatCard>
@@ -48,6 +47,7 @@
     public int TipoUsuarioId { get; set; }
     public TiposUsuarios TipoUsuario { get; set; }
     string Mensaje = string.Empty;
+    string Titulo = string.Empty;
     TipoUsuariosController controller = new TipoUsuariosController();
 
     protected override void OnInitialized()
@@ -70,6 +70,7 @@
     public void LimpiarMensajes()
     {
         Mensaje = string.Empty;
+        Titulo = string.Empty;
     }
 
     public void Guardar()
@@ -77,41 +78,78 @@
         if (controller.Guardar(TipoUsuario))
         {
             Limpiar();
+            Mensaje = "Se guardo el tipo de usuario correctamente";
+            Titulo = "Éxito";
+            Show(MatToastType.Success);
+            LimpiarMensajes();
         }
         else
         {
             Limpiar();
+            Mensaje = "Ha ocurrido un error al guardar el tipo de usuario";
+            Titulo = "Falló";
+            Show(MatToastType.Danger);
+            LimpiarMensajes();
         }
     }
 
     public void Buscar()
     {
-        var tipousuario = controller.Buscar(TipoUsuario.TipoUsuarioId);
+        TiposUsuarios tipousuario = controller.Buscar(TipoUsuario.TipoUsuarioId);
 
         if (tipousuario != null)
         {
             Limpiar();
             TipoUsuario = tipousuario;
+            Mensaje = "Se ha encontrado el tipo de usuario correctamente";
+            Titulo = "Éxito";
+            Show(MatToastType.Success);
+            LimpiarMensajes();
         }
         else
         {
             Limpiar();
+            Mensaje = "No se ha encontrado el tipo de usuario";
+            Titulo = "Falló";
+            Show(MatToastType.Danger);
+            LimpiarMensajes();
         }
     }
 
     public void Eliminar()
     {
-        var categoria = controller.Buscar(TipoUsuario.TipoUsuarioId);
+        TiposUsuarios tipousuario = controller.Buscar(TipoUsuario.TipoUsuarioId);
 
-        if (categoria != null)
+        if (tipousuario != null)
         {
             controller.Eliminar(TipoUsuario.TipoUsuarioId);
             Limpiar();
+            Mensaje = "Se Elimino el tipo de cliente correctamente";
+            Titulo = "Éxito";
+            Show(MatToastType.Success);
+            LimpiarMensajes();
         }
         else
         {
-            Limpiar();
+             Limpiar();
+             Mensaje = "Ha ocurrido un error al eliminar el tipo de cliente";
+             Titulo = "Falló";
+             Show(MatToastType.Danger);
+             LimpiarMensajes();
         }
+    }
+
+    public void Show(MatToastType type, string icon = "")
+    {
+        Toaster.Add(Mensaje, type, Titulo, icon, config =>
+        {
+            config.ShowCloseButton = true;
+            config.ShowProgressBar = true;
+            config.MaximumOpacity = Convert.ToInt32("100");
+            config.ShowTransitionDuration = Convert.ToInt32("500");
+            config.VisibleStateDuration = Convert.ToInt32("5000");
+            config.HideTransitionDuration = Convert.ToInt32("500");
+        });
     }
 
         MatTheme guarda = new MatTheme() { Primary = "green" };

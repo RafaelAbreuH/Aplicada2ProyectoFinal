@@ -19,6 +19,7 @@
     List<Clientes> ListadoClientes = new List<Clientes>();
 
     string Mensaje = string.Empty;
+    string Titulo = string.Empty;
     string EmpeñoSeleccionado = "0";
 
     protected override void OnInitialized()
@@ -70,6 +71,7 @@
             Limpiar();
         }
     }
+
     public void Eliminar()
     {
         Cobros CobroTemporal = cobroscontroller.Buscar(Cobro.CobroId);
@@ -97,19 +99,20 @@
     public void LimpiarMensajes()
     {
         Mensaje = string.Empty;
+        Titulo = string.Empty;
     }
 
     private void CargarEmpeños()
     {
         Empeño = empeñosController.Buscar(Convert.ToInt32(EmpeñoSeleccionado));
     }
-    
 
     private void AgregarDetalle()
     {
 
         if (EmpeñoSeleccionado == "0")
         {
+
         }
         else
         {
@@ -130,6 +133,19 @@
     private void EliminarArticulo(CobrosDetalle detalle)
     {
         Cobro.Detalle.Remove(detalle);
+    }
+
+    public void Show(MatToastType type, string icon = "")
+    {
+        Toaster.Add(Mensaje, type, Titulo, icon, config =>
+        {
+            config.ShowCloseButton = true;
+            config.ShowProgressBar = true;
+            config.MaximumOpacity = Convert.ToInt32("100");
+            config.ShowTransitionDuration = Convert.ToInt32("500");
+            config.VisibleStateDuration = Convert.ToInt32("5000");
+            config.HideTransitionDuration = Convert.ToInt32("500");
+        });
     }
 
         MatTheme guarda = new MatTheme() { Primary = "green" };

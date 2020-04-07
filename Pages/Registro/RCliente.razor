@@ -22,7 +22,6 @@
         <div class="form-register">
             <EditForm Model="@Cliente" OnValidSubmit="Guardar">
                 <DataAnnotationsValidator />
-                <label class="text-muted form-text">@Mensaje</label>
                 <div class="form-row">
                     <div class="input-group-append">
                         <MatTextField Label="ClienteId" Required="true" @bind-Value="Cliente.ClienteId" Style="height: 37px;"></MatTextField>
@@ -76,7 +75,6 @@
                     <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
 
                 </div>
-                <h5 class="text-success">@Mensaje</h5>
             </EditForm>
         </div>
     </MatCard>
@@ -86,6 +84,7 @@
             public int ClienteId { get; set; }
             Clientes Cliente { get; set; }
             string Mensaje = string.Empty;
+            string Titulo = string.Empty;
             ClientesController controller = new ClientesController();
             TipoClientesController tipoClientesController = new TipoClientesController();
             private List<TiposClientes> ListadoTipoClientes { get; set; }
@@ -111,7 +110,8 @@
             }
             public void LimpiarMensajes()
             {
-            Mensaje = string.Empty;
+                Mensaje = string.Empty;
+                Titulo = string.Empty;
             }
 
             public void Guardar()
@@ -119,10 +119,18 @@
                 if (controller.Guardar(Cliente))
                 {
                     Limpiar();
+                    Mensaje = "Se Guardo el cliente correctamente";
+                    Titulo = "Éxito";
+                    Show(MatToastType.Success);
+                    LimpiarMensajes();
                 }
                 else
                 {
                     Limpiar();
+                    Mensaje = "Ha ocurrido un error al guardar el cliente";
+                    Titulo = "Falló";
+                    Show(MatToastType.Danger);
+                    LimpiarMensajes();
                 }
             }
 
@@ -134,11 +142,19 @@
                 {
                     Limpiar();
                     Cliente = cliente;
-                    TipoClienteSeleccionado = Cliente.TipoClienteId.ToString();
+                    TipoClienteSeleccionado = Cliente.TipoClienteId.ToString(); 
+                    Mensaje = "Se ha encontrado el cliente correctamente";
+                    Titulo = "Éxito";
+                    Show(MatToastType.Success);
+                    LimpiarMensajes();
                 }
                 else
                 {
                     Limpiar();
+                    Mensaje = "No se ha encontrado el cliente";
+                    Titulo = "Falló";
+                    Show(MatToastType.Danger);
+                    LimpiarMensajes();
                 }
             }
 
@@ -150,15 +166,36 @@
                 {
                     controller.Eliminar(Cliente.ClienteId);
                     Limpiar();
+                    Mensaje = "Se Elimino el cliente correctamente";
+                    Titulo = "Éxito";
+                    Show(MatToastType.Success);
+                    LimpiarMensajes();
                 }
                 else
                 {
                     Limpiar();
+                    Mensaje = "Ha ocurrido un error al eliminar el cliente";
+                    Titulo = "Falló";
+                    Show(MatToastType.Danger);
+                    LimpiarMensajes();
                 }
             }
             private void SeleccionarTipoCliente()
             {
                 Cliente.TipoClienteId = Convert.ToInt32(TipoClienteSeleccionado);
+            }
+
+            public void Show(MatToastType type, string icon = "")
+            {
+                Toaster.Add(Mensaje, type, Titulo, icon, config =>
+                {
+                    config.ShowCloseButton = true;
+                    config.ShowProgressBar = true;
+                    config.MaximumOpacity = Convert.ToInt32("100");
+                    config.ShowTransitionDuration = Convert.ToInt32("500");
+                    config.VisibleStateDuration = Convert.ToInt32("5000");
+                    config.HideTransitionDuration = Convert.ToInt32("500");
+                });
             }
 
             MatTheme guarda = new MatTheme() { Primary = "green" };

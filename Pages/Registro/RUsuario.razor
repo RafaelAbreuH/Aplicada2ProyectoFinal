@@ -60,12 +60,10 @@
                 <div class="form-group">
                     <MatTextField Label="Email" Required="true" @bind-Value="Usuario.Email" Icon="mail_outline" Style="height: 37px;width:100%  !important;"></MatTextField>
                     <ValidationMessage For="(() => Usuario.Email)" />
-                    <p class="validation-message"> @MensajeEmail </p>
                 </div>
                 <div class="form-group">
                     <MatTextField Label="Usuario" Required="true" @bind-Value="Usuario.Usuario"  Style="height: 37px;width:100%  !important;"></MatTextField>
                     <ValidationMessage For="(() => Usuario.Usuario)" />
-                    <p class="validation-message"> @MensajeUsuario </p>
                 </div>
                 <div class="form-group">
                     <MatTextField Label="Contraseña" Required="true" @bind-Value="Usuario.Contraseña" Style="height: 37px;width:100%  !important;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
@@ -74,7 +72,6 @@
                 <div class="form-group">
                     <MatTextField Label="Confirmar Contraseña" Required="true" @bind-Value="Usuario.RepeatContraseña" Style="height: 37px;width:100%  !important;" Type="password" Icon="lock_outline" IconTrailing="true"></MatTextField>
                     <ValidationMessage For="(() => Usuario.RepeatContraseña)" />
-                    <p class="validation-message"> @MensajeContrasena </p>
                 </div>
 
 
@@ -91,9 +88,8 @@
     @code {
         [Parameter]
         public int UsuarioId { get; set; }
-        private string MensajeEmail = string.Empty;
-        private string MensajeUsuario =string.Empty;
-        private string MensajeContrasena =string.Empty;
+        private string Mensaje = string.Empty;
+        private string Titulo =string.Empty;
         private string TipoSeleccionado = string.Empty;
         Usuarios Usuario { get; set; }
         UsuariosController controller = new UsuariosController();
@@ -113,47 +109,63 @@
                 Buscar();
             }
         }
+
         private void Limpiar()
         {
             this.Usuario = new Usuarios();
             TipoSeleccionado = "0";
             LimpiarMensajes();
         }
+
         private void LimpiarMensajes()
         {
-            MensajeEmail = string.Empty;
-            MensajeUsuario =string.Empty;
-            MensajeContrasena =string.Empty;
+            Mensaje = string.Empty;
+            Titulo = string.Empty;
         }
+
         public void Guardar()
         {
             LimpiarMensajes();
 
             if (ExisteEmail())
             {
-                MensajeEmail = "Existe un usuario con este Email, debe ingresar otro.";
+                Mensaje = "Existe un usuario con este email, debe ingresar otro.";
+                Titulo = "Info";
+                Show(MatToastType.Info);
                 return;
             }
 
             if (ExisteUsuario())
             {
-                MensajeUsuario = "Existe un usuario con este nombre de Usuario, debe ingresar otro.";
+                Mensaje = "Existe un usuario con este nombre de usuario, debe ingresar otro.";
+                Titulo = "Info";
+                Show(MatToastType.Info);
                 return;
             }
 
             if (Usuario.Contraseña == Usuario.RepeatContraseña == false)
-        {
-                MensajeContrasena = "Las contraseñas no coinciden.";
+            {
+                Mensaje = "Las contraseñas no coinciden.";
+                Titulo = "Info";
+                Show(MatToastType.Info);
                 return;
             }
             SeleccionarTipo();
             if (controller.Guardar(Usuario))
             {
                 Limpiar();
+                Mensaje = "Se guardo el usuario correctamente";
+                Titulo = "Éxito";
+                Show(MatToastType.Success);
+                LimpiarMensajes();
             }
             else
             {
                 Limpiar();
+                Mensaje = "Ha ocurrido un error al guardar el usuario";
+                Titulo = "Falló";
+                Show(MatToastType.Danger);
+                LimpiarMensajes();
             }
         }
 
@@ -166,82 +178,114 @@
                 Limpiar();
                 Usuario = usuario;
                 TipoSeleccionado = Usuario.TipoUsuarioId.ToString();
+                Mensaje = "Se ha encontrado el usuario correctamente";
+                Titulo = "Éxito";
+                Show(MatToastType.Success);
+                LimpiarMensajes();
             }
             else
             {
                 Limpiar();
+                Mensaje = "No se ha encontrado el usuario";
+                Titulo = "Falló";
+                Show(MatToastType.Danger);
+                LimpiarMensajes();
             }
         }
 
         public void Eliminar()
         {
-            var usuario = controller.Buscar(Usuario.UsuarioId);
+            Usuarios usuario = controller.Buscar(Usuario.UsuarioId);
 
             if (usuario != null)
             {
                 controller.Eliminar(Usuario.UsuarioId);
                 Limpiar();
+                Mensaje = "Se Elimino el usuario correctamente";
+                Titulo = "Éxito";
+                Show(MatToastType.Success);
+                LimpiarMensajes();
             }
             else
             {
                 Limpiar();
+                Mensaje = "Ha ocurrido un error al eliminar el usuario";
+                Titulo = "Falló";
+                Show(MatToastType.Danger);
+                LimpiarMensajes();
             }
         }
+
         private void SeleccionarTipo()
         {
             Usuario.TipoUsuarioId = Convert.ToInt32(TipoSeleccionado);
         }
-        public bool ExisteEmail()  
+
+        public bool ExisteEmail()
         {
-        bool paso = false;
-        var Listado = new List<Usuarios>();
+            bool paso = false;
+            var Listado = new List<Usuarios>();
 
-        Listado = controller.GetList(p => p.Email == Usuario.Email);
+            Listado = controller.GetList(p => p.Email == Usuario.Email);
 
-        if (Listado.Count == 1)
-        {
-            if(Usuario.UsuarioId== 0)
-                return paso = true;
+            if (Listado.Count == 1)
+            {
+                if(Usuario.UsuarioId== 0)
+                    return paso = true;
 
-            Usuarios UsuarioTemporal = new Usuarios();
-            UsuarioTemporal = Listado[0];
-            if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)
+                Usuarios UsuarioTemporal = new Usuarios();
+                UsuarioTemporal = Listado[0];
+                if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)
+                {
+                    paso = true;
+                }
+            }
+            else if (Listado.Count > 1)
             {
                 paso = true;
             }
-        }
-        else if (Listado.Count > 1)
-        {
-            paso = true;
+
+            return paso;
         }
 
-        return paso;
-        }
         public bool ExisteUsuario()
         {
-        bool paso = false;
-        var Listado = new List<Usuarios>();
+            bool paso = false;
+            var Listado = new List<Usuarios>();
 
-        Listado = controller.GetList(p => p.Usuario == Usuario.Usuario);
+            Listado = controller.GetList(p => p.Usuario == Usuario.Usuario);
 
-        if (Listado.Count == 1)
-        {
-            if(Usuario.UsuarioId== 0)
-                return paso = true;
+            if (Listado.Count == 1)
+            {
+                if(Usuario.UsuarioId== 0)
+                    return paso = true;
 
-            Usuarios UsuarioTemporal = new Usuarios();
-            UsuarioTemporal = Listado[0];
-            if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)
+                Usuarios UsuarioTemporal = new Usuarios();
+                UsuarioTemporal = Listado[0];
+                if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)
+                {
+                    paso = true;
+                }
+            }
+            else if (Listado.Count > 1)
             {
                 paso = true;
             }
-        }
-        else if (Listado.Count > 1)
-        {
-            paso = true;
+
+            return paso;
         }
 
-        return paso;
+        public void Show(MatToastType type, string icon = "")
+        {
+            Toaster.Add(Mensaje, type, Titulo, icon, config =>
+            {
+                config.ShowCloseButton = true;
+                config.ShowProgressBar = true;
+                config.MaximumOpacity = Convert.ToInt32("100");
+                config.ShowTransitionDuration = Convert.ToInt32("500");
+                config.VisibleStateDuration = Convert.ToInt32("5000");
+                config.HideTransitionDuration = Convert.ToInt32("500");
+            });
         }
 
         MatTheme guarda = new MatTheme() { Primary = "green" };

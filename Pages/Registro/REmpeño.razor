@@ -170,8 +170,9 @@
 
         int Cantidad = 0;
         decimal Monto = 0;
-        string Descripcion = String.Empty;
+        string Descripcion = string.Empty;
         string Mensaje = string.Empty;
+        string Titulo = string.Empty;
         string ArticuloSeleccionado = "0";
         string ClienteSeleccionado = "0";
         decimal MontoTotal = 0;
@@ -187,7 +188,7 @@
             ListadoArticulos = articulosController.GetList(e => true);
             ListadoClientes = clientesController.GetList(e => true);
             Limpiar();
-            
+
 
             if (EmpeñoId != 0)
             {
@@ -200,47 +201,75 @@
 
             if (Empeño.Detalle.Count <= 0)
             {
-                Mensaje = "Debe ingresar algun articulo al empeño.";
+                Mensaje = "Tiene que agregar un articulo al empeño";
+                Titulo = "Info";
+                Show(MatToastType.Info);
+                LimpiarMensajes();
             }
             else
             {
                 if (empeñoscontroller.Guardar(Empeño))
                 {
                     Limpiar();
-
+                    Mensaje = "Empeño guardado correctamente";
+                    Titulo = "Éxito";
+                    Show(MatToastType.Success);
+                    LimpiarMensajes();
                 }
                 else
                 {
+                    Limpiar();
+                    Mensaje = "Error al guardar el empeño";
+                    Titulo = "Falló";
+                    Show(MatToastType.Danger);
+                    LimpiarMensajes();
                 }
             }
         }
         public void Buscar()
         {
-            Empeños EmpeñoTemporal = empeñoscontroller.Buscar(Empeño.EmpeñoId);
+            Empeños empeño = empeñoscontroller.Buscar(Empeño.EmpeñoId);
 
-            if (EmpeñoTemporal != null)
+            if (empeño != null)
             {
                 Limpiar();
-                Empeño = EmpeñoTemporal;
+                Empeño = empeño;
+                Mensaje = "Se ha encontrado el empeño";
+                Titulo = "Éxito";
+                Show(MatToastType.Success);
+                LimpiarMensajes();
 
             }
             else
             {
                 Limpiar();
+                Mensaje = "No se ha encontrado el empeño";
+                Titulo = "Falló";
+                Show(MatToastType.Danger);
+                LimpiarMensajes();
             }
         }
         public void Eliminar()
         {
-            Empeños EmpeñoTemporal = empeñoscontroller.Buscar(Empeño.EmpeñoId);
+            Empeños empeño = empeñoscontroller.Buscar(Empeño.EmpeñoId);
 
-            if (EmpeñoTemporal != null)
+            if (empeño != null)
             {
                 if (empeñoscontroller.Eliminar(Empeño.EmpeñoId))
                 {
                     Limpiar();
+                    Mensaje = "Se elimino el empeño correctamente";
+                    Titulo = "Éxito";
+                    Show(MatToastType.Success);
+                    LimpiarMensajes();
                 }
                 else
                 {
+                    Limpiar();
+                    Mensaje = "Error al eliminar el empeño";
+                    Titulo = "Falló";
+                    Show(MatToastType.Danger);
+                    LimpiarMensajes();
                 }
             }
         }
@@ -248,9 +277,6 @@
         public void Limpiar()
         {
             this.Empeño = new Empeños();
-            this.Articulo = new Articulos();
-            this.Cliente = new Clientes();
-            this.Detalle = new EmpeñosDetalle();
             ArticuloSeleccionado = "0";
             ClienteSeleccionado = "0";
             Cantidad = 0;
@@ -260,6 +286,7 @@
         public void LimpiarMensajes()
         {
             Mensaje = string.Empty;
+            Titulo = string.Empty;
         }
 
         private void CargarArticulos()
@@ -276,22 +303,49 @@
 
             if (ArticuloSeleccionado == "0" && ClienteSeleccionado != "0")
             {
+                Mensaje = "Debe Seleccionar un articulo";
+                Titulo = "Info";
+                Show(MatToastType.Info);
+                LimpiarMensajes();
             }
             else
             if (ArticuloSeleccionado != "0" && ClienteSeleccionado == "0")
             {
+                Mensaje = "Debe Seleccionar un cliente";
+                Titulo = "Info";
+                Show(MatToastType.Info);
+                LimpiarMensajes();
             }
             else
             if (ArticuloSeleccionado == "0" && ClienteSeleccionado == "0")
             {
+                Mensaje = "Debe Seleccionar un articulo y un cliente";
+                Titulo = "Info";
+                Show(MatToastType.Info);
+                LimpiarMensajes();
             }
             else
             {
                 if (Empeño.Detalle.Any(i => i.ArticuloId == Articulo.ArticuloId))
                 {
+                    Mensaje = "Este articulo ya esta agregado";
+                    Titulo = "Info";
+                    Show(MatToastType.Info);
+                    LimpiarMensajes();
                 }
-                else if (Cantidad < 1)
+                else if (Cantidad <= 0)
                 {
+                    Mensaje = "La cantidad debe ser mayor a 0";
+                    Titulo = "Info";
+                    Show(MatToastType.Info);
+                    LimpiarMensajes();
+                }
+                else if(Cantidad >= 2147483647)
+                {
+                    Mensaje = "La cantidad esta fuera de rango";
+                    Titulo = "Info";
+                    Show(MatToastType.Info);
+                    LimpiarMensajes();
                 }
                 else
                 {
@@ -336,6 +390,18 @@
             }
         }
 
+        public void Show(MatToastType type, string icon = "")
+        {
+            Toaster.Add(Mensaje, type, Titulo, icon, config =>
+            {
+                config.ShowCloseButton = true;
+                config.ShowProgressBar = true;
+                config.MaximumOpacity = Convert.ToInt32("100");
+                config.ShowTransitionDuration = Convert.ToInt32("500");
+                config.VisibleStateDuration = Convert.ToInt32("5000");
+                config.HideTransitionDuration = Convert.ToInt32("500");
+            });
+        }
         MatTheme guarda = new MatTheme() { Primary = "green" };
         MatTheme eliminar = new MatTheme(){ Primary = "red" };
         MatTheme buscar = new MatTheme() { Primary = "grey" };

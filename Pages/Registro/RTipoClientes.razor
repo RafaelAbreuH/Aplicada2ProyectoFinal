@@ -15,7 +15,7 @@
 
 <MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
     <MatHeadline6 Class="demo-mat-card-clean-margin mat-layout-grid-cell mat-layout-grid-cell-align-middle">
-        TipoClientes
+        Tipos de Clientes
     </MatHeadline6>
     <MatDivider Padded="true"></MatDivider>
 
@@ -52,6 +52,7 @@
         public int TipoClienteId { get; set; }
         public TiposClientes TipoCliente { get; set; }
         string Mensaje = string.Empty;
+        string Titulo = string.Empty;
         TipoClientesController controller = new TipoClientesController();
 
         protected override void OnInitialized()
@@ -74,6 +75,7 @@
         public void LimpiarMensajes()
         {
             Mensaje = string.Empty;
+            Titulo = string.Empty;
         }
 
         public void Guardar()
@@ -81,41 +83,77 @@
             if (controller.Guardar(TipoCliente))
             {
                 Limpiar();
+                Mensaje = "Se Guardo el tipo de cliente correctamente";
+                Titulo = "Éxito";
+                Show(MatToastType.Success);
+                LimpiarMensajes();
             }
             else
             {
                 Limpiar();
+                Mensaje = "Ha ocurrido un error al guardar el tipo de cliente";
+                Titulo = "Falló";
+                Show(MatToastType.Danger);
+                LimpiarMensajes();
             }
         }
 
         public void Buscar()
         {
-            var tipocliente = controller.Buscar(TipoCliente.TipoClienteId);
+            TiposClientes tipocliente = controller.Buscar(TipoCliente.TipoClienteId);
 
             if (tipocliente != null)
             {
                 Limpiar();
                 TipoCliente = tipocliente;
+                Mensaje = "Se ha encontrado el tipo de cliente correctamente";
+                Titulo = "Éxito";
+                Show(MatToastType.Success);
+                LimpiarMensajes();
             }
             else
             {
                 Limpiar();
+                Mensaje = "No se ha encontrado el tipo de cliente";
+                Titulo = "Falló";
+                Show(MatToastType.Danger);
+                LimpiarMensajes();
             }
         }
 
         public void Eliminar()
         {
-            var categoria = controller.Buscar(TipoCliente.TipoClienteId);
+            TiposClientes tipocliente = controller.Buscar(TipoCliente.TipoClienteId);
 
-            if (categoria != null)
+            if (tipocliente != null)
             {
                 controller.Eliminar(TipoCliente.TipoClienteId);
                 Limpiar();
+                Mensaje = "Se Elimino el tipo de cliente correctamente";
+                Titulo = "Éxito";
+                Show(MatToastType.Success);
+                LimpiarMensajes();
             }
             else
             {
                 Limpiar();
+                Mensaje = "Ha ocurrido un error al eliminar el tipo de cliente";
+                Titulo = "Falló";
+                Show(MatToastType.Danger);
+                LimpiarMensajes();
             }
+        }
+        public void Show(MatToastType type, string icon = "")
+        {
+            Toaster.Add(Mensaje, type, Titulo, icon, config =>
+            {
+                config.ShowCloseButton = true;
+                config.ShowProgressBar = true;
+                config.MaximumOpacity = Convert.ToInt32("100");
+                config.ShowTransitionDuration = Convert.ToInt32("500");
+                config.VisibleStateDuration = Convert.ToInt32("5000");
+                config.HideTransitionDuration = Convert.ToInt32("500");
+            });
         }
 
         MatTheme guarda = new MatTheme() { Primary = "green" };

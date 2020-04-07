@@ -104,11 +104,13 @@
     {
         this.Articulo = new Articulos();
         CategoriaSeleccionada = "0";
+        LimpiarMensajes();
     }
 
     public void LimpiarMensajes()
     {
         Mensaje = string.Empty;
+        Titulo = string.Empty;
     }
 
     public void Guardar()
@@ -116,14 +118,18 @@
         if (articulosController.Guardar(Articulo))
         {
             Limpiar();
-            Mensaje = "Exito";
-            Titulo = "Exito";
+            Mensaje = "Se Guardo el artículo correctamente";
+            Titulo = "Éxito";
             Show(MatToastType.Success);
             LimpiarMensajes();
         }
         else
         {
             Limpiar();
+            Mensaje = "Ha ocurrido un error al guardar el artículo";
+            Titulo = "Falló";
+            Show(MatToastType.Danger);
+            LimpiarMensajes();
         }
     }
 
@@ -135,11 +141,19 @@
         {
             Limpiar();
             Articulo = articulo;
+            Mensaje = "Se ha encontrado el artículo correctamente";
+            Titulo = "Éxito";
             CategoriaSeleccionada = Articulo.CategoriaId.ToString();
+            Show(MatToastType.Success);
+            LimpiarMensajes();
         }
         else
         {
             Limpiar();
+            Mensaje = "No se ha encontrado el artículo";
+            Titulo = "Falló";
+            Show(MatToastType.Danger);
+            LimpiarMensajes();
         }
     }
 
@@ -151,10 +165,18 @@
         {
             articulosController.Eliminar(Articulo.ArticuloId);
             Limpiar();
+            Mensaje = "Se Elimino el artículo correctamente";
+            Titulo = "Éxito";
+            Show(MatToastType.Success);
+            LimpiarMensajes();
         }
         else
         {
             Limpiar();
+            Mensaje = "Ha ocurrido un error al eliminar el artículo";
+            Titulo = "Falló";
+            Show(MatToastType.Danger);
+            LimpiarMensajes();
         }
     }
     private void SeleccionarCategoria()
@@ -166,14 +188,14 @@
     {
         Toaster.Add(Mensaje, type, Titulo, icon, config =>
         {
-        config.ShowCloseButton = true;
-        config.ShowProgressBar = true;
-        config.MaximumOpacity = Convert.ToInt32("100");
-        config.ShowTransitionDuration = Convert.ToInt32("500");
-        config.VisibleStateDuration = Convert.ToInt32("5000");
-        config.HideTransitionDuration = Convert.ToInt32("500");
+            config.ShowCloseButton = true;
+            config.ShowProgressBar = true;
+            config.MaximumOpacity = Convert.ToInt32("100");
+            config.ShowTransitionDuration = Convert.ToInt32("500");
+            config.VisibleStateDuration = Convert.ToInt32("5000");
+            config.HideTransitionDuration = Convert.ToInt32("500");
         });
-            }
+    }
  
     MatTheme guarda = new MatTheme() { Primary = "green" };
     MatTheme eliminar = new MatTheme() { Primary = "red" };
