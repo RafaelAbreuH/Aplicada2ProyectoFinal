@@ -41,76 +41,74 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
                 <div class="form-group">
-                    <MatDatePicker @bind-Value="Empeño.Fecha" Required="true" Label="Fecha Empeño" Style="height:37px; max-width:10rem; " @onchange="CalcularEstado" @onclick="CalcularEstado"></MatDatePicker>
+                    <MatDatePicker @bind-Value="Empeño.Fecha" Required="true" Label="Fecha Empeño" Style="height:37px; max-width:10rem; " @onfocus="CalcularEstado" @onfocusin="CalcularEstado" @onfocusout="CalcularEstado" @onchange="CalcularEstado" @onclick="CalcularEstado"></MatDatePicker>
                     <ValidationMessage For="(() => Empeño.Fecha)" />
                 </div>
                 <div class="form-group">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <MatTextField @bind-Value="Estado" Label="Estado" Style="height:37px; max-width:7rem; " ReadOnly="true"></MatTextField>
+                    <MatTextField @bind-Value="Estado" Label="Estado" Style="height:37px; max-width:7rem; " @onclick="CalcularEstado" @onfocus="CalcularEstado" @onfocusin="CalcularEstado" @onfocusout="CalcularEstado" ReadOnly="true"></MatTextField>
                 </div>
             </div>
 
 
-                <div class="form-group">
-                    <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarClientes" @onclick="CargarClientes">
-                        <option value="0" disabled selected>Seleccione un Cliente</option>
-                        @if (ListadoClientes.Count <= 0)
+            <div class="form-group">
+                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarClientes" @onclick="CargarClientes">
+                    <option value="0" disabled selected>Seleccione un Cliente</option>
+                    @if (ListadoClientes.Count <= 0)
+                    {
+                        <option value="" disabled>No Hay Cliente Registrado</option>
+                    }
+                    else
+                        @foreach (var item in ListadoClientes)
                         {
-                            <option value="" disabled>No Hay Cliente Registrado</option>
+                            <option value="@item.ClienteId">@item.Nombre</option>
                         }
-                        else
-                            @foreach (var item in ListadoClientes)
-                            {
-                                <option value="@item.ClienteId">@item.Nombre</option>
-                            }
-                    </InputSelect>
-                </div>
+                </InputSelect>
+            </div>
 
-                <div class="form-group">
-                    <InputSelect @bind-Value="@ArticuloSeleccionado" class="form-control " @onchange="CargarArticulos" @onclick="CargarArticulos">
-                        <option value="0" disabled selected>Seleccione un Articulo</option>
-                        @if (ListadoArticulos.Count <= 0)
+            <div class="form-group">
+                <InputSelect @bind-Value="@ArticuloSeleccionado" class="form-control " @onchange="CargarArticulos" @onclick="CargarArticulos">
+                    <option value="0" disabled selected>Seleccione un Articulo</option>
+                    @if (ListadoArticulos.Count <= 0)
+                    {
+                        <option value="" disabled>No Hay Articulo Registrado</option>
+                    }
+                    else
+                        @foreach (var item in ListadoArticulos)
                         {
-                            <option value="" disabled>No Hay Articulo Registrado</option>
+                            <option value="@item.ArticuloId">@item.Nombre</option>
                         }
-                        else
-                            @foreach (var item in ListadoArticulos)
-                            {
-                                <option value="@item.ArticuloId">@item.Nombre</option>
-                            }
-                    </InputSelect>
+                </InputSelect>
+            </div>
+
+
+
+
+
+
+            <div class="form-row">
+                &nbsp;
+                <div class="form-group mat-layout-grid-cell " style="min-width:350px;">
+                    <MatTextField @bind-Value="Detalle.Descripcion" Required="true" Label="Descripcion" Style="height:37px;"></MatTextField>
+                    <ValidationMessage For="(() => Detalle.Descripcion)" />
                 </div>
 
-
-
-
-
-
-                <div class="form-row">
-                    &nbsp;
-                    <div class="form-group mat-layout-grid-cell " style="min-width:350px;">
-                        <MatTextField @bind-Value="Detalle.Descripcion" Required="true" Label="Descripcion" Style="height:37px;"></MatTextField>
-                        <ValidationMessage For="(() => Detalle.Descripcion)" />
-                    </div>
-
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="form-group mat-layout-grid-cell">
-                        <MatTextField Label="Cantidad" Required="true" @bind-Value="Detalle.Cantidad" Style="height:37px; max-width:150px;"></MatTextField>
-                        <ValidationMessage For="(() => Detalle.Cantidad)" />
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="input-group-append mat-layout-grid-cell">
-                        <MatTextField @bind-Value="Detalle.Monto" Required="true" Label="Monto" Style="height:37px; max-width:150px;"></MatTextField>
-                        <ValidationMessage For="(() => Detalle.Monto)" />
-                        &nbsp;&nbsp;&nbsp;
-                        <MatButton Raised="true" Icon="add_box" @onclick="AgregarDetalle" Style=" width: 7rem;"> Agregar</MatButton>
-                    </div>
-
+                &nbsp;&nbsp;&nbsp;
+                <div class="form-group mat-layout-grid-cell">
+                    <MatTextField Label="Cantidad" Required="true" @bind-Value="Cantidad" Style="height:37px; max-width:150px;"></MatTextField>
+                    <ValidationMessage For="(() => Detalle.Cantidad)" />
                 </div>
+                &nbsp;&nbsp;&nbsp;
+                <div class="input-group-append mat-layout-grid-cell">
+                    <MatTextField @bind-Value="Monto" Required="true" Label="Monto" Style="height:37px; max-width:150px;"></MatTextField>
+                    <ValidationMessage For="(() => Detalle.Monto)" />
+                    &nbsp;&nbsp;&nbsp;
+                    <MatButton Raised="true" Icon="add_box" @onclick="AgregarDetalle" Style=" width: 7rem;"> Agregar</MatButton>
+                </div>
+
+            </div>
             <br />
-            
-                <div class="card">
-                    <div class="card-body">
+            <MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
@@ -137,22 +135,19 @@
                                 }
                             </tbody>
                         </table>
-
-                        <div class="mat-layout-grid-inner">
-                            <div class="mat-layout-grid-cell"></div>
-                            <div class="mat-layout-grid-cell"></div>
-                            <div class="mat-layout-grid-cell" style="min-width:150px; padding-left:6rem;">
-                                <MatTextField @bind-Value="@MontoTotal" Label="Total" Style="height:37px; max-width:150px;" ReadOnly="true"></MatTextField>
-                            </div>
-                        </div>
-                    </div>
+            </MatCard>
+            <div class="mat-layout-grid-inner">
+                <div class="mat-layout-grid-cell"></div>
+                <div class="mat-layout-grid-cell"></div>
+                <div class="mat-layout-grid-cell" style="min-width:150px; padding-left:6rem;">
+                    <MatTextField @bind-Value="@MontoTotal" Label="Total" Style="height:37px; max-width:150px;" ReadOnly="true"></MatTextField>
                 </div>
-                <div>
-                    <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
-                    <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
-                    <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
-
-                </div>
+            </div>
+            <div>
+                <MatButton Raised="true" Icon="insert_drive_file" @onclick="Limpiar">Nuevo</MatButton>
+                <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
+                <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
+            </div>
                 <h5 class="text-success">@Mensaje</h5>
 </EditForm>
     </div>
@@ -191,7 +186,7 @@
             Articulo = new Articulos();
             Cliente = new Clientes();
             Detalle = new EmpeñosDetalle();
-            Estado = "Vigente";
+            Estado = " ";
             FechaActual = DateTime.Now;
             ListadoArticulos = articulosController.GetList(e => true);
             ListadoClientes = clientesController.GetList(e => true);
@@ -246,6 +241,7 @@
                 Titulo = "Exito";
                 Show(MatToastType.Success);
                 LimpiarMensajes();
+                CalcularEstado();
 
             }
             else
@@ -334,14 +330,8 @@
             }
             else
             {
-                if (Empeño.Detalle.Any(i => i.ArticuloId == Articulo.ArticuloId))
-                {
-                    Mensaje = "Este articulo ya esta agregado";
-                    Titulo = "Info";
-                    Show(MatToastType.Info);
-                    LimpiarMensajes();
-                }
-                else if (Cantidad <= 0)
+               
+                if (Cantidad <= 0)
                 {
                     Mensaje = "La cantidad debe ser mayor a 0";
                     Titulo = "Info";
@@ -351,6 +341,27 @@
                 else if(Cantidad >= 2147483647)
                 {
                     Mensaje = "La cantidad esta fuera de rango";
+                    Titulo = "Info";
+                    Show(MatToastType.Info);
+                    LimpiarMensajes();
+                }
+                else if (Monto <= 0)
+                {
+                    Mensaje = "El monto debe ser mayor a 0";
+                    Titulo = "Info";
+                    Show(MatToastType.Info);
+                    LimpiarMensajes();
+                }
+                else if(Monto >= 2147483647)
+                {
+                    Mensaje = "El monto esta fuera de rango";
+                    Titulo = "Info";
+                    Show(MatToastType.Info);
+                    LimpiarMensajes();
+                } 
+                else if (Empeño.Detalle.Any(i => i.ArticuloId == Articulo.ArticuloId))
+                {
+                    Mensaje = "Este articulo ya esta agregado";
                     Titulo = "Info";
                     Show(MatToastType.Info);
                     LimpiarMensajes();
@@ -387,8 +398,7 @@
 
         private void CalcularEstado()
         {
-            Empeño.Fecha.AddDays(90);
-            if (FechaActual >= Empeño.Fecha)
+            if (FechaActual >= Empeño.Fecha.AddDays(90))
             {
                 Estado = "Vencido";
             }
