@@ -15,7 +15,6 @@
     }
 </style>
 
-<MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
     <MatHeadline6 Class="demo-mat-card-clean-margin mat-layout-grid-cell mat-layout-grid-cell-align-middle">
         Registro Empeño
     </MatHeadline6>
@@ -49,8 +48,6 @@
                     <MatTextField @bind-Value="Estado" Label="Estado" Style="height:37px; max-width:7rem; " @onclick="CalcularEstado" @onfocus="CalcularEstado" @onfocusin="CalcularEstado" @onfocusout="CalcularEstado" ReadOnly="true"></MatTextField>
                 </div>
             </div>
-
-
             <div class="form-group">
                 <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarClientes" @onclick="CargarClientes">
                     <option value="0" disabled selected>Seleccione un Cliente</option>
@@ -80,62 +77,55 @@
                         }
                 </InputSelect>
             </div>
-
-
-
-
-
-
             <div class="form-row">
                 &nbsp;
                 <div class="form-group mat-layout-grid-cell " style="min-width:350px;">
-                    <MatTextField @bind-Value="Detalle.Descripcion" Required="true" Label="Descripcion" Style="height:37px;"></MatTextField>
-                    <ValidationMessage For="(() => Detalle.Descripcion)" />
+                    <MatTextField @bind-Value="Descripcion" Required="true" Label="Descripcion" Style="height:37px;"></MatTextField>
                 </div>
 
                 &nbsp;&nbsp;&nbsp;
                 <div class="form-group mat-layout-grid-cell">
                     <MatTextField Label="Cantidad" Required="true" @bind-Value="Cantidad" Style="height:37px; max-width:150px;"></MatTextField>
-                    <ValidationMessage For="(() => Detalle.Cantidad)" />
                 </div>
                 &nbsp;&nbsp;&nbsp;
                 <div class="input-group-append mat-layout-grid-cell">
                     <MatTextField @bind-Value="Monto" Required="true" Label="Monto" Style="height:37px; max-width:150px;"></MatTextField>
-                    <ValidationMessage For="(() => Detalle.Monto)" />
                     &nbsp;&nbsp;&nbsp;
                     <MatButton Raised="true" Icon="add_box" @onclick="AgregarDetalle" Style=" width: 7rem;"> Agregar</MatButton>
                 </div>
 
             </div>
             <br />
-            <MatCard Class="mat-elevation-z8 demo-mat-card mat-layout-grid">
-                        <table class="table">
-                            <thead class="thead-dark">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>EmpeñoId</th>
+                                <th>ArticuloId</th>
+                                <th>Descripcion</th>
+                                <th>Cantidad</th>
+                                <th>Monto</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Empeño.Detalle)
+                            {
                                 <tr>
-                                    <th>EmpeñoId</th>
-                                    <th>ArticuloId</th>
-                                    <th>Descripcion</th>
-                                    <th>Cantidad</th>
-                                    <th>Monto</th>
-                                    <th></th>
+                                    <th>@item.EmpeñoId</th>
+                                    <th>@item.ArticuloId</th>
+                                    <th>@item.Articulo</th>
+                                    <th>@item.Descripcion</th>
+                                    <th>@item.Cantidad</th>
+                                    <th>@item.Monto</th>
+                                    <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarArticulo(item))">Eliminar</button></th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Empeño.Detalle)
-                                {
-                                    <tr>
-                                        <th>@item.EmpeñoId</th>
-                                        <th>@item.ArticuloId</th>
-                                        <th>@item.Articulo</th>
-                                        <th>@item.Descripcion</th>
-                                        <th>@item.Cantidad</th>
-                                        <th>@item.Monto</th>
-                                        <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarArticulo(item))">Eliminar</button></th>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-            </MatCard>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div class="mat-layout-grid-inner">
                 <div class="mat-layout-grid-cell"></div>
                 <div class="mat-layout-grid-cell"></div>
@@ -148,10 +138,10 @@
                 <MatThemeProvider Theme="guarda">  <MatButton Raised="true" Type="submit" Icon="save">Guardar</MatButton>   </MatThemeProvider>
                 <MatThemeProvider Theme="eliminar"> <MatButton Raised="true" Icon="delete" @onclick="Eliminar">Eliminar</MatButton> </MatThemeProvider>
             </div>
-                <h5 class="text-success">@Mensaje</h5>
-</EditForm>
+            <h5 class="text-success">@Mensaje</h5>
+        </EditForm>
     </div>
-</MatCard>
+
 
     @code {
         [Parameter]
@@ -187,6 +177,8 @@
             Cliente = new Clientes();
             Detalle = new EmpeñosDetalle();
             Estado = " ";
+            Descripcion = " ";
+            MontoTotal = 0;
             FechaActual = DateTime.Now;
             ListadoArticulos = articulosController.GetList(e => true);
             ListadoClientes = clientesController.GetList(e => true);
@@ -284,6 +276,8 @@
             ArticuloSeleccionado = "0";
             ClienteSeleccionado = "0";
             Cantidad = 0;
+            MontoTotal = 0;
+
             LimpiarMensajes();
         }
 
@@ -369,7 +363,7 @@
                 else
                 {
                     Mensaje = string.Empty;
-                    ListaDetalle.Add(new EmpeñosDetalle()
+                    Empeño.Detalle.Add(new EmpeñosDetalle()
                     {
                         EmpeñoId = Empeño.EmpeñoId,
                         ArticuloId = Articulo.ArticuloId,
@@ -384,7 +378,7 @@
                     Monto = 0;
                     Descripcion = string.Empty;
                     MontoTotal = 0;
-                    foreach (var item in ListaDetalle)
+                    foreach (var item in Empeño.Detalle)
                     {
                         MontoTotal += item.Monto;
                     }
