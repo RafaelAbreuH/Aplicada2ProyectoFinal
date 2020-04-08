@@ -79,7 +79,7 @@
         {
             Limpiar();
             Mensaje = "Se guardo el tipo de usuario correctamente";
-            Titulo = "Éxito";
+            Titulo = "Exito";
             Show(MatToastType.Success);
             LimpiarMensajes();
         }
@@ -87,7 +87,7 @@
         {
             Limpiar();
             Mensaje = "Ha ocurrido un error al guardar el tipo de usuario";
-            Titulo = "Falló";
+            Titulo = "Fallo";
             Show(MatToastType.Danger);
             LimpiarMensajes();
         }
@@ -102,7 +102,7 @@
             Limpiar();
             TipoUsuario = tipousuario;
             Mensaje = "Se ha encontrado el tipo de usuario correctamente";
-            Titulo = "Éxito";
+            Titulo = "Exito";
             Show(MatToastType.Success);
             LimpiarMensajes();
         }
@@ -110,7 +110,7 @@
         {
             Limpiar();
             Mensaje = "No se ha encontrado el tipo de usuario";
-            Titulo = "Falló";
+            Titulo = "Fallo";
             Show(MatToastType.Danger);
             LimpiarMensajes();
         }
@@ -125,7 +125,7 @@
             controller.Eliminar(TipoUsuario.TipoUsuarioId);
             Limpiar();
             Mensaje = "Se Elimino el tipo de cliente correctamente";
-            Titulo = "Éxito";
+            Titulo = "Exito";
             Show(MatToastType.Success);
             LimpiarMensajes();
         }
@@ -133,7 +133,7 @@
         {
              Limpiar();
              Mensaje = "Ha ocurrido un error al eliminar el tipo de cliente";
-             Titulo = "Falló";
+             Titulo = "Fallo";
              Show(MatToastType.Danger);
              LimpiarMensajes();
         }

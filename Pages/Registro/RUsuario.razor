@@ -155,7 +155,7 @@
             {
                 Limpiar();
                 Mensaje = "Se guardo el usuario correctamente";
-                Titulo = "Éxito";
+                Titulo = "Exito";
                 Show(MatToastType.Success);
                 LimpiarMensajes();
             }
@@ -163,7 +163,7 @@
             {
                 Limpiar();
                 Mensaje = "Ha ocurrido un error al guardar el usuario";
-                Titulo = "Falló";
+                Titulo = "Fallo";
                 Show(MatToastType.Danger);
                 LimpiarMensajes();
             }
@@ -179,7 +179,7 @@
                 Usuario = usuario;
                 TipoSeleccionado = Usuario.TipoUsuarioId.ToString();
                 Mensaje = "Se ha encontrado el usuario correctamente";
-                Titulo = "Éxito";
+                Titulo = "Exito";
                 Show(MatToastType.Success);
                 LimpiarMensajes();
             }
@@ -187,7 +187,7 @@
             {
                 Limpiar();
                 Mensaje = "No se ha encontrado el usuario";
-                Titulo = "Falló";
+                Titulo = "Fallo";
                 Show(MatToastType.Danger);
                 LimpiarMensajes();
             }
@@ -202,7 +202,7 @@
                 controller.Eliminar(Usuario.UsuarioId);
                 Limpiar();
                 Mensaje = "Se Elimino el usuario correctamente";
-                Titulo = "Éxito";
+                Titulo = "Exito";
                 Show(MatToastType.Success);
                 LimpiarMensajes();
             }
@@ -210,7 +210,7 @@
             {
                 Limpiar();
                 Mensaje = "Ha ocurrido un error al eliminar el usuario";
-                Titulo = "Falló";
+                Titulo = "Fallo";
                 Show(MatToastType.Danger);
                 LimpiarMensajes();
             }

@@ -120,7 +120,7 @@
                 {
                     Limpiar();
                     Mensaje = "Se Guardo el cliente correctamente";
-                    Titulo = "Éxito";
+                    Titulo = "Exito";
                     Show(MatToastType.Success);
                     LimpiarMensajes();
                 }
@@ -128,7 +128,7 @@
                 {
                     Limpiar();
                     Mensaje = "Ha ocurrido un error al guardar el cliente";
-                    Titulo = "Falló";
+                    Titulo = "Fallo";
                     Show(MatToastType.Danger);
                     LimpiarMensajes();
                 }
@@ -144,7 +144,7 @@
                     Cliente = cliente;
                     TipoClienteSeleccionado = Cliente.TipoClienteId.ToString(); 
                     Mensaje = "Se ha encontrado el cliente correctamente";
-                    Titulo = "Éxito";
+                    Titulo = "Exito";
                     Show(MatToastType.Success);
                     LimpiarMensajes();
                 }
@@ -152,7 +152,7 @@
                 {
                     Limpiar();
                     Mensaje = "No se ha encontrado el cliente";
-                    Titulo = "Falló";
+                    Titulo = "Fallo";
                     Show(MatToastType.Danger);
                     LimpiarMensajes();
                 }
@@ -167,7 +167,7 @@
                     controller.Eliminar(Cliente.ClienteId);
                     Limpiar();
                     Mensaje = "Se Elimino el cliente correctamente";
-                    Titulo = "Éxito";
+                    Titulo = "Exito";
                     Show(MatToastType.Success);
                     LimpiarMensajes();
                 }
@@ -175,7 +175,7 @@
                 {
                     Limpiar();
                     Mensaje = "Ha ocurrido un error al eliminar el cliente";
-                    Titulo = "Falló";
+                    Titulo = "Fallo";
                     Show(MatToastType.Danger);
                     LimpiarMensajes();
                 }

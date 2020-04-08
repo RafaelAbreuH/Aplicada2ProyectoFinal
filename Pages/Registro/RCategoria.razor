@@ -85,7 +85,7 @@
             {
                 Limpiar();
                 Mensaje = "Se Guardo la categoria correctamente";
-                Titulo = "Éxito";
+                Titulo = "Exito";
                 Show(MatToastType.Success);
                 LimpiarMensajes();
             }
@@ -93,7 +93,7 @@
             {
                 Limpiar();
                 Mensaje = "Ha ocurrido un error al guardar la categoria";
-                Titulo = "Falló";
+                Titulo = "Fallo";
                 Show(MatToastType.Danger);
                 LimpiarMensajes();
             }
@@ -108,7 +108,7 @@
                 Limpiar();
                 Categoria = categoria;
                 Mensaje = "Se ha encontrado la categoria correctamente";
-                Titulo = "Éxito";
+                Titulo = "Exito";
                 Show(MatToastType.Success);
                 LimpiarMensajes();
             }
@@ -116,7 +116,7 @@
             {
                 Limpiar();
                 Mensaje = "No se ha encontrado la categoria";
-                Titulo = "Falló";
+                Titulo = "Fallo";
                 Show(MatToastType.Danger);
                 LimpiarMensajes();
             }
@@ -131,7 +131,7 @@
                 controller.Eliminar(Categoria.CategoriaId);
                 Limpiar();
                 Mensaje = "Se Elimino la categoria correctamente";
-                Titulo = "Éxito";
+                Titulo = "Exito";
                 Show(MatToastType.Success);
                 LimpiarMensajes();
             }
@@ -139,7 +139,7 @@
             {
                 Limpiar();
                 Mensaje = "Ha ocurrido un error al eliminar la categoria";
-                Titulo = "Falló";
+                Titulo = "Fallo";
                 Show(MatToastType.Danger);
                 LimpiarMensajes();
             }

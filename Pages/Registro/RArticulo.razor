@@ -118,16 +118,16 @@
         if (articulosController.Guardar(Articulo))
         {
             Limpiar();
-            Mensaje = "Se Guardo el artículo correctamente";
-            Titulo = "Éxito";
+            Mensaje = "Se Guardo el articulo correctamente";
+            Titulo = "Exito";
             Show(MatToastType.Success);
             LimpiarMensajes();
         }
         else
         {
             Limpiar();
-            Mensaje = "Ha ocurrido un error al guardar el artículo";
-            Titulo = "Falló";
+            Mensaje = "Ha ocurrido un error al guardar el articulo";
+            Titulo = "Fallo";
             Show(MatToastType.Danger);
             LimpiarMensajes();
         }
@@ -141,8 +141,8 @@
         {
             Limpiar();
             Articulo = articulo;
-            Mensaje = "Se ha encontrado el artículo correctamente";
-            Titulo = "Éxito";
+            Mensaje = "Se ha encontrado el articulo correctamente";
+            Titulo = "Exito";
             CategoriaSeleccionada = Articulo.CategoriaId.ToString();
             Show(MatToastType.Success);
             LimpiarMensajes();
@@ -150,8 +150,8 @@
         else
         {
             Limpiar();
-            Mensaje = "No se ha encontrado el artículo";
-            Titulo = "Falló";
+            Mensaje = "No se ha encontrado el articulo";
+            Titulo = "Fallo";
             Show(MatToastType.Danger);
             LimpiarMensajes();
         }
@@ -165,16 +165,16 @@
         {
             articulosController.Eliminar(Articulo.ArticuloId);
             Limpiar();
-            Mensaje = "Se Elimino el artículo correctamente";
-            Titulo = "Éxito";
+            Mensaje = "Se Elimino el articulo correctamente";
+            Titulo = "Exito";
             Show(MatToastType.Success);
             LimpiarMensajes();
         }
         else
         {
             Limpiar();
-            Mensaje = "Ha ocurrido un error al eliminar el artículo";
-            Titulo = "Falló";
+            Mensaje = "Ha ocurrido un error al eliminar el articulo";
+            Titulo = "Fallo";
             Show(MatToastType.Danger);
             LimpiarMensajes();
         }
